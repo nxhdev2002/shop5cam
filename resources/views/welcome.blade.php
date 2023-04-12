@@ -8,9 +8,19 @@
     <title>Document</title>
 </head>
 <body>
-<h1 class="text-3xl font-bold underline">
+<h1 class="">
     Hello world!
-    {{'Teest'}}
+    <form method="post">
+      @csrf
+      <input type="email" name="email1" id="email">
+      <button type="submit">submit</button>
+    </form>
+
+    @isset($email)
+      {{$email}}
+    @endisset
+
+      
   </h1>
 </body>
 </html>
