@@ -1,5 +1,9 @@
 {
     "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    "prettier.useEditorConfig": false,
+    "prettier.useTabs": false,
+    "prettier.configPath": ".prettierrc",
     "files.associations": {
         "*.blade.php": "html",
         "*.tpl": "html"

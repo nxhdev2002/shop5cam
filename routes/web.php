@@ -34,6 +34,14 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
+Route::get('/', function () {
+    return view('/auth/login');
+});
+
+Route::get('/f', function () {
+    return view('test');
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
