@@ -7,16 +7,14 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
         <title>Document</title>
     </head>
+
     <body>
-        <h1 class="">
+        <h1 class="text-8xl">
             Hello world!
             <form method="post">
                 @csrf
-                <input type="email" name="email1" id="email" /><button
-                    type="submit"
-                >
-                    submit
-                </button>
+                <input type="email" name="email1" id="email" />
+                <button type="submit">submit</button>
             </form>
 
             @isset($email)

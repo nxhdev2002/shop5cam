@@ -29,7 +29,7 @@ class HelloController extends Controller
 
         $email = $request->email1;
 
-        $user = User::where("email", "dsadas@gmailc.com")->first();
+        $user = User::where("email", "huyqlht@gmail.com")->first();
         $user->name = "Vu huu minh";
         $user->save();
 
