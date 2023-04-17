@@ -15,9 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('/auth/login');
 });
 
+Route::get('/f', function () {
+    return view('test');
+});
 
 Route::get('/hello', [HelloController::class, 'hello'])->name('hello');
 Route::post('/hello', [HelloController::class, 'postHello'])->name('postHello');
