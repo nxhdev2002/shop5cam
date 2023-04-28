@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'phone' => $faker->phoneNumber,
             'payment' => $faker->creditCardNumber,
             'password' => bcrypt('password'), // mật khẩu tạm thời được đặt là 'password'
+            'balance' => $faker->randomFloat(8, 1, 100),
             'rights' => $faker->randomElement(array(1, 3, 5, 9)),
             'remember_token' => Str::random(10),
         ];

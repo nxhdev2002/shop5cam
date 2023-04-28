@@ -14,7 +14,6 @@ class OrderFactory extends Factory
     public function definition()
     {
         $product = \App\Models\Product::inRandomOrder()->first();
-        $seller = \App\Models\User::where('rights', '>', '1')->inRandomOrder()->first();
         $customer = \App\Models\User::inRandomOrder()->first();
         $faker = $this->faker;
         return [
@@ -23,7 +22,6 @@ class OrderFactory extends Factory
             'status' => $faker->numberBetween(0, 2),
             'price' => $faker->randomFloat(8, 1, 100),
             'product_id' => $product->id,
-            'seller_id' => $seller->id,
             'customer_id' => $customer->id,
         ];
     }
