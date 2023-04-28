@@ -15,6 +15,13 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('paydate');
+            $table->integer('quantity');
+            $table->tinyInteger('status');
+            $table->decimal('price', 18, 8);
+            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('seller_id')->constrained('users');
+            $table->foreignId('customer_id')->constrained('users');
             $table->timestamps();
         });
     }

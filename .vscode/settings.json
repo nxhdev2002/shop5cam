@@ -1,11 +1,17 @@
 {
     "editor.formatOnSave": true,
     "editor.formatOnPaste": false,
+    "editor.defaultFormatter": "vscode.html-language-features",
     "prettier.useEditorConfig": false,
     "prettier.useTabs": false,
     "prettier.configPath": ".prettierrc",
     "files.associations": {
         "*.blade.php": "html",
         "*.tpl": "html"
-    }
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    
+
 }
