@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImageUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 /// Site route
 Route::get('/', [SiteController::class, 'index'])->name('site.index');
 
-
+/// upload image
+Route::get('image-upload-preview', [ImageUploadController::class, 'index']);
+Route::post('upload-image', [ImageUploadController::class, 'store']);
 /// product route
 Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'index']);
