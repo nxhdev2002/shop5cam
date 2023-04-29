@@ -7,18 +7,17 @@ use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $user = User::find(auth()->user()->id);
-        if (!$user) {
-            return;
+        if (Auth::check()) {
+            return redirect()->back()->withErrors('Bạn phải đăng nhập để tiếp tục');
         }
-
         $data = array();
-        $data['orders'] = Order::where('customer_id', $user->id)->get();
+        $data['orders'] = Order::where('customer_id', auth()->user()->id)->get();
         return view('order.index', $data);
     }
 

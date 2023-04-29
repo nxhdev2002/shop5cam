@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -13,12 +12,18 @@ class ProductController extends Controller
     public function index()
     {
         $data = array();
-        $data['products'] = DB::table('products')->paginate(3);
+        $data['products'] = DB::table('products')->paginate(12);
         return view('product.index', $data);
     }
 
-    public function show()
+    public function show($id)
     {
+        $data = array();
+        $data['product'] = Product::find($id);
+        if (!$data['product']) {
+            return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
+        }
+        return view('product.info', $data);
     }
 
     public function create()

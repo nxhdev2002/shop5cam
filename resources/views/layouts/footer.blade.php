@@ -261,3 +261,17 @@
         </div>
     </div>
 </footer>
+@if ($errors -> any())
+<script>
+    Swal.fire({
+        title: 'Lỗi!',
+        text: "{{ $errors-> first('message')}}",
+        icon: 'error',
+        confirmButtonText: 'OK'
+    })
+</script>
+@endif
+
+</body>
+
+</html>
