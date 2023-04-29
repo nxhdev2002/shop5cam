@@ -14,7 +14,7 @@ class OrderController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect()->back()->withErrors('Bạn phải đăng nhập để tiếp tục');
+            return redirect()->back()->withErrors(['message' => 'Bạn phải đăng nhập để tiếp tục']);
         }
         $data = array();
         $data['orders'] = Order::where('customer_id', auth()->user()->id)->get();
