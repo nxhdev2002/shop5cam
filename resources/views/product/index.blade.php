@@ -1,5 +1,6 @@
 @include('layouts.header')
 <div class="container mx-auto px-4 py-8">
+    <div class="inline-block font-bold">@include('layouts.nav')</div>
     <span class="inline-block font-bold text-red-500 animate-blink">Danh sách sản phẩm</span>
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
         @foreach ($products as $product)
