@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,6 +23,7 @@ class ProductController extends Controller
     {
         $data = array();
         $data['product'] = Product::find($id);
+        $data['category'] = Category::find($data['product']->category_id);
         if (!$data['product']) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
@@ -33,7 +35,7 @@ class ProductController extends Controller
         return view('products.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $product = new Product;
         $product->name = $request->input('name');
@@ -57,7 +59,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Sản phẩm được thêm thành công');
     }
 
-    public function edit(ProductRequest $request,$id)
+    public function edit($id)
     {
         $product = Product::find($id);
 
@@ -86,10 +88,10 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $products = Product::where('name', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%')
-                ->get();
-    return view('products.index', ['products' => $products]);
+        $products = Product::where('name', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%')
+            ->get();
+        return view('products.index', ['products' => $products]);
     }
 
     public function filter(Request $request)

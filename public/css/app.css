@@ -1269,9 +1269,6 @@ input[type="range"]::-ms-fill-lower {
 .flex-wrap {
   flex-wrap: wrap;
 }
-.content-between {
-  align-content: space-between;
-}
 .items-center {
   align-items: center;
 }
@@ -1522,9 +1519,6 @@ input[type="range"]::-ms-fill-lower {
 }
 .pt-4 {
   padding-top: 1rem;
-}
-.pt-6 {
-  padding-top: 1.5rem;
 }
 .pt-8 {
   padding-top: 2rem;

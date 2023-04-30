@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
+        if (!Auth::check()) {
             return redirect()->back()->withErrors(['message' => 'Bạn phải đăng nhập để tiếp tục']);
         }
         $data = array();
