@@ -30,7 +30,6 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
-
         return view('products.create');
     }
 
@@ -55,7 +54,7 @@ class ProductController extends Controller
         // }
         $product->amount = $request->input('amount');
         $product->save();
-        return redirect()->route('products.index')->with('success', 'Product added successfully.');
+        return redirect()->route('products.index')->with('success', 'Sản phẩm được thêm thành công');
     }
 
     public function edit(ProductRequest $request,$id)
@@ -74,14 +73,14 @@ class ProductController extends Controller
         $product->guarantee = $request->input('guarantee');
         $product->picture_url = $request->input('picture_url');
         $product->update();
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('products.index')->with('success', 'Sản phẩm được cập nhật thành công');
     }
 
     public function destroy($id)
     {
         $product = Product::find($id);
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('products.index')->with('success', 'Sản phẩm đã bị xóa');
     }
 
     public function search(Request $request)
