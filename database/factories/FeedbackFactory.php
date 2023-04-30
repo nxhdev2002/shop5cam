@@ -13,11 +13,11 @@ class FeedbackFactory extends Factory
      */
     public function definition()
     {
-        $order = \App\Models\Order::inRandomOrder()->first();
+        $order = \App\Models\Transaction::inRandomOrder()->first();
         return [
             'content' => $this->faker->sentence,
             'status' => $this->faker->numberBetween(0, 1),
-            'order_id' => $order->id,
+            'transaction_id' => $order->id,
             'rate' => $this->faker->numberBetween(1, 5)
         ];
     }

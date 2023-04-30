@@ -16,7 +16,7 @@ class CreateFeedbackTable extends Migration
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->string('content')->nullable();
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('transaction_id')->constrained('transactions');
             $table->tinyInteger('rate');
             $table->tinyInteger('status');
             $table->timestamps();
