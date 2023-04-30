@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -26,31 +28,75 @@ class ProductController extends Controller
         return view('product.info', $data);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+
+        return view('products.create');
     }
 
     public function store()
     {
+        $product = new Product;
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->guarantee = $request->input('guarantee');
+        $product->picture_url = $request->input('picture_url');
+        // if($request->hasFile('picture_url')) {
+        //     $file = Input::file('picture_url');
+        //     //getting timestamp
+        //     $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
+
+        //     $name = $timestamp. '-' .$file->getClientOriginalName();
+
+        //     $product->image = $name;
+
+        //     $file->move(public_path().'/picture_url/', $name);
+        // }
+        $product->amount = $request->input('amount');
+        $product->save();
+        return redirect()->route('products.index')->with('success', 'Product added successfully.');
     }
 
-    public function edit()
+    public function edit(ProductRequest $request,$id)
     {
+        $product = Product::find($id);
+
+        return view('products.edit', ['product' => $product]);
     }
 
-    public function update()
+    public function update(Request $request, $id)
     {
+        $product = Product::find($id);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->guarantee = $request->input('guarantee');
+        $product->picture_url = $request->input('picture_url');
+        $product->update();
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 
-    public function search()
+    public function search(Request $request)
     {
+        $search = $request->input('search');
+        $products = Product::where('name', 'like', '%'.$search.'%')
+                ->orWhere('description', 'like', '%'.$search.'%')
+                ->get();
+    return view('products.index', ['products' => $products]);
     }
 
-    public function filter()
+    public function filter(Request $request)
     {
+        $filter = $request->input('filter');
+        $products = Product::where('attribute', $filter)->get();
+        return view('products.index', ['products' => $products]);
     }
 }
