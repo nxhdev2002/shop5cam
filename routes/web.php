@@ -24,6 +24,7 @@ Route::get('/', [SiteController::class, 'index'])->name('site.index');
 /// upload image
 Route::get('image-upload-preview', [ImageUploadController::class, 'index']);
 Route::post('upload-image', [ImageUploadController::class, 'store']);
+
 /// product route
 Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'index']);
@@ -36,20 +37,5 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/search', [ProductController::class, 'search']);
     Route::get('/filter', [ProductController::class, 'filter']);
 });
-
-Route::get('/', function () {
-    return view('/auth/login');
-});
-
-Route::get('/f', function () {
-    return view('test');
-});
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-
 
 require __DIR__ . '/auth.php';
