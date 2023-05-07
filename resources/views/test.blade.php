@@ -10,9 +10,7 @@
 </head>
 
 <body>
-
-    @include('layouts.nav')
-
+    @include('order.payment')
 </body>
 
 </html>

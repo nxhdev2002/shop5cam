@@ -37,19 +37,14 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
-Route::get('/', function () {
-    return view('/auth/login');
+Route::get('/home', function () {
+    return view('index');
 });
 
 Route::get('/f', function () {
     return view('test');
 });
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-
+Route::get('/a',[SiteController::class, 'index'] );
 
 require __DIR__ . '/auth.php';
