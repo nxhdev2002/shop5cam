@@ -1,11 +1,11 @@
 <section class="banner">
     <div class="container mx-auto my-3 bg-white">
         <div class="flex flex-col md:flex-row">
-            <div class="flex flex-col mx-3 my-3 basis-full md:basis-1/4">
-                <a href="#" class="p-3 rounded-sm hover:bg-blue-100">AutoMobiles</a>
-                <a href="#" class="p-3 rounded-sm hover:bg-blue-100">AutoMobiles</a>
-                <a href="#" class="p-3 rounded-sm hover:bg-blue-100">AutoMobiles</a>
-                <a href="#" class="p-3 rounded-sm hover:bg-blue-100">AutoMobiles</a>
+            <div class="flex flex-col mx-3 my-3 overflow-auto max-h-52 md:h-96 md:max-h-96 basis-full md:basis-1/4">
+                @foreach ($categories as $category)
+                <a href="#" class="p-3 rounded-sm hover:bg-blue-100">{{$category->name}}</a>
+                @endforeach
+
             </div>
 
             <div class="flex mx-3 my-3 basis-full md:basis-3/4">
@@ -76,6 +76,7 @@
             </div>
 
             <div class="flex flex-col basis-full md:basis-1/4">
+                @guest
                 <div class="user-login flex flex-col mt-3 mx-3 bg-[#E3F0FF] rounded-md">
                     <div class="flex flex-row items-center m-3 info">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -88,9 +89,10 @@
                             <p>Let get started</p>
                         </div>
                     </div>
-                    <button class="p-1 mx-2 mb-2 text-white bg-blue-500 rounded-md">Join Now</button>
-                    <button class="p-1 mx-2 mb-2 text-blue-400 bg-white rounded-md">Login</button>
+                    <a href="/register" class="p-1 mx-2 mb-2 text-center text-white bg-blue-500 rounded-md">Join Now</a>
+                    <a href="/login" class="p-1 mx-2 mb-2 text-center text-blue-400 bg-white rounded-md">Login</a>
                 </div>
+                @endguest
                 <div class="bg-[#F38332] mt-3 mx-3 p-5 rounded-md text-white">
                     Get US $10 off with a new supplier
                 </div>

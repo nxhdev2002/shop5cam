@@ -2,7 +2,7 @@
     <div class="container mx-auto my-3 bg-white">
         <div class="flex flex-col xl:flex-row">
             <div class="flex flex-col mx-3 my-3 basis-full md:basis-1/4">
-                <h3 class="font-medium">Deal & Offers</h3>
+                <h1 class="font-medium">Deal & Offers</h1>
                 <p class="font-light text-gray-400">Hygiene equipments</p>
             </div>
 
