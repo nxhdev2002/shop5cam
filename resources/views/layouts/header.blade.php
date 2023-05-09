@@ -25,11 +25,6 @@
                         class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Giỏ
                         Hàng</a>
                     <a href="#"
-<<<<<<< HEAD
-                        class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"></a>
-                    <a href="#"
-                        class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Name</a>
-=======
                         class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300"><svg
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                             <path fill-rule="evenodd"
@@ -37,7 +32,6 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </a>
->>>>>>> dc4d0d2281de883ac5c4e475e23a89aa30ce7223
 
                     @guest
                     <a href="/login"
@@ -53,8 +47,4 @@
                 </div>
             </div>
         </nav>
-<<<<<<< HEAD
-=======
-        <!-- @include('layouts.nav') -->
->>>>>>> dc4d0d2281de883ac5c4e475e23a89aa30ce7223
     </div>
