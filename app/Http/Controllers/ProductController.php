@@ -15,6 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         $data = array();
+        $data['title'] = "Danh sách sản phẩm";
         $data['products'] = DB::table('products')->paginate(12);
         return view('product.index', $data);
     }
@@ -23,11 +24,11 @@ class ProductController extends Controller
     {
         $data = array();
         $data['product'] = Product::find($id);
-        $data['category'] = Category::find($data['product']->category_id);
-        $data['seller'] = User::find($data['product']->seller_id);
         if (!$data['product']) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
+        $data['category'] = Category::find($data['product']->category_id);
+        $data['seller'] = User::find($data['product']->seller_id);
         return view('product.info', $data);
     }
 
