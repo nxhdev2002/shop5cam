@@ -39,6 +39,8 @@ class SiteController extends Controller
         ->get();
         return view('index',compact('users','products_10first','products_quantity','products_cheap','products_expensive',
         'products_datecreated'));
-        //list pro theo tên danh mục  
+        // list pro theo tên danh mục  
+        // $product = Product::find(1);
+        // return view('test',compact('product'));
     }
 }
