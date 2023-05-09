@@ -10,6 +10,7 @@ class SiteController extends Controller
 {
     public function index()
     {
+        
         $users = DB::table('products')->get();
         // list 10 san pham dau tien
         $products_10first = DB::table('products')->take(10)->get();
@@ -21,7 +22,7 @@ class SiteController extends Controller
         ->take(10)
         ->get();
         $product1 = Product::where('amount', '>', '700')->get();
-        // list pro re nhat 
+        // list pro re nhat
         $products_cheap = Product::orderBy('price', 'asc')
         ->take(10)
         ->get();
@@ -38,6 +39,6 @@ class SiteController extends Controller
         ->get();
         return view('index',compact('users','products_10first','products_quantity','products_cheap','products_expensive',
         'products_datecreated'));
-        
+        //list pro theo tên danh mục  
     }
 }

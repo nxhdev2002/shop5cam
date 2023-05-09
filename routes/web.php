@@ -37,8 +37,8 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
-Route::get('/login', function () {
-    return view('/auth/login');
+Route::get('/home', function () {
+    return view('index');
 });
 
 Route::get('/f', function () {
@@ -46,11 +46,6 @@ Route::get('/f', function () {
 });
 Route::get('/',[SiteController::class, 'index'] );
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-
+Route::get('/a',[SiteController::class, 'index'] );
 
 require __DIR__ . '/auth.php';

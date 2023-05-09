@@ -24,6 +24,7 @@ class ProductController extends Controller
         $data = array();
         $data['product'] = Product::find($id);
         $data['category'] = Category::find($data['product']->category_id);
+        $data['seller'] = User::find($data['product']->seller_id);
         if (!$data['product']) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
