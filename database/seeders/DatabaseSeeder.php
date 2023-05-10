@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Transaction::factory(3)->create();
         \App\Models\Ads::factory(3)->create();
         \App\Models\feedback::factory(2)->create();
+        \App\Models\Cart::factory(30)->create();
     }
 }
