@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
+use App\Models\Cart;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ Route::get('image-upload-preview', [ImageUploadController::class, 'index']);
 Route::post('upload-image', [ImageUploadController::class, 'store']);
 
 /// product route
-Route::group(['prefix' => 'product'], function () {
+Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::get('/create', [ProductController::class, 'create']);
@@ -37,15 +39,5 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/search', [ProductController::class, 'search']);
     Route::get('/filter', [ProductController::class, 'filter']);
 });
-
-Route::get('/home', function () {
-    return view('index');
-});
-
-Route::get('/f', function () {
-    return view('test');
-});
-
-Route::get('/a',[SiteController::class, 'index'] );
 
 require __DIR__ . '/auth.php';

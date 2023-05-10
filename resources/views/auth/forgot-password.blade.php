@@ -1,36 +1,30 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@include('layouts.header')
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </div>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('password.email') }}">
+<div class="flex flex-col items-center justify-center h-screen">
+    <div class="p-10 bg-white rounded-lg shadow-lg">
+        <h2 class="mb-6 text-xl font-bold">Forgot Password?</h2>
+        <p class="mb-6 text-gray-700">Please enter your email address below to reset your password.</p>
+        <form method="post">
             @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            <div class="mb-4">
+                <label class="block mb-2 font-bold text-gray-700" for="email">
+                    Email
+                </label>
+                <input
+                    class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    id="email" type="email" name="email" placeholder="Enter your email" required>
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
+            <div class="flex items-center justify-between">
+                <button
+                    class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Reset Password
+                </button>
             </div>
         </form>
-    </x-auth-card>
-</x-guest-layout>
+        <p class="mt-6 text-gray-700">Remembered your password? <a href="login"
+                class="font-bold text-blue-500 hover:text-blue-700">Sign In</a></p>
+    </div>
+</div>
+
+@include('layouts.footer')

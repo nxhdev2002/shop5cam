@@ -1,5 +1,5 @@
 @include('layouts.header')
-<section class="h-screen">
+<section class="bg-slate-50">
     <div class="container h-full px-6 py-24">
         <div class="flex flex-wrap items-center justify-center h-full g-6 lg:justify-between">
             <!-- Left column container with background-->
