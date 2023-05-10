@@ -38,4 +38,14 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
+Route::get('/home', function () {
+    return view('index');
+});
+
+Route::get('/f', function () {
+    return view('test');
+});
+
+Route::get('/a',[SiteController::class, 'index'] );
+
 require __DIR__ . '/auth.php';
