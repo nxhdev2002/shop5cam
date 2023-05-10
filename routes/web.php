@@ -26,7 +26,7 @@ Route::get('image-upload-preview', [ImageUploadController::class, 'index']);
 Route::post('upload-image', [ImageUploadController::class, 'store']);
 
 /// product route
-Route::group(['prefix' => 'product'], function () {
+Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::get('/create', [ProductController::class, 'create']);

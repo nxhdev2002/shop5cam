@@ -3,7 +3,7 @@
     <span class="inline-block font-bold text-red-500 animate-blink">Danh sách sản phẩm</span>
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
         @foreach ($products as $product)
-        <a href="/product/{{$product->id}}">
+        <a href="/products/{{$product->id}}">
             <div class="p-4 border border-gray-300 rounded-md shadow-md">
                 <img src="{{$product->picture_url}}" alt="{{ $product->name }}" class="object-cover w-full h-48 mb-4">
                 <h2 class="text-lg font-bold">{{ $product->name }}</h2>
@@ -20,6 +20,7 @@
         </a>
         @endforeach
     </div>
+    <p class="mt-3 text-xs">{{ $products->links()}}</p>
 </div>
-<p class="text-xs">{{ $products->links()}}</p>
+
 @include('layouts.footer')
