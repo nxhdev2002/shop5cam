@@ -42,8 +42,10 @@ Route::group(['prefix' => 'products'], function () {
 
 /// cart route
 
-Route::group(['prefix' => 'cart'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
     Route::get('/', [CartController::class, 'index']);
+    Route::get('/load', [CartController::class, 'loadCart']);
+    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
     Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 });
 
