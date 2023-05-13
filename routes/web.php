@@ -39,5 +39,11 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/search', [ProductController::class, 'search']);
     Route::get('/filter', [ProductController::class, 'filter']);
 });
+Route::group(['prefix' => 'cart'], function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+});
+
+
 
 require __DIR__ . '/auth.php';
