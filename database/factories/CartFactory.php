@@ -17,7 +17,7 @@ class CartFactory extends Factory
         $product = \App\Models\Product::all();
         return [
             'user_id' => $user->id,
-            'product_id' => $this->faker->unique()->numberBetween(0, count($product)),
+            'product_id' => $this->faker->unique()->numberBetween(1, count($product)),
             'quantity' => $this->faker->numberBetween(1, 100),
         ];
     }

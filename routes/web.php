@@ -39,8 +39,13 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/search', [ProductController::class, 'search']);
     Route::get('/filter', [ProductController::class, 'filter']);
 });
-Route::group(['prefix' => 'cart'], function () {
+
+/// cart route
+
+Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
     Route::get('/', [CartController::class, 'index']);
+    Route::get('/load', [CartController::class, 'loadCart']);
+    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
     Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 });
 

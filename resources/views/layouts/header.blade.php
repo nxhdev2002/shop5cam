@@ -8,6 +8,7 @@
     <title>{{$title ?? ''}} - {{env("SITE_NAME")}}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -60,42 +61,14 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                 </svg>
-                                @if (count(auth()->user()->cart) > 0)
-                                <p
-                                    class="absolute right-0 px-1 text-sm font-semibold text-white bg-red-300 rounded-full opacity-75 -top-3">
-                                    {{count(auth()->user()->cart)}}
+                                <p class="absolute right-0 hidden px-1 text-sm font-semibold text-white bg-red-300 rounded-full opacity-75 -top-3"
+                                    id="total">
                                 </p>
-                                @endif
                             </button>
                             <!-- Dropdown menu -->
                             <div id="cartDropdownNavbar"
                                 class="z-50 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-96 dark:bg-gray-700 dark:divide-gray-600">
 
-                                @foreach (auth()->user()->cart as $cart_product)
-                                <div class="flex flex-row items-center">
-                                    <div class="p-2 basis-1/4">
-                                        <img class="w-full h-full" src="{{$cart_product->product->picture_url}}" alt="">
-                                    </div>
-                                    <div class="p-2 basis-2/4">
-                                        <p>Tên sản phẩm: {{$cart_product->product->name}}</p>
-                                        <p>Số lượng: {{$cart_product->quantity}}</p>
-                                    </div>
-                                    <div class="flex items-center justify-center p-2 basis-1/4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                @endforeach
-                                <div class="flex justify-center p-2">
-                                    @if (count(auth()->user()->cart) > 0)
-                                    <a href="/cart">Thanh toán</a>
-                                    @else
-                                    <p>Bạn chưa có mặt hàng nào trong giỏ.</p>
-                                    @endif
-                                </div>
                             </div>
                         </li>
                         <li>
@@ -168,3 +141,43 @@
         </nav>
 
     </div>
+
+
+    @push("scripts")
+
+    <script>
+        $(document).ready(function () {
+            loadCart()
+        });
+        function loadCart() {
+            $.get('/cart/load', (data, status) => {
+                var dropdown = $("#cartDropdownNavbar")
+                dropdown.empty()
+                if (data.data.length > 0) {
+                    data.data.forEach(element => {
+                        dropdown.append(`<div class="flex flex-row items-center"><div class="p-2 basis-1/4"><img class="w-full h-full" src="${element.picture_url}" alt=""></div><div class="p-2 basis-2/4"><p>${element.name}</p><p>Số lượng: ${element.quantity}</p></div><button class="flex items-center justify-center p-2 basis-1/4" onclick="deleteCart(${element.id})"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg></button></div>`)
+                    });
+
+                    dropdown.append('<div class="flex justify-center p-2"><a href="/cart">Thanh toán</a></div>')
+                    $('#total').text(data.data.length.toString()).removeClass("hidden")
+                } else {
+                    dropdown.append('<div class="flex justify-center p-2"><p>Bạn chưa có mặt hàng nào trong giỏ.</p></div>')
+                }
+            })
+        }
+
+        function deleteCart(product_id) {
+            $.ajax({
+                url: '/cart/remove',
+                data: {
+                    'product_id': product_id
+                },
+                type: 'DELETE',
+                success: function (res) {
+                    console.log(res)
+                    loadCart()
+                }
+            })
+        }
+    </script>
+    @endpush
