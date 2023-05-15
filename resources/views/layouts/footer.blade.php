@@ -262,7 +262,6 @@
     </div>
 </footer>
 @if ($errors -> any())
-<?php var_dump($errors) ?>
 <script>
     Swal.fire({
         title: 'Lỗi!',

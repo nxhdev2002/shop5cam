@@ -8,6 +8,7 @@ use App\Http\Controllers\SiteController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
 
 /*
@@ -51,10 +52,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'deposit'], function () {
-    Route::get('/', [CartController::class, 'index'])->name("user.deposit");
-    Route::get('/load', [CartController::class, 'loadCart']);
-    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class]);
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
+    Route::get('/', [PaymentController::class, 'deposit'])->name("user.deposit");
+    Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("user.deposit.details");
 });
 
 
