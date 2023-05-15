@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ProductController;
@@ -45,10 +46,16 @@ Route::group(['prefix' => 'products'], function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
     Route::get('/', [CartController::class, 'index']);
     Route::get('/load', [CartController::class, 'loadCart']);
-    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class]);
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
 });
 
+Route::group(['middleware' => 'auth', 'prefix' => 'deposit'], function () {
+    Route::get('/', [CartController::class, 'index'])->name("user.deposit");
+    Route::get('/load', [CartController::class, 'loadCart']);
+    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class]);
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
+});
 
 
 require __DIR__ . '/auth.php';
