@@ -13,10 +13,12 @@ class SiteController extends Controller
     public function index()
     {
         $title = "Trang chủ";
+        $products = Product::take(8)->get();
         $categories = Category::all();
         return view('index', compact(
             'title',
-            'categories'
+            'categories',
+            'products'
         ));
         //list pro theo tên danh mục  
     }
