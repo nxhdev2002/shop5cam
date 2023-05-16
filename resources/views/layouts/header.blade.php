@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{$title ?? ''}} - {{env("SITE_NAME")}}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -89,7 +89,7 @@
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
                                     aria-labelledby="dropdownLargeButton">
                                     <li>
-                                        <a href="{{route('user.deposit')}}"
+                                        <a href="{{route('user.deposit.index')}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><b>Số
                                                 dư</b>: {{number_format( auth()->user()->balance )}} VNĐ</a>
                                     </li>
@@ -152,7 +152,7 @@
             loadCart()
         });
         function loadCart() {
-            $.get('/cart/load', (data, status) => {
+            $.get('{{route("user.cart.load")}}', (data, status) => {
                 var dropdown = $("#cartDropdownNavbar")
                 dropdown.empty()
                 if (data.data.length > 0) {
@@ -178,7 +178,7 @@
         function deleteCart(product_id) {
             $(`#status-${product_id}`).removeClass("hidden")
             $.ajax({
-                url: '/cart/remove',
+                url: '{{route("user.cart.remove")}}',
                 data: {
                     'product_id': product_id
                 },

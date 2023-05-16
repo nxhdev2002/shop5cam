@@ -44,18 +44,21 @@ Route::group(['prefix' => 'products'], function () {
 
 /// cart route
 
-Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
-    Route::get('/', [CartController::class, 'index']);
-    Route::get('/load', [CartController::class, 'loadCart']);
-    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class]);
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
-});
 
-Route::group(['middleware' => 'auth', 'prefix' => 'deposit'], function () {
-    Route::get('/', [PaymentController::class, 'deposit'])->name("user.deposit");
-    Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("user.deposit.details");
-    Route::post('/preview', [PaymentController::class, 'depositPreview'])->name("user.deposit.preview");
-    Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("user.deposit.confirm");
+Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::get('/load', [CartController::class, 'loadCart'])->name('load');
+        Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class])->name('remove');
+        Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
+    });
+
+    Route::prefix('deposit')->name('deposit.')->group(function () {
+        Route::get('/', [PaymentController::class, 'deposit'])->name("index");
+        Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("details");
+        Route::post('/preview', [PaymentController::class, 'depositPreview'])->name("preview");
+        Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
+    });
 });
 
 
