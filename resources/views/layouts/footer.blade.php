@@ -271,6 +271,18 @@
     })
 </script>
 @endif
+
+@if (Session::has('success'))
+<script>
+    Swal.fire({
+        title: 'Thành công!',
+        text: "{{ Session::get('message') }}",
+        icon: 'success',
+        confirmButtonText: 'OK'
+    })
+</script>
+@endif
+
 @stack('scripts')
 </body>
 

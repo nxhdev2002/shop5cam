@@ -54,6 +54,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
 Route::group(['middleware' => 'auth', 'prefix' => 'deposit'], function () {
     Route::get('/', [PaymentController::class, 'deposit'])->name("user.deposit");
     Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("user.deposit.details");
+    Route::post('/preview', [PaymentController::class, 'depositPreview'])->name("user.deposit.preview");
+    Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("user.deposit.confirm");
 });
 
 

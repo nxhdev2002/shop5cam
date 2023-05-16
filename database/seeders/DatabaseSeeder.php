@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\Cart::factory(11)->create();
         \App\Models\Gateway::factory(1)->create();
         \App\Models\Deposit::factory(5)->create();
+        \App\Models\GatewayCurrency::factory(1)->create();
     }
 }
