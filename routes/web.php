@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminSiteController;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HelloController;
@@ -8,7 +9,9 @@ use App\Http\Controllers\SiteController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
+use Faker\Provider\ar_EG\Payment;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,21 +44,23 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
-/// cart route
 
-Route::group(['middleware' => 'auth', 'prefix' => 'cart'], function () {
-    Route::get('/', [CartController::class, 'index']);
-    Route::get('/load', [CartController::class, 'loadCart']);
-    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class]);
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
+Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::get('/load', [CartController::class, 'loadCart'])->name('load');
+        Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class])->name('remove');
+        Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
+    });
+
+    Route::prefix('deposit')->name('deposit.')->group(function () {
+        Route::get('/', [PaymentController::class, 'deposit'])->name("index");
+        Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("details");
+        Route::post('/preview', [PaymentController::class, 'depositPreview'])->name("preview");
+        Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
+    });
+
+    Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
 });
-
-Route::group(['middleware' => 'auth', 'prefix' => 'deposit'], function () {
-    Route::get('/', [CartController::class, 'index'])->name("user.deposit");
-    Route::get('/load', [CartController::class, 'loadCart']);
-    Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class]);
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
-});
-
 
 require __DIR__ . '/auth.php';

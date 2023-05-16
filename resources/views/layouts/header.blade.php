@@ -7,15 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{$title ?? ''}} - {{env("SITE_NAME")}}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="bg-slate-100">
+<body class="bg-slate-100 dark:bg-slate-800">
     <div class="header-2">
-
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
                 <a href="#" class="flex items-center">
@@ -89,12 +88,12 @@
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
                                     aria-labelledby="dropdownLargeButton">
                                     <li>
-                                        <a href="{{route('user.deposit')}}"
+                                        <a href="{{route('user.deposit.index')}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><b>Số
                                                 dư</b>: {{number_format( auth()->user()->balance )}} VNĐ</a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="{{route('user.trans')}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Lịch
                                             sử giao dịch</a>
                                     </li>
@@ -103,13 +102,17 @@
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cài
                                             đặt</a>
                                     </li>
-                                    <li>
-                                        <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                                    </li>
+                                    <li @if (auth()->user()->rights < 3) <a href="#"
+                                            class="block px-4 py-2 font-semibold text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            Trở thành người bán</a>
+                                            @else
+                                            <a href="#"
+                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Quầy
+                                                bán</a>
+                                            @endif
                                 </ul>
                                 <div class="py-1">
-                                    <form action="logout" method="POST">
+                                    <form action="/logout" method="POST">
                                         @csrf
                                         <div
                                             class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">
@@ -152,7 +155,7 @@
             loadCart()
         });
         function loadCart() {
-            $.get('/cart/load', (data, status) => {
+            $.get('{{route("user.cart.load")}}', (data, status) => {
                 var dropdown = $("#cartDropdownNavbar")
                 dropdown.empty()
                 if (data.data.length > 0) {
@@ -166,7 +169,7 @@
                 </div></div>`)
                     });
 
-                    dropdown.append('<div class="flex justify-center p-2"><a href="/cart">Thanh toán</a></div>')
+                    dropdown.append('<div class="flex justify-center p-2"><a href="{{route("user.cart.index")}}">Thanh toán</a></div>')
                     $('#total').text(data.data.length.toString()).removeClass("hidden")
                 } else {
                     $('#total').addClass("hidden")
@@ -178,7 +181,7 @@
         function deleteCart(product_id) {
             $(`#status-${product_id}`).removeClass("hidden")
             $.ajax({
-                url: '/cart/remove',
+                url: '{{route("user.cart.remove")}}',
                 data: {
                     'product_id': product_id
                 },
