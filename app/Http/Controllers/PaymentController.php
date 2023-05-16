@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Deposit;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function history()
+    {
+        $title = "Lịch sử giao dịch";
+        $trans = Transaction::where("user_id", auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        return view("transaction.index", compact(
+            'trans',
+            'title'
+        ));
+    }
+
     public function deposit()
     {
         $gateways = Gateway::all();
@@ -38,6 +49,7 @@ class PaymentController extends Controller
 
     public function depositPreview(Request $request)
     {
+        $title = "Preview";
         $gateway = Gateway::find($request['gateway']);
         $amount = $request['amount'];
         $gatewayCurrency = GatewayCurrency::where("gateway_id", 1)->first();
@@ -53,7 +65,8 @@ class PaymentController extends Controller
             'gateway',
             'gatewayCurrency',
             'amount',
-            'total'
+            'total',
+            'title'
         ));
     }
 
@@ -78,7 +91,16 @@ class PaymentController extends Controller
         $deposit->status = 0;
         $deposit->save();
 
-        return redirect()->route('user.deposit')->with(
+        $transaction = new Transaction();
+        $transaction->amount = 0;
+        $transaction->user_id = auth()->user()->id;
+        $transaction->balance = auth()->user()->balance;
+        $transaction->note = "Yêu cầu nạp " . number_format($amount) . " VNĐ.";
+        $transaction->type = "+";
+        $transaction->status = 0;
+        $transaction->save();
+
+        return redirect()->route('user.deposit.index')->with(
             'success',
             'Gửi yêu cầu nạp lên hệ thống thành công. Kiểm tra tại lịch sử giao dịch nhé'
         );

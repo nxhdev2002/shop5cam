@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminSiteController;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HelloController;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
+use Faker\Provider\ar_EG\Payment;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +44,6 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
-/// cart route
-
 
 Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     Route::prefix('cart')->name('cart.')->group(function () {
@@ -59,7 +59,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::post('/preview', [PaymentController::class, 'depositPreview'])->name("preview");
         Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
     });
-});
 
+    Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
+});
 
 require __DIR__ . '/auth.php';
