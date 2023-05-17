@@ -42,7 +42,7 @@
 
             <div class="relative p-4 ">
                 <div class="h-3/4">
-                    <img src="https://lh6.googleusercontent.com/cjfg7nMb9kLNq8aG5bBWqUu2XydrNOCE2BeLqvYt_YZ-lp0UafmC9FfysXhO5mFbzi7BNKeHwMZxZKC9uktC38QgRaKnN3v0tU1506C7oPGBFwWBjeuuM2IkqaCbGWllQ1Dwzc2o"
+                    <img src="https://tronhouse.com/assets/data/editor/source/vach-tran-nhung-review-5-sao-gia-mao-tren-amazon/chup-hinh-quang-cao-1.jpg"
                         class="w-full h-full max-w-full max-h-">
                 </div>
                 <h2 class="left-0 w-full pt-2 font-light text-center bottom-2">Đánh giá giao dịch</h2>
