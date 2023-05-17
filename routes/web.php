@@ -50,7 +50,7 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::get('/load', [CartController::class, 'loadCart'])->name('load');
         Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class])->name('remove');
-        Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class]);
+        Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class])->name('add');
     });
 
     Route::prefix('deposit')->name('deposit.')->group(function () {

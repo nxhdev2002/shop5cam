@@ -19,7 +19,7 @@
     function addToCart(product_id, quantity) {
         let id = `#status-${product_id}`
         $(id).removeClass('hidden')
-        $.post("/cart/add-to-cart", {
+        $.post("{{route('user.cart.add')}}", {
             'product_id': product_id,
             'quantity': quantity
         }).done(function (data) {
