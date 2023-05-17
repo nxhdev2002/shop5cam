@@ -13,7 +13,7 @@ class PaymentController extends Controller
     public function history()
     {
         $title = "Lịch sử giao dịch";
-        $trans = Transaction::where("user_id", auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $trans = Transaction::where("customer_id", auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
         return view("transaction.index", compact(
             'trans',
             'title'
