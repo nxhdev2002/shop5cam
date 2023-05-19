@@ -46,8 +46,8 @@
                             type="email" id="email" name="email" value="{{auth()->user()->email}}"
                             class="block w-full px-4 py-3 mt-1 text-sm placeholder-gray-300 transition border-gray-300 rounded shadow-sm outline-none bg-gray-50 focus:ring-2 focus:ring-teal-500" />
                     </div>
-                    <div><label for="card-name" class="sr-only">Card name</label><input type="text" id="card-name"
-                            name="card-name" value="{{auth()->user()->name}}"
+                    <div><label for="name" class="sr-only">Name</label><input type="text" id="name" name="name"
+                            value="{{auth()->user()->name}}"
                             class="block w-full px-4 py-3 mt-1 text-sm placeholder-gray-300 transition border-gray-300 rounded shadow-sm outline-none bg-gray-50 focus:ring-2 focus:ring-teal-500" />
                     </div>
                     <p class="mt-10 text-sm font-semibold text-center text-gray-500">By placing this order you agree to

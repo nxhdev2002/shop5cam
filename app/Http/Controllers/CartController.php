@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderMail;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
@@ -12,7 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -53,6 +54,10 @@ class CartController extends Controller
 
     public function confirm(Request $request)
     {
+        $request->validate([
+            'email' => 'bail|email|required',
+            'name' => 'bail|required'
+        ]);
         $carts = Cart::where('user_id', auth()->user()->id)->orderBy('id', 'ASC')->get();
         $total = 0;
         foreach ($carts as $key => $cart) {
@@ -115,6 +120,9 @@ class CartController extends Controller
                 var_dump($e);
                 DB::rolback();
             }
+
+            $mail = new OrderMail($order, $productDetail);
+            Mail::send($request['email']);
         }
         return redirect()->route('user.cart.index')->with('success', 'Thanh toán thành công');
     }

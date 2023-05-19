@@ -3,8 +3,10 @@
     <div class="flex flex-col p-3">
         <h3 class="p-3 text-lg font-medium">Chi tiết giao dịch</h3>
         <div class="bg-slate-400">
-            <p class="p-3">Đơn hàng được thanh toán vào {{$order->created_at}} và sẽ được thanh toán cho người bán vào
-                {{$order->paydate}}</p>
+            <p class="p-3">Đơn hàng được thanh toán vào <b>{{$order->created_at}}</b> và sẽ được thanh toán cho người
+                bán vào
+                <b>{{$order->paydate}}</b>
+            </p>
             <p class="p-3">Để tránh rủi ro hệ thống, vào thời điểm thanh toán cho người bán đơn hàng cũng sẽ xoá khỏi hệ
                 thống. Bạn có thể kiểm tra lại email để xem chi tiết đơn hàng sau khi hệ thống thực hiện xoá giao dịch.
             </p>

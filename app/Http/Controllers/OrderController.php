@@ -16,6 +16,7 @@ class OrderController extends Controller
     public function index()
     {
         $data = array();
+        $data['title'] = "Lịch sử đơn hàng";
         $data['orders'] = Order::where('customer_id', auth()->user()->id)->get();
         return view('order.index', $data);
     }
