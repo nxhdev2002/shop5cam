@@ -8,9 +8,30 @@
     <title>{{$title ?? ''}} - {{env("SITE_NAME")}}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
 </head>
 
 <body class="bg-slate-100 dark:bg-slate-800">
@@ -91,6 +112,11 @@
                                         <a href="{{route('user.deposit.index')}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><b>Số
                                                 dư</b>: {{number_format( auth()->user()->balance )}} VNĐ</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('user.order.index')}}"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Đơn
+                                            hàng</a>
                                     </li>
                                     <li>
                                         <a href="{{route('user.trans')}}"
@@ -187,7 +213,7 @@
                 },
                 type: 'DELETE',
                 success: function (res) {
-                    console.log(res)
+                    toastr.success(res.message)
                     loadCart()
                 }
             })

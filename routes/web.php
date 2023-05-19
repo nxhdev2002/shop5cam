@@ -9,6 +9,7 @@ use App\Http\Controllers\SiteController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
 use Faker\Provider\ar_EG\Payment;
@@ -49,6 +50,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::get('/load', [CartController::class, 'loadCart'])->name('load');
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+        Route::post('/confirm', [CartController::class, 'confirm'])->name('confirm');
         Route::delete('/remove', [CartController::class, 'remove'])->withoutMiddleware([VerifyCsrfToken::class])->name('remove');
         Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class])->name('add');
     });
@@ -58,6 +61,11 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("details");
         Route::post('/preview', [PaymentController::class, 'depositPreview'])->name("preview");
         Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
+    });
+
+    Route::prefix('order')->name('order.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name("index");
+        Route::get('/details/{id}', [OrderController::class, 'details'])->name("details");
     });
 
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');

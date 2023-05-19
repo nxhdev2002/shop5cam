@@ -23,7 +23,7 @@
             'product_id': product_id,
             'quantity': quantity
         }).done(function (data) {
-            console.log(data)
+            toastr.success(data.message)
             $(id).addClass("hidden")
             loadCart()
             // if (!data.append) {

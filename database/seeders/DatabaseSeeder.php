@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +21,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\Cart::factory(11)->create();
         \App\Models\Gateway::factory(1)->create();
         \App\Models\GatewayCurrency::factory(1)->create();
+
+        $products = Product::all();
+        foreach ($products as $value) {
+            \App\Models\ProductDetail::factory($value->amount)->create([
+                'product_id' => $value->id
+            ]);
+        }
     }
 }

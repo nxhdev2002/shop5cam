@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->integer('quantity');
             $table->tinyInteger('status');
             $table->decimal('price', 18, 8);
+            $table->string('product_details_id')->default('[]');
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('customer_id')->constrained('users');
             $table->timestamps();

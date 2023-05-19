@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductDetail;
+use App\Models\Transaction;
+use App\Models\User;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
+
 
 class CartController extends Controller
 {
@@ -21,6 +29,94 @@ class CartController extends Controller
             'carts',
             'total'
         ));
+    }
+
+    public function checkout(Request $request)
+    {
+        $title = "Checkout";
+        $carts = Cart::where('user_id', auth()->user()->id)->get();
+        $total = 0;
+        foreach ($carts as $value) {
+            $total += $value->product->price * $value->quantity;
+        }
+
+        if ($total > auth()->user()->balance) {
+            return redirect()->back()->withErrors('message', 'Bạn không có đủ số dư để thực hiện giao dịch');
+        }
+
+        return view('cart.checkout', compact(
+            'total',
+            'title',
+            'carts'
+        ));
+    }
+
+    public function confirm(Request $request)
+    {
+        $carts = Cart::where('user_id', auth()->user()->id)->orderBy('id', 'ASC')->get();
+        $total = 0;
+        foreach ($carts as $key => $cart) {
+            $total += $cart->product->price * $cart->quantity;
+        }
+
+        $user = User::find(auth()->user()->id);
+
+        if ($total > auth()->user()->balance) {
+            return redirect()->back()->withErrors('message', 'Bạn không có đủ số dư để thực hiện giao dịch');
+        }
+
+
+        foreach ($carts as $cart) {
+            DB::beginTransaction();
+            try {
+                $current_time = Carbon::now();
+                $order = new Order();
+                $order->paydate = $current_time->addDays(7);
+                $order->quantity = $cart->quantity;
+                $order->status = 1;
+                $order->price = $cart->product->price * $cart->quantity;
+                $order->product_id = $cart->product_id;
+                $order->customer_id = $user->id;
+
+                $user->balance -= $cart->product->price * $cart->quantity;
+                $user->save();
+
+
+                $product = Product::find($cart->product->id);
+                $product->amount -= $cart->quantity;
+                $product->save();
+
+                $productsDetails = ProductDetail::where('product_id', $product->id)
+                    ->where('status', 0)
+                    ->take($cart->quantity)
+                    ->get();
+
+                $productDetailIds = array();
+                foreach ($productsDetails as $productDetail) {
+                    $productDetail->status = 1;
+                    $productDetail->save();
+                    array_push($productDetailIds, $productDetail->id);
+                }
+                $order->product_details_id = json_encode($productDetailIds);
+                $order->save();
+
+                $trans = new Transaction();
+                $trans->user_id = $user->id;
+                $trans->amount = $cart->product->price * $cart->quantity;
+                $trans->balance = $user->balance;
+                $trans->note = "Thanh toán đơn hàng ID: " . $order->id;
+                $trans->type = '-';
+                $trans->status = 1;
+                $trans->save();
+
+                $cart->delete();
+                DB::commit();
+            } catch (\Exception $e) {
+                var_dump($e);
+                DB::rolback();
+            }
+        }
+        return redirect()->route('user.cart.index')->with('success', 'Thanh toán thành công');
     }
 
     public function loadCart()
@@ -53,8 +149,16 @@ class CartController extends Controller
         $product_id = $request['product_id'];
         $quantity = $request['quantity'];
 
-        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $product_id)->first();
         $data = array();
+        $product = Product::find($product_id);
+
+        if ($product->amount < $quantity) {
+            $data['success'] = false;
+            $data['message'] = "Không đủ số lượng có sẵn trong kho.";
+            return response()->json($data);
+        }
+
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $product_id)->first();
         if ($cart) {
             $cart->quantity += $quantity;
             $cart->save();
