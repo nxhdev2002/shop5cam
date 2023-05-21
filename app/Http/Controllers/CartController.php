@@ -10,6 +10,17 @@ class CartController extends Controller
 {
     public function index()
     {
+        $title = "Giỏ hàng";
+        $carts = Cart::where('user_id', auth()->user()->id)->get();
+        $total = 0;
+        foreach ($carts as $value) {
+            $total += $value->product->price * $value->quantity;
+        }
+        return view('cart.index', compact(
+            'title',
+            'carts',
+            'total'
+        ));
     }
 
     public function loadCart()

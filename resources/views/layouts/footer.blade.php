@@ -262,7 +262,6 @@
     </div>
 </footer>
 @if ($errors -> any())
-<?php var_dump($errors) ?>
 <script>
     Swal.fire({
         title: 'Lỗi!',
@@ -272,7 +271,18 @@
     })
 </script>
 @endif
-<script src="{{ asset('js/main.js') }}"></script>
+
+@if (Session::has('success'))
+<script>
+    Swal.fire({
+        title: 'Thành công!',
+        text: "{{ Session::get('message') }}",
+        icon: 'success',
+        confirmButtonText: 'OK'
+    })
+</script>
+@endif
+
 @stack('scripts')
 </body>
 
