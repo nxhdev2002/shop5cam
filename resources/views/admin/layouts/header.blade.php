@@ -16,7 +16,10 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 344a6a8 (Admin dashboard and Admin Controller, CheckLogin..)
     <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
         <div class="container flex items-center justify-end h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
             <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"

@@ -8,7 +8,7 @@ use App\Models\Deposit;
 
 class AdminController extends Controller
 {
-    public function Dashboard()
+    public function Dashboard() 
     {
         $totalUsers = User::where('rights','<', 9)->count();
         // $user = Auth::user();

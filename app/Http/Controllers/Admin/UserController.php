@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function User(){
         $user = User::paginate(5);
-        return view( 'admin.frontend.user',compact('user'));     
+        return view( 'admin.frontend.user',compact('user'));      
     }
     public function editUser($id){
         $user = User::find($id);
