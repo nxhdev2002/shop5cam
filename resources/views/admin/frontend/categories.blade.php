@@ -1,16 +1,3 @@
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Page</title>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-</head>
 <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
     <!-- Desktop sidebar -->
     @include('admin.layouts.sidebar')
@@ -94,13 +81,13 @@
                             <td class="px-4 py-3 text-sm">
                                 @if ($cate->status == 0)
                                 <span
-                                    class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-green-300 rounded-full dark:text-white dark:bg-orange-600">
+                                    class="px-2 py-1 font-semibold leading-tight text-gray-700 rounded-full dark:text-white dark:bg-orange-600">
                                     Hiện
                                 </span>
                                 @endif
                                 @if ($cate->status == 1)
                                 <span
-                                    class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-orange-300 rounded-full dark:text-white dark:bg-orange-600">
+                                    class="px-2 py-1 font-semibold leading-tight text-gray-700 rounded-full dark:text-white dark:bg-orange-600">
                                     Ẩn
                                 </span>
                                 @endif
@@ -112,7 +99,7 @@
                                 <div class="flex items-center space-x-4 text-sm">
                                     <!-- Button to open the edit category modal -->
                                     <div class="text-blue-500 hover:text-blue-700">
-                                        <button id="updateProductButton" data-modal-toggle="updateProductModal"
+                                        <button id="updateButton" data-modal-toggle="updateModal"
                                             class="block text-black bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                             type="button">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -122,7 +109,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <div id="updateProductModal" tabindex="-1" aria-hidden="true"
+                                    <div id="updateModal" tabindex="-1" aria-hidden="true"
                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                                         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                                             <!-- Modal content -->
@@ -148,7 +135,7 @@
                                                 </div>
                                                 <!-- Modal body -->
 
-                                                <form method="post" action="/admin/categories/{{ $cate->id }}">
+                                                <form method="post" action="/admin/categories/{$category->id}/update">
                                                     <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                                         <div>
                                                             <label for="name"
@@ -162,10 +149,10 @@
                                                         <div>
                                                             <label for="category"
                                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                                            <select id="category"
+                                                            <select id="category" name="status"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                                <option selected="">1</option>
-                                                                <option value="">0</option>
+                                                                <option selected="" value="1">1</option>
+                                                                <option value="0">0</option>
                                                             </select>
                                                         </div>
                                                     </div>
