@@ -121,8 +121,8 @@ class CartController extends Controller
                 DB::rolback();
             }
 
-            $mail = new OrderMail($order, $productDetail);
-            Mail::send($request['email']);
+            $mail = new OrderMail($order, $request['email']);
+            Mail::send($mail);
         }
         return redirect()->route('user.cart.index')->with('success', 'Thanh toán thành công');
     }
@@ -159,6 +159,12 @@ class CartController extends Controller
 
         $data = array();
         $product = Product::find($product_id);
+
+        if (!$product->status) {
+            $data['success'] = false;
+            $data['message'] = "Sản phẩm hiện đang ngừng bán.";
+            return response()->json($data);
+        }
 
         if ($product->amount < $quantity) {
             $data['success'] = false;

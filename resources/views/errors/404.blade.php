@@ -1,3 +1,6 @@
+@php
+$title = "Trang không tồn tại";
+@endphp
 @include('layouts.header')
 <style>
     .emoji-404 {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminSiteController;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
@@ -49,6 +50,11 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/filter', [ProductController::class, 'filter']);
 });
 
+Route::name('categories.')->prefix('categories')->group(function () {
+    Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
+});
+
+
 Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
@@ -69,13 +75,16 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     Route::prefix('order')->name('order.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name("index");
         Route::get('/details/{id}', [OrderController::class, 'details'])->name("details");
+        Route::get('/report/{id}', [OrderController::class, 'report'])->name("report");
+        Route::delete('/report/{id}', [OrderController::class, 'delete'])->name("delete");
+        Route::post('/report/{id}', [OrderController::class, 'storeReport'])->name("reportSend");
     });
 
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
 });
 
 // route admin
-Route::group(['prefix' => 'admin', 'middleware'=>'checkLogin'],function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'checkLogin'], function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);

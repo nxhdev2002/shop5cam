@@ -174,10 +174,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-<<<<<<< HEAD
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-=======
->>>>>>> 344a6a8 (Admin dashboard and Admin Controller, CheckLogin..)
     ],
 
     /*

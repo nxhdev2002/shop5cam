@@ -276,7 +276,7 @@
 <script>
     Swal.fire({
         title: 'Thành công!',
-        text: "{{ Session::get('message') }}",
+        text: "{{ Session::get('success') }}",
         icon: 'success',
         confirmButtonText: 'OK'
     })
