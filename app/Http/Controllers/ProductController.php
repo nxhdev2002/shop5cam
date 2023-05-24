@@ -22,7 +22,9 @@ class ProductController extends Controller
     {
         $data = array();
         $data['title'] = "Danh sách sản phẩm";
-        $data['products'] = DB::table('products')->paginate(12);
+        $data['products'] = DB::table('products')
+            ->orderBy('views', 'DESC')
+            ->paginate(12);
         return view('product.index', $data);
     }
 

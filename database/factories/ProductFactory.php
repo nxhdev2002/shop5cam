@@ -30,6 +30,8 @@ class ProductFactory extends Factory
             'guarantee' => $guarantee,
             'picture_url' => $faker->imageUrl(),
             'price' => $faker->randomFloat(2, 1, 1000),
+            'rank_point' => $faker->numberBetween(0, 1000),
+            'is_ads' => $faker->numberBetween(0, 1),
             'status' => $faker->numberBetween(0, 1),
             'amount' => $amount,
         ];

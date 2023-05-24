@@ -29,6 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if (count($orders) > 0)
                         @foreach ($orders as $order)
                         <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                             <th scope="row"
@@ -67,6 +68,11 @@
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr>
+                            <td colspan="6" class="text-center">Không có giao dịch nào được ghi nhận</td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

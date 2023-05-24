@@ -23,7 +23,7 @@
                         </p>
                     </div>
                 </div>
-
+                @guest
                 <div class="col-span-2 lg:col-span-3 lg:flex lg:items-end">
                     <form class="w-full">
                         <label for="UserEmail" class="sr-only"> Email </label>
@@ -33,14 +33,14 @@
                             <input type="email" id="UserEmail" placeholder="****@gmail.com"
                                 class="w-full border-none focus:border-transparent focus:ring-transparent dark:bg-gray-900 dark:text-white sm:text-sm" />
 
-                            <button
+                            <a href="/register"
                                 class="w-full px-6 py-3 mt-1 text-sm font-bold tracking-wide text-white uppercase transition-none bg-orange-600 hover:bg-teal-600 sm:mt-0 sm:w-auto sm:flex-shrink-0">
                                 Sign Up
-                            </button>
+                            </a>
                         </div>
                     </form>
                 </div>
-
+                @endguest
                 <div class="col-span-2 sm:col-span-1">
                     <p class="font-medium text-gray-900 dark:text-white">
                         Links

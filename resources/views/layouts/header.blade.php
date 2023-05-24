@@ -34,7 +34,7 @@
     </script>
 </head>
 
-<body class="bg-slate-100 dark:bg-slate-800">
+<body class="bg-slate-100 dark:bg-slate-700">
     <div class="header-2">
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
@@ -136,6 +136,25 @@
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Quầy
                                                 bán</a>
                                             @endif
+                                    </li>
+                                    <li>
+                                        <span
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chức
+                                            vụ:
+                                            @switch(auth()->user()->rights)
+                                            @case(1)
+                                            <span class="font-semibold ttext-black">Seller</span>
+                                            @break
+                                            @case(3)
+                                            <span class="font-semibold text-green-500">Seller</span>
+                                            @break
+                                            @case(5)
+                                            <span class="font-semibold text-blue-500">Staff</span>
+                                            @default
+                                            <span class="font-semibold text-red-500">Administrator</span>
+                                            @endswitch
+                                        </span>
+                                    </li>
                                 </ul>
                                 <div class="py-1">
                                     <form action="/logout" method="POST">
