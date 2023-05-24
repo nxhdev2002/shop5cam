@@ -9,6 +9,7 @@
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                         Categories List
                     </h2>
+
                     <button data-modal-target="defaultModal" data-modal-toggle="defaultModal"
                         class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         type="button">
@@ -31,13 +32,14 @@
                                     </div>
                                 </div>
 
-                                <form>
+                                <form method="POST" action="categories/store">
+                                    @csrf
                                     <!-- Các trường nhập liệu cho danh mục -->
                                     <div class="mb-4">
                                         <label class="block text-gray-700 text-sm font-bold mb-2" for="category_name">
                                             Tên danh mục
                                         </label>
-                                        <input
+                                        <input name="name"
                                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             id="category_name" type="text" placeholder="Nhập tên danh mục">
                                     </div>
@@ -136,6 +138,8 @@
                                                 <!-- Modal body -->
 
                                                 <form method="post" action="/admin/categories/{$category->id}/update">
+                                                    @csrf
+                                                    @method('PUT')
                                                     <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                                         <div>
                                                             <label for="name"
@@ -182,6 +186,7 @@
                     </tbody>
                     @endforeach
             </table>
+            <p class="mt-3 text-xs">{{ $category->links()}}</p>
         </div>
     </div>
 </div>

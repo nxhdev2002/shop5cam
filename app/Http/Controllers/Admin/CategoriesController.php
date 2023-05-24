@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CategoriesController extends Controller 
 {
     public function Categories(){
-        $category = Category::all();
+        $category = Category::paginate(5);
         return view( 'admin.frontend.categories',compact('category'));
     }
     public function createCategories(){
@@ -19,10 +19,9 @@ class CategoriesController extends Controller
     public function storeCategories(Request $request){
         $category = new Category;
         $category->name = $request->input('name');
-        $category->status = $request->input('status');
-        $category->created_at = $request->input('created_at');
+        $category->status = 1;
         $category->save();
-        return redirect()->route('admin.frontend.categories')->with('success', 'Danh mục được thêm thành công');    
+        return redirect()->back()->with('success', 'Danh mục được thêm thành công');    
     }
     public function editCategories($id){
         $category = Category::find($id);

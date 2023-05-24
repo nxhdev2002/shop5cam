@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function User(){
-        $user = User::paginate(5);
+        $user = User::all();
         return view( 'admin.frontend.user',compact('user'));      
     }
     public function editUser($id){
@@ -37,6 +37,6 @@ class UserController extends Controller
         $user = User::where('name', 'like', '%' . $search . '%')
             ->orWhere('rights', 'like', '%' . $search . '%')
             ->get();
-        return view('adminfrontend.user', ['user' => $user]);   
+        return view('admin.frontend.user', ['user' => $user]);   
     }
 }

@@ -16,7 +16,7 @@ class SiteController extends Controller
         $high_products = DB::table('products')
             ->where('amount', '>', 0)
             ->where('status', '1')
-            ->orderBy('views', 'DESC')->take(3)->get();
+            ->orderBy('price', 'DESC')->take(3)->get();
         $products = Product::take(8)->get();
         $categories = Category::all();
         return view('index', compact(

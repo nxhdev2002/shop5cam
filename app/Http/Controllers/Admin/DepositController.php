@@ -30,6 +30,6 @@ class DepositController extends Controller
         $deposit = Deposit::find($id);
         $deposit->status = 2; 
         $deposit->update(); 
-        return redirect()->route('admin.frotnend.deposit')->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');   
+        return redirect()->route('admin.frontend.deposit')->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');   
     }
 }

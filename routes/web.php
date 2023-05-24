@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'checkLogin'],function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
-    Route::post('/categories/create', [CategoriesController::class, 'storeCategories']);
+    Route::post('/categories/store', [CategoriesController::class, 'storeCategories']);
     Route::get('/categories/{id}/edit', [CategoriesController::class, 'editCategories']);
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
@@ -92,5 +92,6 @@ Route::group(['prefix' => 'admin', 'middleware'=>'checkLogin'],function () {
     Route::get('/user/{id}/edit', [UserController::class, 'editUser']);
     Route::put('/user/{id}/update', [UserController::class, 'updateUser']);
     Route::get('/search', [UserController::class, 'searchUser']);
+
 });
 require __DIR__ . '/auth.php';
