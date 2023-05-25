@@ -20,88 +20,73 @@
 
                 <div class="flex items-center justify-between mt-4">
                     <p class="font-medium">
-                        Filters
+                        Bộ lọc
                     </p>
 
                     <div class="flex gap-3">
                         <button type="button"
-                            class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Reset</button>
-
-                        <button
-                            class="flex text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                            class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                            </svg>
+                            Tìm kiếm
+                        </button>
+                        <button type="button"
+                            class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
                             </svg>
-                            Lọc </button>
+                            Lọc
+                        </button>
                     </div>
                 </div>
 
                 <div>
                     <div class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-3 xl:grid-cols-4">
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">All Type</option>
-                            <option value="for-rent">For Rent</option>
-                            <option value="for-sale">For Sale</option>
-                        </select>
-
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">Furnish Type</option>
-                            <option value="fully-furnished">Fully Furnished</option>
-                            <option value="partially-furnished">Partially Furnished</option>
-                            <option value="not-furnished">Not Furnished</option>
-                        </select>
-
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">Any Price</option>
-                            <option value="1000">RM 1000</option>
-                            <option value="2000">RM 2000</option>
-                            <option value="3000">RM 3000</option>
-                            <option value="4000">RM 4000</option>
-                        </select>
-
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">Floor Area</option>
-                            <option value="200">200 sq.ft</option>
-                            <option value="400">400 sq.ft</option>
-                            <option value="600">600 sq.ft</option>
-                            <option value="800 sq.ft">800</option>
-                            <option value="1000 sq.ft">1000</option>
-                            <option value="1200 sq.ft">1200</option>
-                        </select>
-
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">Bedrooms</option>
-                            <option value="1">1 bedroom</option>
-                            <option value="2">2 bedrooms</option>
-                            <option value="3">3 bedrooms</option>
-                            <option value="4">4 bedrooms</option>
-                            <option value="5">5 bedrooms</option>
-                        </select>
-
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">Bathrooms</option>
-                            <option value="1">1 bathroom</option>
-                            <option value="2">2 bathrooms</option>
-                            <option value="3">3 bathrooms</option>
-                            <option value="4">4 bathrooms</option>
-                            <option value="5">5 bathrooms</option>
-                        </select>
-
-                        <select
-                            class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                            <option value="">Bathrooms</option>
-                            <option value="1">1 space</option>
-                            <option value="2">2 space</option>
-                            <option value="3">3 space</option>
-                        </select>
+                        <div class="relative">
+                            <label class="absolute z-20 px-1 text-xs bg-white -top-2 opacity-80 left-3">Danh mục</label>
+                            <select
+                                class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
+                                <option value="">Tất cả</option>
+                                @foreach ($categories as $category)
+                                <option value="{{$category->name}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <label class="absolute z-20 px-1 text-xs bg-white -top-2 opacity-80 left-3">Sắp xếp</label>
+                            <select
+                                class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
+                                <option value="">Mặc định</option>
+                                <option value="for-rent">Bán chạy nhất</option>
+                                <option value="for-sale">Từ mới đến cũ</option>
+                                <option value="for-sale">Từ cũ đến mới</option>
+                                <option value="for-sale">Giá thấp đến cao</option>
+                                <option value="for-sale">Giá cao đến thấp</option>
+                                <option value="for-sale">Tên A-Z</option>
+                                <option value="for-sale">Tên Z-A</option>
+                            </select>
+                        </div>
+                        <div class="relative z-0 px-3 border-r">
+                            <input type="number" id="floating_standard"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" " />
+                            <label for="floating_standard"
+                                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mức
+                                giá từ</label>
+                        </div>
+                        <div class="relative z-0">
+                            <input type="number" id="floating_standard"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" " />
+                            <label for="floating_standard"
+                                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mức
+                                giá đến</label>
+                        </div>
                     </div>
                 </div>
             </div>
