@@ -15,6 +15,8 @@ class CreateUpgradeRequestsTable extends Migration
     {
         Schema::create('upgrade_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }

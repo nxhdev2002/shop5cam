@@ -15,6 +15,7 @@ class CreateWebConfigsTable extends Migration
     {
         Schema::create('web_configs', function (Blueprint $table) {
             $table->id();
+            $table->decimal('upgrade_fee', 18, 8);
             $table->timestamps();
         });
     }
