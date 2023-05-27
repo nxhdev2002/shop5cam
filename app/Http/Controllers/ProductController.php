@@ -22,7 +22,10 @@ class ProductController extends Controller
     {
         $data = array();
         $data['title'] = "Danh sách sản phẩm";
-        $data['products'] = DB::table('products')->paginate(12);
+        $data['products'] = DB::table('products')
+            ->orderBy('views', 'DESC')
+            ->paginate(12);
+        $data['categories'] = Category::all();
         return view('product.index', $data);
     }
 
@@ -125,8 +128,29 @@ class ProductController extends Controller
 
     public function filter(Request $request)
     {
-        $filter = $request->input('filter');
-        $products = Product::where('attribute', $filter)->get();
+        $price = $request->input('price');
+        $amount = $request->input('amount');
+        $created_at = $request->input('created_at');
+
+        // Tạo query builder cho bảng 'products'
+        $query = Product::query();
+
+        // Áp dụng các điều kiện lọc nếu có
+        if ($price) {
+            $query->where('price', '>', $price);
+        }
+
+        if ($amount) {
+            $query->where('amount', '>', $amount);
+        }
+
+        if ($created_at) {
+            $query->whereDate('created_at', $created_at);
+        }
+
+        // Lấy kết quả lọc
+        $products = $query->get();
+
         return view('products.index', ['products' => $products]);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\UserController as UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
 use App\Models\Product;
@@ -16,7 +17,7 @@ use App\Models\Cart;
 use Faker\Provider\ar_EG\Payment;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
 
 /*
@@ -38,9 +39,9 @@ Route::get('image-upload-preview', [ImageUploadController::class, 'index']);
 Route::post('upload-image', [ImageUploadController::class, 'store']);
 
 /// product route
-Route::group(['prefix' => 'products'], function () {
-    Route::get('/', [ProductController::class, 'index']);
-    Route::get('/{id}', [ProductController::class, 'show']);
+Route::name('products.')->prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('/{id}', [ProductController::class, 'show'])->name('show');
     Route::get('/create', [ProductController::class, 'create']);
     Route::post('/create', [ProductController::class, 'store']);
     Route::get('/{id}/edit', [ProductController::class, 'edit']);
@@ -81,6 +82,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     });
 
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
+    Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
+    Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });
 
 // route admin
@@ -96,10 +99,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkLogin'], function () {
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
-    Route::get('/user', [UserController::class, 'User']);
-    Route::delete('/user/{id}/delete', [UserController::class, 'destroyUser']);
-    Route::get('/user/{id}/edit', [UserController::class, 'editUser']);
-    Route::put('/user/{id}/update', [UserController::class, 'updateUser']);
-    Route::get('/search', [UserController::class, 'searchUser']);
+    Route::get('/user', [AdminUserController::class, 'User']);
+    Route::delete('/user/{id}/delete', [AdminUserController::class, 'destroyUser']);
+    Route::get('/user/{id}/edit', [AdminUserController::class, 'editUser']);
+    Route::put('/user/{id}/update', [AdminUserController::class, 'updateUser']);
+    Route::get('/search', [AdminUserController::class, 'searchUser']);
 });
 require __DIR__ . '/auth.php';

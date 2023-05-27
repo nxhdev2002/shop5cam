@@ -16,13 +16,32 @@ class SiteController extends Controller
         $high_products = DB::table('products')
             ->where('amount', '>', 0)
             ->where('status', '1')
-            ->orderBy('views', 'DESC')->take(3)->get();
-        $products = Product::take(8)->get();
+            ->orderBy('views', 'DESC')
+            ->take(3)
+            ->get();
+
+        $ads_products = Product::withCount('orders')
+            ->orderBy('orders_count', 'desc')
+            ->orderBy('views', 'DESC')
+            ->orderBy('rank_point', 'DESC')
+            ->where('amount', '>', 0)
+            ->where('status', '1')
+            ->take(5)
+            ->get();
+
+        $products = Product::withCount('orders')
+            ->orderBy('orders_count', 'desc')
+            ->where('status', '1')
+            ->where('amount', '>', 0)
+            ->take(8)
+            ->get();
+
         $categories = Category::all();
         return view('index', compact(
             'title',
             'categories',
             'products',
+            'ads_products',
             'high_products'
         ));
         //list pro theo tên danh mục  
