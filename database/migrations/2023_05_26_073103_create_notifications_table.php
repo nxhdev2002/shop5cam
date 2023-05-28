@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWebConfigsTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateWebConfigsTable extends Migration
      */
     public function up()
     {
-        Schema::create('web_configs', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->decimal('upgrade_fee', 18, 8);
+            $table->foreignId('receiver_id')->constrained('users');
+            $table->string("details");
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateWebConfigsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('web_configs');
+        Schema::dropIfExists('notifications');
     }
 }
