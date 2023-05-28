@@ -5,7 +5,7 @@
         <div class="bg-slate-400">
             <p class="p-3">Đơn hàng được thanh toán vào <b>{{$order->created_at}}</b> và sẽ được thanh toán cho người
                 bán vào
-                <b>{{$order->paydate}}</b>
+            <b>{{$order->paydate}}</b>
             </p>
             <p class="p-3">Để tránh rủi ro hệ thống, vào thời điểm thanh toán cho người bán đơn hàng cũng sẽ xoá khỏi hệ
                 thống. Bạn có thể kiểm tra lại email để xem chi tiết đơn hàng sau khi hệ thống thực hiện xoá giao dịch.
@@ -13,7 +13,7 @@
         </div>
         <div class="flex items-center">
             @if(!$success)
-            <p>404</p>
+            <!-- <p>404</p> -->
             <p>Đơn hàng đã bị xoá khỏi hệ thống!</p>
             @else
             <div class="relative pt-3 mx-auto overflow-x-auto">
@@ -79,6 +79,8 @@
         </div>
     </div>
 </div>
+
+@if ($success)
 @push('scripts')
 <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 <script>
@@ -93,4 +95,5 @@
     }
 </script>
 @endpush
+@endif
 @include('layouts.footer')

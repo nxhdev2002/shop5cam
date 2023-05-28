@@ -70,10 +70,9 @@ class CartController extends Controller
             return redirect()->back()->withErrors('message', 'Bạn không có đủ số dư để thực hiện giao dịch');
         }
 
-
-        foreach ($carts as $cart) {
-            DB::beginTransaction();
-            try {
+        DB::beginTransaction();
+        try {
+            foreach ($carts as $cart) {
                 $current_time = Carbon::now();
                 $order = new Order();
                 $order->paydate = $current_time->addDays(7);
@@ -88,6 +87,10 @@ class CartController extends Controller
 
 
                 $product = Product::find($cart->product->id);
+
+                if ($cart->quantity > $product->amount) {
+                    throw new Exception("Không đủ mặt hàng có sẵn trong kho.");
+                }
                 $product->amount -= $cart->quantity;
                 $product->save();
 
@@ -115,15 +118,15 @@ class CartController extends Controller
                 $trans->save();
 
                 $cart->delete();
-                DB::commit();
-            } catch (\Exception $e) {
-                var_dump($e);
-                DB::rolback();
-            }
 
-            $mail = new OrderMail($order, $request['email']);
-            Mail::send($mail);
+                $mail = new OrderMail($order, $request['email']);
+                Mail::send($mail);
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('user.cart.index')->withErrors($e->getMessage());
+            DB::rolback();
         }
+        DB::commit();
         return redirect()->route('user.cart.index')->with('success', 'Thanh toán thành công');
     }
 
