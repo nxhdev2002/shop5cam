@@ -1,9 +1,18 @@
 <a href="/products/{{$product->id}}">
     <div class="p-4 border border-gray-300 rounded-md shadow-md">
         <div class="relative">
-            <img src="{{$product->picture_url}}" alt="{{ $product->name }}"
-                onload="this.classList.remove('hidden'); $('#product-{{$product->id}}').remove()"
-                class="hidden object-cover w-full h-48 mb-4 product-img">
+            <div class="relative hidden">
+                <img src="{{$product->picture_url}}" alt="{{ $product->name }}"
+                    onload="this.parentElement.classList.remove('hidden'); $('#product-{{$product->id}}').remove()"
+                    class="object-cover w-full h-48 mb-4 product-img">
+                <div class="absolute top-0 right-0">
+                    <span
+                        class="inline-block px-2 py-1 mr-1 text-xs font-semibold uppercase rounded text-amber-600 bg-amber-200 last:mr-0">
+                        {{$product->amount > 0 ? $product->amount : "Hết hàng"}}
+                    </span>
+                </div>
+            </div>
+
             <div id="product-{{$product->id}}" class="absolute inset-0 flex items-center justify-center bg-gray-200">
                 <svg class="w-6 h-6 text-gray-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24">

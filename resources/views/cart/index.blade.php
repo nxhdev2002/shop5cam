@@ -50,22 +50,26 @@
                         alt="{{$cart->product->name}}">
                 </div>
                 <div class="flex-grow flex-shrink-1 flex-basis-0">
-                    <h3 class="text-lg font-medium text-gray-900">{{$cart->product->name}}</h3>
-                    <p class="text-gray-600">{{number_format($cart->product->price)}} VNĐ</p>
-                    <div>Tình trạng:
-                        @if ($cart->product->amount > 0)
-                        <span class="text-green-600">Còn hàng</span>
-                        @else
-                        <span class="text-red-600">Hết hàng</span>
-                        @endif
-                    </div>
+                    <a href="{{route('products.show', $cart->product->id)}}">
+                        <h3 class="text-lg font-medium text-gray-900">{{$cart->product->name}}</h3>
+
+                        <p class="text-gray-600">{{number_format($cart->product->price)}} VNĐ</p>
+                        <div>Tình trạng:
+                            @if ($cart->product->amount > 0)
+                            <span class="text-green-600">Còn hàng</span>
+                            @else
+                            <span class="text-red-600">Hết hàng</span>
+                            @endif
+                        </div>
+                    </a>
                 </div>
                 <div class="flex items-center flex-grow-0 flex-shrink-0">
                     <p class="mx-4 text-gray-600">{{number_format($cart->quantity * $cart->product->price)}} VNĐ</p>
-                    <button
+                    <button onclick="minusQuantity('{{$cart->product->id}}')"
                         class="px-4 py-1 font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:bg-gray-300">-</button>
-                    <span class="mx-2 font-medium text-gray-700">{{$cart->quantity}}</span>
-                    <button
+                    <span class="mx-2 font-medium text-gray-700"
+                        id="quantity_product_{{$cart->product->id}}">{{$cart->quantity}}</span>
+                    <button onclick="addQuantity('{{$cart->product->id}}')"
                         class="px-4 py-1 font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:bg-gray-300">+</button>
 
                     <button onclick="remove(`{{$cart->product->id}}`)"
@@ -160,6 +164,20 @@
         await new Promise(r => setTimeout(r, 300));
         $('#product-' + id).addClass('hidden')
     }
+
+    function addQuantity(product_id) {
+        let quantityDom = $("#quantity_product_" + product_id)
+        let quantity = parseInt(quantityDom.text())
+        quantityDom.text(quantity + 1)
+    }
+
+    function minusQuantity(product_id) {
+        let quantityDom = $("#quantity_product_" + product_id)
+        let quantity = parseInt(quantityDom.text())
+        if (quantity - 1 < 1) return
+        quantityDom.text(quantity - 1)
+    }
+
 </script>
 @endpush
 @include('layouts.footer')

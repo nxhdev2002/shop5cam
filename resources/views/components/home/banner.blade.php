@@ -67,7 +67,7 @@
 
                 </div>
 
-                <div class="flex flex-col basis-full md:basis-1/4">
+                <div class="flex flex-col basis-full md:basis-1/4 h-72">
                     @guest
                     <div class="user-login flex flex-col mt-3 mx-3 bg-[#E3F0FF] rounded-md">
                         <div class="flex flex-row items-center m-3 info">
@@ -86,11 +86,18 @@
                         <a href="/login" class="p-1 mx-2 mb-2 text-center text-blue-400 bg-white rounded-md">Login</a>
                     </div>
                     @endguest
-                    <div class="bg-[#F38332] mt-3 mx-3 p-5 rounded-md text-white">
-                        Get US $10 off with a new supplier
-                    </div>
-                    <div class="bg-[#55BDC3] mt-3 mx-3 p-5 rounded-md text-white">
-                        Send quotes with supplier preferences
+                    <div class="mx-3 mt-3">
+                        @foreach ($latest_orders as $order)
+                        <div class="p-2 border-b-2">
+                            <p><span class="italic font-bold text-red-500">{{$order->customer->name}}</span> đã mua
+                                <span class="font-bold text-red-300">{{$order->quantity}}</span>
+                                <span class="font-bold text-blue-400">
+                                    <a
+                                        href="{{route('products.show', $order->product->id)}}">{{$order->product->name}}</a>
+                                </span>
+                            </p>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
 

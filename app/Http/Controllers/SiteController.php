@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,10 @@ class SiteController extends Controller
     public function index()
     {
         $title = "Trang chủ";
+        $latest_orders = Order::orderBy('created_at')
+            ->take(5)
+            ->get();
+
         $high_products = DB::table('products')
             ->where('amount', '>', 0)
             ->where('status', '1')
@@ -42,7 +47,8 @@ class SiteController extends Controller
             'categories',
             'products',
             'ads_products',
-            'high_products'
+            'high_products',
+            'latest_orders'
         ));
         //list pro theo tên danh mục  
     }

@@ -20,4 +20,8 @@ class Order extends Model
     {
         return $this->hasMany(feedback::class, 'transaction_id', 'id');
     }
+    public static function getExpiredOrders()
+    {
+        return Order::where('paydate', '<', now())->get();
+    }
 }
