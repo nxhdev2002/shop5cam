@@ -8,12 +8,33 @@
     <title>{{$title ?? ''}} - {{env("SITE_NAME")}}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
 </head>
 
-<body class="bg-slate-100 dark:bg-slate-800">
+<body class="bg-slate-100 dark:bg-slate-700">
     <div class="header-2">
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
@@ -93,6 +114,11 @@
                                                 dư</b>: {{number_format( auth()->user()->balance )}} VNĐ</a>
                                     </li>
                                     <li>
+                                        <a href="{{route('user.order.index')}}"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Đơn
+                                            hàng</a>
+                                    </li>
+                                    <li>
                                         <a href="{{route('user.trans')}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Lịch
                                             sử giao dịch</a>
@@ -102,7 +128,7 @@
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cài
                                             đặt</a>
                                     </li>
-                                    <li @if (auth()->user()->rights < 3) <a href="#"
+                                    <li> @if (auth()->user()->rights < 3) <a href="{{route('user.upgrade')}}"
                                             class="block px-4 py-2 font-semibold text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             Trở thành người bán</a>
                                             @else
@@ -110,6 +136,25 @@
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Quầy
                                                 bán</a>
                                             @endif
+                                    </li>
+                                    <li>
+                                        <span
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chức
+                                            vụ:
+                                            @switch(auth()->user()->rights)
+                                            @case(1)
+                                            <span class="font-semibold text-black">Member</span>
+                                            @break
+                                            @case(3)
+                                            <span class="font-semibold text-green-500">Seller</span>
+                                            @break
+                                            @case(5)
+                                            <span class="font-semibold text-blue-500">Staff</span>
+                                            @default
+                                            <span class="font-semibold text-red-500">Administrator</span>
+                                            @endswitch
+                                        </span>
+                                    </li>
                                 </ul>
                                 <div class="py-1">
                                     <form action="/logout" method="POST">
@@ -187,7 +232,7 @@
                 },
                 type: 'DELETE',
                 success: function (res) {
-                    console.log(res)
+                    toastr.success(res.message)
                     loadCart()
                 }
             })

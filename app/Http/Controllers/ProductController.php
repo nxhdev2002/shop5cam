@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\feedback;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -12,11 +13,19 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    public $ads_rate = 0.4;
+    public $view_rate = 0.4;
+    public $comment_rate = 0.3;
+    public $share_rate = 0.2;
+    public $date_rate = 0.1;
     public function index()
     {
         $data = array();
         $data['title'] = "Danh sách sản phẩm";
-        $data['products'] = DB::table('products')->paginate(12);
+        $data['products'] = DB::table('products')
+            ->orderBy('views', 'DESC')
+            ->paginate(12);
+        $data['categories'] = Category::all();
         return view('product.index', $data);
     }
 
@@ -27,8 +36,27 @@ class ProductController extends Controller
         if (!$data['product']) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
+
+        $feedbacks = feedback::where('product_id', $data['product']->id)->where('rate', 5)->get();
+        if (!$feedbacks) {
+            $feedbacks = [];
+        }
+        $data['product']->views += 1;
+        $data['product']->rank_point +=
+            ($this->view_rate * $data['product']->views) +
+            ($this->comment_rate * count($feedbacks)) +
+            ($this->share_rate * 1) +
+            ($this->date_rate *
+                (Carbon::now()->diffInRealMinutes(
+                    Carbon::parse($data['product']->created_at)
+                ))
+            );
+
+        $data['product']->save();
+
         $data['category'] = Category::find($data['product']->category_id);
         $data['seller'] = User::find($data['product']->seller_id);
+        $data['title'] = $data['product']->name;
         return view('product.info', $data);
     }
 
@@ -98,8 +126,29 @@ class ProductController extends Controller
 
     public function filter(Request $request)
     {
-        $filter = $request->input('filter');
-        $products = Product::where('attribute', $filter)->get();
+        $price = $request->input('price');
+        $amount = $request->input('amount');
+        $created_at = $request->input('created_at');
+
+        // Tạo query builder cho bảng 'products'
+        $query = Product::query();
+
+        // Áp dụng các điều kiện lọc nếu có
+        if ($price) {
+            $query->where('price', '>', $price);
+        }
+
+        if ($amount) {
+            $query->where('amount', '>', $amount);
+        }
+
+        if ($created_at) {
+            $query->whereDate('created_at', $created_at);
+        }
+
+        // Lấy kết quả lọc
+        $products = $query->get();
+
         return view('products.index', ['products' => $products]);
     }
 }

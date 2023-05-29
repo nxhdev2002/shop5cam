@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
@@ -19,5 +19,9 @@ class Order extends Model
     function feedback()
     {
         return $this->hasMany(feedback::class, 'transaction_id', 'id');
+    }
+    public static function getExpiredOrders()
+    {
+        return Order::where('paydate', '<', now())->get();
     }
 }

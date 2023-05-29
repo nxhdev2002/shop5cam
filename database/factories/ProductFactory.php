@@ -21,6 +21,7 @@ class ProductFactory extends Factory
         $category_id = Category::query()->inRandomOrder()->first()->id;
         $guarantee = Carbon::now()->addDays(random_int(1, 365));
         $faker = $this->faker;
+        $amount = $faker->numberBetween(1, 30);
         return [
             'name' => $faker->word(),
             'description' => $faker->sentence(),
@@ -29,8 +30,10 @@ class ProductFactory extends Factory
             'guarantee' => $guarantee,
             'picture_url' => $faker->imageUrl(),
             'price' => $faker->randomFloat(2, 1, 1000),
+            'rank_point' => $faker->numberBetween(0, 1000),
+            'is_ads' => $faker->numberBetween(0, 1),
             'status' => $faker->numberBetween(0, 1),
-            'amount' => $faker->numberBetween(1, 1000)
+            'amount' => $amount,
         ];
     }
 }

@@ -43,30 +43,36 @@
             class="flex flex-col py-10 overflow-auto border-r border-gray-200 basis-2/3 max-h-96 md:h-auto md:max-h-max ">
             <h3 class="self-center p-3 text-xl font-semibold">Giỏ hàng</h3>
             @foreach($carts as $cart)
-            <div class="flex items-center justify-between p-4 m-4 border-b border-gray-300">
+            <div class="flex items-center justify-between p-4 m-4 transition-opacity duration-300 border-b border-gray-300 opacity-100"
+                id="product-{{$cart->product->id}}">
                 <div class="flex items-center flex-grow-0 flex-shrink-0">
-                    <img class="w-16 h-16 mr-4 rounded" src="https://via.placeholder.com/150" alt="Product thumbnail">
+                    <img class="w-16 h-16 mr-4 rounded" src="{{$cart->product->picture_url}}"
+                        alt="{{$cart->product->name}}">
                 </div>
                 <div class="flex-grow flex-shrink-1 flex-basis-0">
-                    <h3 class="text-lg font-medium text-gray-900">{{$cart->product->name}}</h3>
-                    <p class="text-gray-600">{{number_format($cart->product->price)}} VNĐ</p>
-                    <div>Tình trạng:
-                        @if ($cart->product->amount > 0)
-                        <span class="text-green-600">Còn hàng</span>
-                        @else
-                        <span class="text-red-600">Hết hàng</span>
-                        @endif
-                    </div>
+                    <a href="{{route('products.show', $cart->product->id)}}">
+                        <h3 class="text-lg font-medium text-gray-900">{{$cart->product->name}}</h3>
+
+                        <p class="text-gray-600">{{number_format($cart->product->price)}} VNĐ</p>
+                        <div>Tình trạng:
+                            @if ($cart->product->amount > 0)
+                            <span class="text-green-600">Còn hàng</span>
+                            @else
+                            <span class="text-red-600">Hết hàng</span>
+                            @endif
+                        </div>
+                    </a>
                 </div>
                 <div class="flex items-center flex-grow-0 flex-shrink-0">
                     <p class="mx-4 text-gray-600">{{number_format($cart->quantity * $cart->product->price)}} VNĐ</p>
-                    <button
+                    <button onclick="minusQuantity('{{$cart->product->id}}')"
                         class="px-4 py-1 font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:bg-gray-300">-</button>
-                    <span class="mx-2 font-medium text-gray-700">{{$cart->quantity}}</span>
-                    <button
+                    <span class="mx-2 font-medium text-gray-700"
+                        id="quantity_product_{{$cart->product->id}}">{{$cart->quantity}}</span>
+                    <button onclick="addQuantity('{{$cart->product->id}}')"
                         class="px-4 py-1 font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:bg-gray-300">+</button>
 
-                    <button
+                    <button onclick="remove(`{{$cart->product->id}}`)"
                         class="px-4 py-1 ml-4 font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:bg-red-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                             <path fill-rule="evenodd"
@@ -110,15 +116,27 @@
             </div>
             <hr>
             <div class="flex justify-between px-4">
+                <div>Giảm giá</div>
+                <p class="text-sm font-semibold">0 VNĐ</p>
+            </div>
+            <div class="flex justify-between px-4">
                 <div>Số dư hiện tại</div>
                 <p class="text-sm font-semibold">{{ number_format( auth()->user()->balance ) }} VNĐ</p>
             </div>
             <div class="flex justify-between px-4">
-                <div>Tổng giá trị phải thanh toán</div>
-                <p class="text-sm font-semibold">{{ number_format($total - auth()->user()->balance) }} VNĐ</p>
-            </div>
-            <button class="flex items-center justify-center p-3 m-4 rounded-lg {{ auth()->user()->balance < $total ? "
-                cursor-not-allowed bg-red-200" : "bg-orange-400" }}">
+                @if (auth()->user()->balance < $total) <div>Tổng tiền phải nạp thêm</div>
+            <p class="text-sm font-semibold">{{ number_format($total - auth()->user()->balance) }} VNĐ</p>
+            @else
+            <div>Tổng</div>
+            <p class="text-sm font-semibold">{{number_format($total)}} VNĐ</p>
+            @endif
+        </div>
+        @if (count($carts) > 0)
+        <form action="{{route('user.cart.checkout')}}" method="POST">
+            @csrf
+            <button
+                class="flex mx-auto items-center justify-center p-3 m-4 rounded-lg {{ auth()->user()->balance < $total ? "
+                cursor-not-allowed bg-red-200" : "bg-orange-400" }}" type="submit">
                 <svg xmlns=" http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -126,12 +144,40 @@
                 </svg>
                 <p class="ml-3">Thanh toán</p>
             </button>
-            @if (auth()->user()->balance < $total) <p class="text-sm text-center">Bạn không có đủ tiền để thanh toán!.
-                Vui lòng nạp
-                thêm tiền vào tài khoản</p>
-                @endif
-        </div>
+        </form>
+
+        @endif
+        @if (auth()->user()->balance < $total) <p class="text-sm text-center">Bạn không có đủ tiền để thanh toán!.
+            Vui lòng nạp
+            thêm tiền vào tài khoản</p>
+            @endif
     </div>
 </div>
+</div>
 
+
+@push("scripts")
+<script>
+    async function remove(id) {
+        deleteCart(id)
+        $('#product-' + id).removeClass('opacity-100').addClass('opacity-0')
+        await new Promise(r => setTimeout(r, 300));
+        $('#product-' + id).addClass('hidden')
+    }
+
+    function addQuantity(product_id) {
+        let quantityDom = $("#quantity_product_" + product_id)
+        let quantity = parseInt(quantityDom.text())
+        quantityDom.text(quantity + 1)
+    }
+
+    function minusQuantity(product_id) {
+        let quantityDom = $("#quantity_product_" + product_id)
+        let quantity = parseInt(quantityDom.text())
+        if (quantity - 1 < 1) return
+        quantityDom.text(quantity - 1)
+    }
+
+</script>
+@endpush
 @include('layouts.footer')
