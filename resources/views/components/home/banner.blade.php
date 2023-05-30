@@ -87,6 +87,7 @@
                     </div>
                     @endguest
                     <div class="mx-3 mt-3">
+                        @if (count($latest_orders) > 0)
                         @foreach ($latest_orders as $order)
                         <div class="p-2 border-b-2">
                             <p><span class="italic font-bold text-red-500">{{$order->customer->name}}</span> đã mua
@@ -98,6 +99,12 @@
                             </p>
                         </div>
                         @endforeach
+                        @else
+                        <div class="p-2 border-b-2">
+                            <p>Chưa có giao dịch nào được ghi nhận.
+                            </p>
+                        </div>
+                        @endif
                     </div>
                 </div>
 
