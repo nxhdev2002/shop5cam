@@ -31,9 +31,10 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
-        if ($user->is_banned) {
-            return redirect()->back()->withErrors('Tài khoản của bạn đã bị khoá');
-        }
+        if ($user)
+            if ($user->is_banned) {
+                return redirect()->back()->withErrors('Tài khoản của bạn đã bị khoá');
+            }
 
         $request->authenticate();
 

@@ -87,7 +87,7 @@
                     </div>
                     @endguest
                     @auth
-                    <div class="mx-3 mt-3 overflow-scroll h-96">
+                    <div class="mx-3 mt-3 overflow-auto h-96">
                         @endauth
                         @guest
                         <div class="mx-3 mt-3 overflow-scroll h-52">
