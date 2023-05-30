@@ -24,19 +24,19 @@ class UserController extends Controller
         $user->payment = $request->input('payment');
         $user->balance = $request->input('balance');
         $user->rights = $request->input('rights');
-        $user->update();
-        return redirect()->route('admin.frontend.user')->with('success', 'Thông tin người dùng được cập nhật thành công');   
+        $user->save();
+        return redirect()->back()->with('success', 'Thông tin người dùng được cập nhật thành công');   
     }
     public function destroyUser($id){
         $user = User::find($id);   
         $user->delete();
-        return redirect()->route('admin.frontend.user')->with('success', 'Thông tin người dùng đã bị xóa');   
+        // return redirect()->back()->with('success', 'Thông tin người dùng đã bị xóa');   
     }
     public function searchUser(Request $request){
         $search = $request->input('search');
         $user = User::where('name', 'like', '%' . $search . '%')
             ->orWhere('rights', 'like', '%' . $search . '%')
             ->get();
-        return view('adminfrontend.user', ['user' => $user]);   
+        return view('admin.frontend.user', ['user' => $user]);   
     }
 }

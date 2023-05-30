@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CategoriesController extends Controller 
 {
     public function Categories(){
-        $category = Category::all();
+        $category = Category::paginate(5);
         return view( 'admin.frontend.categories',compact('category'));
     }
     public function createCategories(){
@@ -19,10 +19,9 @@ class CategoriesController extends Controller
     public function storeCategories(Request $request){
         $category = new Category;
         $category->name = $request->input('name');
-        $category->status = $request->input('status');
-        $category->created_at = $request->input('created_at');
+        $category->status = 1;
         $category->save();
-        return redirect()->route('admin.frontend.categories')->with('success', 'Danh mục được thêm thành công');    
+        return redirect()->back()->with('success', []);    
     }
     public function editCategories($id){
         $category = Category::find($id);
@@ -34,12 +33,12 @@ class CategoriesController extends Controller
         $category->name = $request->input('name');
         $category->status = $request->input('status');
         // $category->created_at = $request->input('created_at');
-        $category->update();
-        return redirect()->route('admin.frontend.categories')->with('success', 'Danh mục được cập nhật thành công');   
+        $category->save();
+        // return redirect()->back()->with('success', 'Danh mục được cập nhật thành công');   
     }   
     public function destroyCategories($id){
         $category = Category::find($id);
         $category->delete();
-        return redirect()->route('admin.frontend.categories')->with('success', 'Danh mục đã bị xóa');
+        return redirect()->back()->with('success', 'Danh mục đã bị xóa');
     }
 }

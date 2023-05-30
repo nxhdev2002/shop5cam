@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class DepositController extends Controller 
 {
     public function Deposit(){
-        $deposit = Deposit::all();
+        $deposit = Deposit::where('status', 0)->paginate(5);
         return view( 'admin.frontend.deposit',compact('deposit'));    
     }
     public function editDeposit($id){
@@ -18,18 +18,18 @@ class DepositController extends Controller
     }
     public function updateAcceptDeposit($id){
         $deposit = Deposit::find($id);
-        $deposit->status = 1; 
+        $deposit->status = 1;
         $deposit->update(); 
         // $user = User::find($id);
         $user = $deposit->user;
         $user->balance += $deposit->amount;
-        $user->update();
-        return redirect()->route('admin.frontend.deposit')->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
+        $user->save();
+        return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
     }
     public function updateDenyDeposit(Request $request, $id){
         $deposit = Deposit::find($id);
         $deposit->status = 2; 
-        $deposit->update(); 
-        return redirect()->route('admin.frotnend.deposit')->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');   
+        $deposit->save(); 
+        return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');   
     }
 }
