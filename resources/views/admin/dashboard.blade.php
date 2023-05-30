@@ -2,6 +2,13 @@
     @include('admin.layouts.sidebar')
     <div class="flex flex-col flex-1 w-full">
         @include('admin.layouts.header')
+        <div>
+            <?xml version="1.0" ?><svg fill="none" height="48" viewBox="0 0 48 48" width="48"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 24C4 35.0457 12.9543 44 24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+            </svg>
+        </div>
         <main class="h-full overflow-y-auto">
             <div class="container px-6 mx-auto grid">
                 <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">

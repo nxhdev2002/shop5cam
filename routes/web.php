@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controller\Admin\WebConfigController;
 use App\Http\Controllers\Admin\AdminSiteController;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DepositController;
+use App\Http\Controllers\Admin\a;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +94,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'checkLogin'],function () {
     Route::get('/user/{id}/edit', [UserController::class, 'editUser']);
     Route::put('/user/{id}/update', [UserController::class, 'updateUser']);
     Route::get('/search', [UserController::class, 'searchUser']);
-
+    Route::get('/web-config', [a::class, 'webConfig']);
+    Route::get('/web-config/{id}/update', [a::class, 'updateWebConfig']);
 });
 require __DIR__ . '/auth.php';
