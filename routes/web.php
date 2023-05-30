@@ -72,7 +72,7 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
     });
 
-    Route::prefix('order')->name('order.')->group(function () {
+    Route::prefix('orders')->name('order.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name("index");
         Route::get('/details/{id}', [OrderController::class, 'details'])->name("details");
         Route::get('/report/{id}', [OrderController::class, 'report'])->name("report");
@@ -81,6 +81,9 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     });
 
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
+
+    Route::post('/giftcode/apply', [UserController::class, 'applyGiftCode'])->name('applyGiftCode');
+
     Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
     Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });

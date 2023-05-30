@@ -38,7 +38,7 @@
     <div class="header-2">
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-                <a href="#" class="flex items-center">
+                <a href="{{route('site.index')}}" class="flex items-center">
                     <span
                         class="self-center text-2xl font-medium text-orange-500 whitespace-nowrap dark:text-white">{{env("SITE_NAME")}}</span>
                 </a>

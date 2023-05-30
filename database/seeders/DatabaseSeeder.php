@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
                 'product_id' => $value->id
             ]);
         }
+        \App\Models\GiftCode::factory(10)->create();
     }
 }

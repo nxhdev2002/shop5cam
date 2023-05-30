@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GiftCode;
 use App\Models\Transaction;
 use App\Models\UpgradeRequest;
 use App\Models\WebConfig;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -61,5 +63,52 @@ class UserController extends Controller
         $trans->save();
 
         return redirect()->back()->with('success', 'Gửi yêu cầu thành công. Bạn hãy kiên nhẫn đợi hệ thống xét duyệt nhé.');
+    }
+
+    public function applyGiftCode(Request $request)
+    {
+        $request->validate([
+            'giftcode' => 'bail|required|min:0'
+        ]);
+
+        $giftcode = GiftCode::where('code', $request['giftcode'])->first();
+
+        if (!$giftcode) {
+            return redirect()->back()->withErrors(['message' => 'Giftcode không tồn tại.']);
+        }
+
+        if ($giftcode->end_date < Carbon::now()) {
+            return redirect()->back()->withErrors(['message' => 'Giftcode đã hết hạn sử dụng.']);
+        }
+
+        if ($giftcode->amount <= 0) {
+            return redirect()->back()->withErrors(['message' => 'Giftcode đã hết số lượng sử dụng.']);
+        }
+
+        $used_user_id = json_decode($giftcode->used_user_id);
+
+        if (in_array(auth()->user()->id, $used_user_id)) {
+            return redirect()->back()->withErrors(['message' => 'Giftcode đã được sử dụng rồi.']);
+        }
+
+        $user = User::find(auth()->user()->id);
+        $user->balance += $giftcode->balance;
+        $user->save();
+        array_push($used_user_id, $user->id);
+
+        $trans = new Transaction();
+        $trans->user_id = $user->id;
+        $trans->amount = $giftcode->balance;
+        $trans->balance = ($user->balance);
+        $trans->note = "Nhận tiền từ giftcode: " . $giftcode->code;
+        $trans->type = '+';
+        $trans->status = 1;
+        $trans->save();
+
+        $giftcode->amount -= 1;
+        $giftcode->used_user_id = json_encode($used_user_id);
+        $giftcode->save();
+
+        return redirect()->back()->with('success', 'Thêm thành công ' . number_format($giftcode->balance) . ' VNĐ từ Gifcode');
     }
 }

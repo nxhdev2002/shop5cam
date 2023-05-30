@@ -119,8 +119,11 @@ class CartController extends Controller
 
                 $cart->delete();
 
-                $mail = new OrderMail($order, $request['email']);
-                Mail::send($mail);
+                try {
+                    $mail = new OrderMail($order, $request['email']);
+                    Mail::send($mail);
+                } catch (Exception $ex) {
+                }
             }
         } catch (\Exception $e) {
             return redirect()->route('user.cart.index')->withErrors($e->getMessage());
@@ -154,7 +157,7 @@ class CartController extends Controller
     {
         $request->validate([
             'product_id' => 'bail|required|integer|gt:0',
-            'quantity' => 'required|integer|gt:0'
+            'quantity' => 'required|integer'
         ]);
 
         $product_id = $request['product_id'];
@@ -177,6 +180,9 @@ class CartController extends Controller
 
         $cart = Cart::where('user_id', auth()->user()->id)->where('product_id', $product_id)->first();
         if ($cart) {
+            if ($cart->quantity + $quantity < 0) {
+                return redirect()->back()->withErrors('message', 'Số lượng không thể âm.');
+            }
             $cart->quantity += $quantity;
             $cart->save();
             $data['append'] = 1;

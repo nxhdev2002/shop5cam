@@ -22,7 +22,7 @@ class SiteController extends Controller
             ->where('amount', '>', 0)
             ->where('status', '1')
             ->orderBy('views', 'DESC')
-            ->take(3)
+            ->take(5)
             ->get();
 
         $ads_products = Product::withCount('orders')
@@ -31,7 +31,7 @@ class SiteController extends Controller
             ->orderBy('rank_point', 'DESC')
             ->where('amount', '>', 0)
             ->where('status', '1')
-            ->take(5)
+            ->take(4)
             ->get();
 
         $products = Product::withCount('orders')
