@@ -55,7 +55,7 @@ Route::name('categories.')->prefix('categories')->group(function () {
     Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
 });
 
-Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
+Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->group(function () {
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::get('/load', [CartController::class, 'loadCart'])->name('load');
@@ -89,7 +89,7 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
 });
 
 // route admin
-Route::name('admin.')->prefix('admin')->middleware('auth')->middleware('checkLogin')->group(function () {
+Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
