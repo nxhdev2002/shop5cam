@@ -13,15 +13,18 @@ class OrderMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $order;
+    public $email;
     public $productDetails;
+    public $title;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order, $email)
     {
         $this->order = $order;
+        $this->email = $email;
     }
 
     /**
@@ -31,7 +34,7 @@ class OrderMail extends Mailable
      */
     public function build()
     {
-        $title = "Chi tiết giao dịch #" . $this->order->id;
+        $this->title = "Chi tiết giao dịch #" . $this->order->id;
         $order = Order::find($this->order->id);
 
         $productDetails = array();
@@ -42,7 +45,7 @@ class OrderMail extends Mailable
         }
         $this->productDetails = $productDetails;
         return $this
-            ->to(auth()->user()->email)
+            ->to($this->email)
             ->subject("Chi tiết đơn hàng #" . $this->order->id)
             ->view('emails.order')
             ->with(['productDetails' => $this->productDetails]);

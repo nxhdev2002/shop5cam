@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controller\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,16 +11,16 @@ class WebConfigController extends Controller
     public function index()
     {
         $webConfig = WebConfig::first(); 
-        return view('web-config.index', compact('webConfig'));
+        return view('admin.frontend.web-config', compact('webConfig'));
     }
 
-    public function updateWebConfig(Request $request, $id){
-        $webcf = WebConfig::find($id);
-        $webcf->update_fee = $request->input('update_fee');
-        $webcf->fixed_fee = $request->input('fixed_fee');
-        $webcf->percent_fee = $request->input('percent_fee');
-        $webcf->notification_time = $request->input('notification_time');
-        $webcf->save();
-        return redirect()->back()->with('success', 'Thông tin người dùng được cập nhật thành công');   
+    public function updateWebConfig(Request $request){
+        $webConfig = WebConfig::first();
+        $webConfig->upgrade_fee = $request->input('upgrade_fee');
+        $webConfig->order_fixed_fee = $request->input('order_fixed_fee');
+        $webConfig->order_percent_fee = $request->input('order_percent_fee');
+        $webConfig->notification_display_time = $request->input('notification_display_time');
+        $webConfig->save();
+        return redirect()->back()->with('success', 'Cập nhật web config thành công');
     }
 }

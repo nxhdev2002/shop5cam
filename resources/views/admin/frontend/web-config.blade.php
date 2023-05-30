@@ -17,7 +17,27 @@
         }, 300);
     }
     function updateWebConfig() {
-
+        let id = $('#cfID').val()
+        let upgrade_fee = $('#upgrade_fee').val()
+        let fixed_fee = $('#fixed_fee').val()
+        let percent_fee = $('#percent_fee').val()
+        let notification_time = $('#notification_time').val()
+        $.ajax({
+            url: "/admin/web-config/update",
+            type: "PUT",
+            data: {
+                upgrade_fee: upgrade_fee,
+                fixed_fee: fixed_fee,
+                percent_fee: percent_fee,
+                notification_time: notification_time,
+                _token: '{{csrf_token()}}'
+            },
+            success: function (data) {
+                console.log(data);
+                // Thực hiện các tác vụ khác sau khi chấp nhận tiền gửi thành công
+            }
+        });
+        window.location.reload();
     }
 </script>
 @endpush
@@ -57,8 +77,7 @@
             <thead>
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th class="px-4 py-3">Id</th>
-                    <th class="px-4 py-3">Update_fee</th>
+                    <th class="px-4 py-3">Upgrade_fee</th>
                     <th class="px-4 py-3">Order_fixed_fee</th>
                     <th class="px-4 py-3">Order_percent_fee</th>
                     <th class="px-4 py-3">Notification_display_time</th>
@@ -68,25 +87,21 @@
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                 <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3">
-                        ID
+                        {{number_format($webConfig->upgrade_fee)}}
                     </td>
                     <td class="px-4 py-3">
-                        ID
+                        {{number_format($webConfig->order_fixed_fee)}}
                     </td>
                     <td class="px-4 py-3">
-                        ID
+                        {{$webConfig->order_percent_fee}}
                     </td>
                     <td class="px-4 py-3">
-                        ID
-                    </td>
-                    <td class="px-4 py-3">
-                        ID
+                        {{$webConfig->notification_display_time}}
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
                             <div class="text-blue-500 hover:text-blue-700">
                                 <button id="webConfigModalButton" data-modal-toggle="webConfigModal"
-                                    onclick="updateWebConfig()"
                                     class="block text-black bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                     type="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -121,36 +136,41 @@
                                         <!-- Modal body -->
                                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                             <div>
-                                                <label for="name"
+                                                <label for="upgrade_fee"
                                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upgrade
                                                     Fee:</label>
-                                                <input type="text" name="update_fee" id="update_fee" value=""
+                                                <input type="text" name="upgrade_fee" id="upgrade_fee"
+                                                    value="{{number_format($webConfig->upgrade_fee)}}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                     placeholder="">
+                                                <input type="hidden" id="cfID" name="id" value="{{$webConfig->id}}">
                                             </div>
                                             <div>
-                                                <label for="status"
+                                                <label for="fixed_fee"
                                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Order
                                                     Fixed Fee:</label>
-                                                <input type="text" name="fixed_fee" id="fixed_fee" value=""
+                                                <input type="text" name="fixed_fee" id="fixed_fee"
+                                                    value="{{number_format($webConfig->order_fixed_fee)}}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                     placeholder="">
                                             </div>
                                         </div>
                                         <div class="grid gap-4 mb-4 sm:grid-cols-2">
                                             <div>
-                                                <label for="name"
+                                                <label for="percent_fee"
                                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Order
                                                     Percent Fee:</label>
-                                                <input type="text" name="percent_fee" id="percent_fee" value=""
+                                                <input type="text" name="percent_fee" id="percent_fee"
+                                                    value="{{$webConfig->order_percent_fee}}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                     placeholder="">
                                             </div>
                                             <div>
-                                                <label for="noti_time"
+                                                <label for="notification_time"
                                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Notification
                                                     Display Time:</label>
                                                 <input type="text" name="notification_time" id="notification_time"
+                                                    value="{{$webConfig->notification_display_time}}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                     placeholder="">
                                             </div>
@@ -164,11 +184,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
 </div>
