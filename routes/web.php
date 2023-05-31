@@ -89,7 +89,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
 });
 
 // route admin
-Route::name('admin.')->prefix('admin')->middleware('auth')->middleware('checkLogin')->group(function () {
+
+Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
