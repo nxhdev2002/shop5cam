@@ -41,7 +41,7 @@ class SiteController extends Controller
             ->take(8)
             ->get();
 
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
         return view('index', compact(
             'title',
             'categories',

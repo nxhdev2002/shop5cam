@@ -12,4 +12,8 @@ class Deposit extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    function gateway()
+    {
+        return $this->belongsTo(Gateway::class);
+    }
 }

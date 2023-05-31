@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
-
+use App\Http\Controllers\Admin\WebConfigController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,31 +92,30 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
 });
 
 // route admin
-<<<<<<< HEAD
 
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
-=======
-Route::group(['prefix' => 'admin', 'middleware' => 'checkLogin'], function () {
->>>>>>> b325311 (user admin và setting và error 500 của Lâm)
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
+
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
-    Route::post('/categories/create', [CategoriesController::class, 'storeCategories']);
+    Route::post('/categories/create', [CategoriesController::class, 'storeCategories'])->name('storeCategory');
     Route::get('/categories/{id}/edit', [CategoriesController::class, 'editCategories']);
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
+
     Route::get('/deposit', [DepositController::class, 'Deposit']);
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
+
     Route::get('/user', [AdminUserController::class, 'User']);
-    Route::delete('/user/{id}/delete', [AdminUserController::class, 'destroyUser']);
+    Route::put('/user/{id}/ban', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
-    Route::put('/user/update/{id}', [AdminUserController::class, 'updateUser']);
+    Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
+
     Route::get('/search', [AdminUserController::class, 'searchUser']);
+    Route::get('/web-config', [WebConfigController::class, 'index']);
+    Route::put('/web-config/update', [WebConfigController::class, 'updateWebConfig'])->name('updateWebConfig');
 });
 
-// Route::get('/setting', function () {
-//     return view('test');
-// });
 require __DIR__ . '/auth.php';

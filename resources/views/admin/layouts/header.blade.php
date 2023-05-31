@@ -9,12 +9,9 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.8/dist/sweetalert2.all.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
     @stack('script')
 </head>
 
@@ -22,7 +19,7 @@
     <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
         <div class="container flex items-center justify-end h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
             <button data-collapse-toggle="navbar-dropdown" type="button"
-                class="justify-start inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                class="inline-flex items-center justify-start p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                 aria-controls="navbar-dropdown" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
@@ -33,11 +30,11 @@
                 </svg>
             </button>
             <div class="z-50 hidden w-full md:block md:w-auto" id="navbar-dropdown">
-                <ul class="flex items-center flex-shrink-0 space-x-6 justify-end">
+                <ul class="flex items-center justify-end flex-shrink-0 space-x-6">
                     <!-- Profile menu -->
                     <li class="relative">
                         <button
-                            class="relative align-middle text-gray-900 rounded-md focus:outline-none focus:shadow-outline-purple"
+                            class="relative text-gray-900 align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
                             @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"
                             aria-label="Notifications" aria-haspopup="true">
                             <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -135,29 +132,12 @@
     <script>
         Swal.fire({
             title: 'Thành công!',
-            text: "{{ Session::get('message') }}",
+            text: "{{ Session::get('success') }}",
             icon: 'success',
             confirmButtonText: 'OK'
         })
     </script>
     @endif
-    <script>
-        window.onload = function () {
-            const app = {
-                isNotificationsMenuOpen: false,
-                toggleNotificationsMenu() {
-                    this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
-                },
-                closeNotificationsMenu() {
-                    this.isNotificationsMenuOpen = false;
-                }
-            };
-
-            const root = document.documentElement;
-            root.setAttribute("x-data", JSON.stringify(app));
-            root.setAttribute("x-init", "init()");
-        };
-    </script>
 </body>
 
 </html>

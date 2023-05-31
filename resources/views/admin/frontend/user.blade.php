@@ -1,42 +1,19 @@
 @push('script')
 <script>
-    function updateUser(userId) {
-        let id = $('#user_id_' + userId).val()
-        let name = $('#name').val()
-        let email = $('#email').val()
-        let phone = $('#phone').val()
-        let payment = $('#payment').val()
-        let rights = $('#rights').find(':selected').text()
-        $.ajax({
-            url: "/admin/user/" + id + "/update",
-            type: "PUT",
-            data: {
-                name: name,
-                email: email,
-                phone: phone,
-                payment: payment,
-                rights: rights,
-                _token: '{{csrf_token()}}'
-            },
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-        window.location.reload();
-    }
-    function destroyUser(userId) {
+    function banUser(userId) {
         let id = $('#user_id_' + userId).val();
         $.ajax({
-            url: "/admin/user/" + id + "/delete",
-            type: "DELETE",
+            url: "/admin/user/" + id + "/ban",
+            type: "PUT",
             data: {
                 _token: '{{csrf_token()}}'
             },
             success: function (data) {
-                console.log(data);
+                Swal.fire(
+                    'Thành công!',
+                    data.message,
+                    'success'
+                )
             },
             error: function (error) {
                 console.log(error);
@@ -51,7 +28,7 @@
     @include('admin.layouts.sidebar')
     <div class="flex flex-col flex-1 w-full">
         @include('admin.layouts.header')
-        <table class="mx-6 w-full whitespace-no-wrap">
+        <table class="w-full mx-6 whitespace-no-wrap">
             <h2 class="mx-6 my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 User
             </h2>
@@ -61,10 +38,9 @@
                     <th class="px-4 py-3">ID</th>
                     <th class="px-4 py-3">Name</th>
                     <th class="px-4 py-3">Email</th>
-                    <th class="px-4 py-3">Phone</th>
-                    <th class="px-4 py-3">Payment</th>
                     <th class="px-4 py-3">Balance</th>
-                    <th class="px-4 py-3">Rights</th>
+                    <th class="px-4 py-3">Permission</th>
+                    <th class="px-4 py-3">Active</th>
                     <th class="px-4 py-3">Action</th>
                 </tr>
             </thead>
@@ -79,12 +55,6 @@
                     </td>
                     <td class="px-4 py-3 text-sm">
                         {{$users->email}}
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{$users->phone}}
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{$users->payment}}
                     </td>
                     <td class="px-4 py-3 text-sm">
                         {{$users->balance}}
@@ -115,10 +85,19 @@
                         </span>
                         @endif
                     </td>
+                    <td class="px-4 py-3 text-sm">
+                        @if (!$users->is_banned)
+                        <span
+                            class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Active</span>
+                        @else
+                        <span
+                            class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Banned</span>
+                        @endif
+                    </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                            <button data-modal-target="userModal{{$users->id}}"
-                                data-modal-toggle="userModal{{$users->id}}"
+                            <button data-modal-target="editModal-{{$users->id}}"
+                                data-modal-toggle="editModal-{{$users->id}}"
                                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -127,20 +106,20 @@
                                         d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                 </svg>
                             </button>
-                            <!-- edit user -->
-                            <div id="userModal{{$users->id}}" tabindex="-1" aria-hidden="true"
+                            <div id="editModal-{{$users->id}}" tabindex="-1" aria-hidden="true"
                                 class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-                                <div class="fixed inset-0 flex items-center justify-center z-50">
-                                    <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                <div class="relative w-full max-w-2xl max-h-full">
+                                    <!-- Modal content -->
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                        <!-- Modal header -->
                                         <div
-                                            class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                                Update User
+                                            class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                Edit - <i>{{$users->name}}</i>
                                             </h3>
                                             <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                data-modal-toggle="userModal">
+                                                data-modal-hide="editModal-{{$users->id}}">
                                                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
                                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd"
@@ -148,68 +127,94 @@
                                                         clip-rule="evenodd"></path>
                                                 </svg>
                                                 <span class="sr-only">Close modal</span>
-                                            </button>  
-                                        </div>
-                                        <input type="hidden" id="user_id_{{$users->id}}" name="id"
-                                            value="{{$users->id}}">
-                                        <!-- Các trường nhập liệu cho người dùng -->
-                                        <div class="grid gap-4 mb-4 sm:grid-cols-2"><label for="user_name"
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                            <input type="text" name="name" id="name" value="{{$users->name}}"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                placeholder="">
-                                        </div>
-                                        <div class="grid gap-4 mb-4 sm:grid-cols-2"><label for="email"
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                            <input type="text" name="email" id="email" value="{{$users->email}}"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                placeholder="">
-                                        </div>
-                                        <div class="grid gap-4 mb-4 sm:grid-cols-2"><label for="phone"
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
-                                            <input type="text" name="phone" id="phone" value="{{$users->phone}}"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                placeholder="">
-                                        </div>
-                                        <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                                            <div>
-                                                <label for="payment"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment</label>
-                                                <input type="text" name="payment" id="payment"
-                                                    value="{{$users->payment}}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                    placeholder="">
-                                            </div>
-                                            <div>
-                                                <label for="rights"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rights</label>
-                                                <select id="rights" name="rights"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                    <option selected="" value="">1</option>
-                                                    <option value="">3</option>
-                                                    <option value="">5</option>
-                                                    <option value="">9</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- Nút lưu và hủy -->
-                                        <div class="justify-center flex items-center space-x-4">
-                                            <button type="submit" onclick="updateUser('{{$users->id}}')"
-                                                class="text-white bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                                Update
-                                            </button>
-                                            <button type="button" onclick="destroyUser('{{$users->id}}')"
-                                                class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                                <svg class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd"
-                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                                Delete
                                             </button>
                                         </div>
+                                        <!-- Modal body -->
+                                        <form action="{{route('admin.confirmUpdateUser', $users->id)}}" method="POST">
+                                            @csrf
+                                            <div class="p-6 space-y-6">
+                                                <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                    <div>
+                                                        <label for="name"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                                        <input type="text" id="name" name="name"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            value="{{$users->name}}" required>
+                                                    </div>
+                                                    <div>
+                                                        <label for="email"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                                        <input type="text" id="balance" name="email"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            value="{{$users->email}}" required>
+                                                    </div>
+                                                    <div>
+                                                        <label for="balance"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Balance
+                                                            (VNĐ)</label>
+                                                        <input type="text" id="balance" name="balance"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            value="{{$users->balance}}" required>
+                                                    </div>
+                                                    <div>
+                                                        <label for="rights"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                                                            an option</label>
+                                                        <select id="rights" name="rights"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                            @switch($users->rights)
+                                                            @case(1)
+                                                            <option value="1" selected>Member</option>
+                                                            <option value="3">Seller</option>
+                                                            <option value="5">Staff</option>
+                                                            <option value="9">Administrator</option>
+                                                            @break
+                                                            @case(3)
+                                                            <option value="1">Member</option>
+                                                            <option value="3" selected>Seller</option>
+                                                            <option value="5">Staff</option>
+                                                            <option value="9">Administrator</option>
+                                                            @break
+                                                            @case(5)
+                                                            <option value="1">Member</option>
+                                                            <option value="3">Seller</option>
+                                                            <option value="5" selected>Staff</option>
+                                                            <option value="9">Administrator</option>
+                                                            @break
+                                                            @default
+                                                            <option value="1">Member</option>
+                                                            <option value="3">Seller</option>
+                                                            <option value="5">Staff</option>
+                                                            <option value="9" selected>Administrator</option>
+                                                            @endswitch
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label for="balance"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ban</label>
+                                                        <label
+                                                            class="relative inline-flex items-center mr-5 cursor-pointer">
+                                                            @if ($users->is_banned)
+                                                            <input type="checkbox" name="is_banned" value="1"
+                                                                class="sr-only peer" checked>
+                                                            @else
+                                                            <input type="checkbox" name="is_banned" value="0"
+                                                                class="sr-only peer">
+                                                            @endif
+                                                            <div
+                                                                class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600">
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div
+                                                    class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                    <button data-modal-hide="editModal-{{$users->id}}" type="submit"
+                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+                                                    <button data-modal-hide="editModal-{{$users->id}}" type="button"
+                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                                                </div>
                                         </form>
                                     </div>
                                 </div>
@@ -220,6 +225,6 @@
             </tbody>
             @endforeach
         </table>
-        <p class="mt-3 my-6 text-xs">{{ $user->links()}}</p>
+        <p class="my-6 mt-3 text-xs">{{ $user->links()}}</p>
     </div>
 </div>
