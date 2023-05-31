@@ -55,7 +55,7 @@
             <span class="block text-6xl text-gray-500"><span>5 0 0</span></span>
             <span class="text-xl text-gray-500">OOPS , Something Wen't Wrongg!</span>
 
-        </div>
+        </div> 
     </center>
     <center class="mt-6">
         <a href="{{url()->previous()}}"
