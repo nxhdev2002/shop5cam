@@ -1,24 +1,24 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminSiteController;
-use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\Admin\DepositController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\WebConfigController;
-
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HelloController;
+use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SiteController;
+use App\Models\Product;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SiteController;
-use App\Http\Controllers\UserController as UserController;
-
-use App\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Support\Facades\Route;
+use App\Models\Cart;
+use Faker\Provider\ar_EG\Payment;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\DepositController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +55,7 @@ Route::name('categories.')->prefix('categories')->group(function () {
     Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
 });
 
+
 Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
@@ -85,12 +86,18 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     Route::post('/giftcode/apply', [UserController::class, 'applyGiftCode'])->name('applyGiftCode');
 
     Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
+    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
+    Route::put('/setting/update', [UserController::class, 'settinglord'])->name('settinglord');
     Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });
 
 // route admin
+<<<<<<< HEAD
 
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
+=======
+Route::group(['prefix' => 'admin', 'middleware' => 'checkLogin'], function () {
+>>>>>>> b325311 (user admin và setting và error 500 của Lâm)
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
@@ -104,10 +111,12 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
     Route::get('/user', [AdminUserController::class, 'User']);
     Route::delete('/user/{id}/delete', [AdminUserController::class, 'destroyUser']);
-    Route::get('/user/{id}/edit', [AdminUserController::class, 'editUser']);
-    Route::put('/user/{id}/update', [AdminUserController::class, 'updateUser']);
+    Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
+    Route::put('/user/update/{id}', [AdminUserController::class, 'updateUser']);
     Route::get('/search', [AdminUserController::class, 'searchUser']);
-    Route::get('/web-config', [WebConfigController::class, 'index']);
-    Route::put('/web-config/update', [WebConfigController::class, 'updateWebConfig']);
 });
+
+// Route::get('/setting', function () {
+//     return view('test');
+// });
 require __DIR__ . '/auth.php';
