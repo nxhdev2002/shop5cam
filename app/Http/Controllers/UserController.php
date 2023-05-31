@@ -65,6 +65,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Gửi yêu cầu thành công. Bạn hãy kiên nhẫn đợi hệ thống xét duyệt nhé.');
     }
 
+<<<<<<< HEAD
     public function applyGiftCode(Request $request)
     {
         $request->validate([
@@ -110,5 +111,29 @@ class UserController extends Controller
         $giftcode->save();
 
         return redirect()->back()->with('success', 'Thêm thành công ' . number_format($giftcode->balance) . ' VNĐ từ Gifcode');
+=======
+    public function setting()
+    {
+        return view('setting.setting');
+    }
+    public function settinglord(Request $request)
+    {
+        // Kiểm tra xác thực, quyền truy cập và xác thực dữ liệu
+        $user = User::find(auth()->user()->id);
+        // Lấy thông tin người dùng từ cơ sở dữ liệu
+        // $user = User::setting($id);
+    
+        // Cập nhật thông tin người dùng
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        // Các trường thông tin khác
+        $user->phone = $request->input('phone');
+        $user->payment = $request->input('payment');
+        // Lưu lại thông tin người dùng
+        $user->save();
+    
+        // Chuyển hướng người dùng về trang cần thiết (ví dụ: trang thông tin người dùng)
+        return redirect()->back()->with('success', 'OK nhé');
+>>>>>>> b325311 (user admin và setting và error 500 của Lâm)
     }
 }
