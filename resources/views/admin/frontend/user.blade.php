@@ -148,7 +148,7 @@
                                                         clip-rule="evenodd"></path>
                                                 </svg>
                                                 <span class="sr-only">Close modal</span>
-                                            </button>
+                                            </button>  
                                         </div>
                                         <input type="hidden" id="user_id_{{$users->id}}" name="id"
                                             value="{{$users->id}}">
