@@ -83,6 +83,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
 
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
     Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
+    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
+    Route::put('/setting/update', [UserController::class, 'settinglord'])->name('settinglord');
     Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });
 
@@ -101,8 +103,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkLogin'], function () {
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
     Route::get('/user', [AdminUserController::class, 'User']);
     Route::delete('/user/{id}/delete', [AdminUserController::class, 'destroyUser']);
-    Route::get('/user/{id}/edit', [AdminUserController::class, 'editUser']);
-    Route::put('/user/{id}/update', [AdminUserController::class, 'updateUser']);
+    Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
+    Route::put('/user/update/{id}', [AdminUserController::class, 'updateUser']);
     Route::get('/search', [AdminUserController::class, 'searchUser']);
 });
+
+// Route::get('/setting', function () {
+//     return view('test');
+// });
 require __DIR__ . '/auth.php';
