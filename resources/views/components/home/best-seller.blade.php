@@ -6,7 +6,7 @@
         </div>
         <div class="grid grid-cols-2 gap-6 p-4 md:grid-cols-4">
             @foreach ($products as $product)
-            <x-item-cart :product="$product"></x-item-cart>
+            <x-product-item :product="$product"></x-product-item>
             @endforeach
         </div>
     </div>

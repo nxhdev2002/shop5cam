@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class ItemCart extends Component
+class ProductShadowItem extends Component
 {
     /**
      * Create a new component instance.
@@ -24,6 +24,6 @@ class ItemCart extends Component
      */
     public function render()
     {
-        return view('components.item-cart');
+        return view('components.item-product-shadow');
     }
 }

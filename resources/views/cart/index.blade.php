@@ -42,53 +42,26 @@
         <div
             class="flex flex-col py-10 overflow-auto border-r border-gray-200 basis-2/3 max-h-96 md:h-auto md:max-h-max ">
             <h3 class="self-center p-3 text-xl font-semibold">Giỏ hàng</h3>
-            @foreach($carts as $cart)
-            <div class="flex items-center justify-between p-4 m-4 transition-opacity duration-300 border-b border-gray-300 opacity-100"
-                id="product-{{$cart->product->id}}">
-                <div class="flex items-center flex-grow-0 flex-shrink-0">
-                    <img class="w-16 h-16 mr-4 rounded" src="{{$cart->product->picture_url}}"
-                        alt="{{$cart->product->name}}">
-                </div>
-                <div class="flex-grow flex-shrink-1 flex-basis-0">
-                    <a href="{{route('products.show', $cart->product->id)}}">
-                        <h3 class="text-lg font-medium text-gray-900">{{$cart->product->name}}</h3>
-
-                        <p class="text-gray-600">{{number_format($cart->product->price)}} VNĐ</p>
-                        <div>Tình trạng:
-                            @if ($cart->product->amount > 0)
-                            <span class="text-green-600">Còn hàng</span>
-                            @else
-                            <span class="text-red-600">Hết hàng</span>
-                            @endif
-                        </div>
-                    </a>
-                </div>
-                <div class="flex items-center flex-grow-0 flex-shrink-0">
-                    <p class="mx-4 text-gray-600">{{number_format($cart->quantity * $cart->product->price)}} VNĐ</p>
-                    <button onclick="minusQuantity('{{$cart->product->id}}')"
-                        class="px-4 py-1 font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:bg-gray-300">-</button>
-                    <span class="mx-2 font-medium text-gray-700"
-                        id="quantity_product_{{$cart->product->id}}">{{$cart->quantity}}</span>
-                    <button onclick="addQuantity('{{$cart->product->id}}')"
-                        class="px-4 py-1 font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:bg-gray-300">+</button>
-
-                    <button onclick="remove(`{{$cart->product->id}}`)"
-                        class="px-4 py-1 ml-4 font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path fill-rule="evenodd"
-                                d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+            @foreach ($carts as $cart)
+            <x-cart-item :cart="$cart"></x-cart-item>
             @endforeach
         </div>
         @endif
         <div class="flex flex-col py-10 basis-1/3">
             <h3 class="self-center p-3 text-xl font-semibold">Thanh toán</h3>
             <div class="flex justify-between p-4">
-                <div class="font-semibold">Bạn có mã giảm giá?</div>
+                <div class="font-semibold" onclick="applyGiftcode()">
+                    Bạn có Giftcode?
+                    <div class="hidden justify-between" id="giftCodeContainer">
+                        <form action="{{route('user.applyGiftCode')}}" method="POST">
+                            @csrf
+                            <input type="text" id="small-input" name="giftcode"
+                                class="block w-full p-2 mr-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <button type="submit"
+                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Apply</button>
+                        </form>
+                    </div>
+                </div>
                 <div class="mr-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
@@ -158,17 +131,30 @@
 
 @push("scripts")
 <script>
+    $(document).ready(function () {
+        $.get("{{route('user.cart.load')}}")
+            .done((data) => {
+                data.data.forEach(item => {
+                    $("#cart-items").append("")
+                });
+            })
+    });
+</script>
+<script>
     async function remove(id) {
         deleteCart(id)
         $('#product-' + id).removeClass('opacity-100').addClass('opacity-0')
         await new Promise(r => setTimeout(r, 300));
         $('#product-' + id).addClass('hidden')
+        window.top.location = window.top.location
     }
 
     function addQuantity(product_id) {
         let quantityDom = $("#quantity_product_" + product_id)
         let quantity = parseInt(quantityDom.text())
         quantityDom.text(quantity + 1)
+        addToCart(product_id, 1)
+        window.top.location = window.top.location
     }
 
     function minusQuantity(product_id) {
@@ -176,8 +162,23 @@
         let quantity = parseInt(quantityDom.text())
         if (quantity - 1 < 1) return
         quantityDom.text(quantity - 1)
+        addToCart(product_id, -1)
+        window.top.location = window.top.location
     }
 
+    function addToCart(product_id, quantity) {
+        $.post("{{route('user.cart.add')}}", {
+            'product_id': product_id,
+            'quantity': quantity
+        }).done(function (data) {
+            toastr.success(data.message)
+        })
+    }
+
+    function applyGiftcode(code) {
+        $('#giftCodeContainer').removeClass("hidden")
+        $('#giftCodeContainer').addClass("flex")
+    }
 </script>
 @endpush
 @include('layouts.footer')

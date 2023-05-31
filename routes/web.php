@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
-
+use App\Http\Controllers\Admin\WebConfigController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,7 +73,7 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
     });
 
-    Route::prefix('order')->name('order.')->group(function () {
+    Route::prefix('orders')->name('order.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name("index");
         Route::get('/details/{id}', [OrderController::class, 'details'])->name("details");
         Route::get('/report/{id}', [OrderController::class, 'report'])->name("report");
@@ -82,27 +82,40 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
     });
 
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
+
+    Route::post('/giftcode/apply', [UserController::class, 'applyGiftCode'])->name('applyGiftCode');
+
     Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
+    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
+    Route::put('/setting/update', [UserController::class, 'settinglord'])->name('settinglord');
     Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });
 
 // route admin
-Route::group(['prefix' => 'admin', 'middleware' => 'checkLogin'], function () {
+
+Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
+
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
-    Route::post('/categories/create', [CategoriesController::class, 'storeCategories']);
+    Route::post('/categories/create', [CategoriesController::class, 'storeCategories'])->name('storeCategory');
     Route::get('/categories/{id}/edit', [CategoriesController::class, 'editCategories']);
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
+
     Route::get('/deposit', [DepositController::class, 'Deposit']);
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
+
     Route::get('/user', [AdminUserController::class, 'User']);
-    Route::delete('/user/{id}/delete', [AdminUserController::class, 'destroyUser']);
-    Route::get('/user/{id}/edit', [AdminUserController::class, 'editUser']);
-    Route::put('/user/{id}/update', [AdminUserController::class, 'updateUser']);
+    Route::put('/user/{id}/ban', [AdminUserController::class, 'banUser']);
+    Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
+    Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
+
     Route::get('/search', [AdminUserController::class, 'searchUser']);
+    Route::get('/web-config', [WebConfigController::class, 'index']);
+    Route::put('/web-config/update', [WebConfigController::class, 'updateWebConfig'])->name('updateWebConfig');
 });
+
 require __DIR__ . '/auth.php';
