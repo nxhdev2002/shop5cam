@@ -80,18 +80,18 @@
                                         <label class="block mb-2 text-sm font-bold text-gray-700" for="category_name">
                                             Tên danh mục
                                         </label>
-                                        <input name="name"
+                                        <input name="name" required
                                             class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             id="category_name" type="text" placeholder="Nhập tên danh mục">
                                     </div>
 
                                     <!-- Nút lưu và hủy -->
                                     <div class="flex justify-end pt-2">
-                                        <button
+                                        <button type="submit"
                                             class="p-3 px-4 mr-2 text-indigo-500 bg-transparent rounded-lg modal-close hover:bg-gray-100 hover:text-indigo-400">
                                             Lưu
                                         </button>
-                                        <button
+                                        <button type="button" onclick=""
                                             class="p-3 px-4 text-white bg-indigo-500 rounded-lg modal-close hover:bg-indigo-400">
                                             Hủy
                                         </button>

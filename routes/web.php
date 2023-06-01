@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WebConfigController;
+use App\Http\Controllers\Admin\GatewayController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,6 +102,10 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::get('/categories/{id}/edit', [CategoriesController::class, 'editCategories']);
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
+
+    Route::get('/gateways', [GatewayController::class, 'index'])->name('gateway.index');
+    Route::get('/gateway/{id}', [GatewayController::class, 'show'])->name('gateway.show');
+    Route::post('/gateway/{id}/update', [GatewayController::class, 'update'])->name('gateway.update');
 
     Route::get('/deposit', [DepositController::class, 'Deposit']);
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
