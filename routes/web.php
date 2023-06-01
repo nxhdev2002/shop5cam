@@ -56,7 +56,7 @@ Route::name('categories.')->prefix('categories')->group(function () {
 });
 
 
-Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
+Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->group(function () {
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::get('/load', [CartController::class, 'loadCart'])->name('load');
@@ -92,7 +92,6 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
 });
 
 // route admin
-
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard']);
 
@@ -109,7 +108,7 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
 
     Route::get('/user', [AdminUserController::class, 'User']);
-    Route::put('/user/{id}/ban', [AdminUserController::class, 'banUser']);
+    Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
 
