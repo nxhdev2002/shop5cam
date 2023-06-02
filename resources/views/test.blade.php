@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    @include('admin.index')
+    @include('setting.setting')
 </body>
 
 </html>

@@ -9,9 +9,9 @@
 </button>
 
 <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-auto  transition-transform -translate-x-full sm:translate-x-0 bg-slate-500 "
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar">
-    <div class="max-w-[150px] max-h-[8/10] px-3 py-4 truncate bg-orange-400 dark:bg-gray-800">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <a href="#" class="flex items-center pl-2.5 mb-5">
             <img src="{{ asset('img/shop5camlogo.png') }}" alt="logoshop">
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Home</span>
@@ -53,7 +53,7 @@
                             d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">......</span>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Sign Up</span>
                 </a>
             </li>
             <li>

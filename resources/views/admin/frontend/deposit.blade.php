@@ -1,3 +1,61 @@
+@push('script')
+<script>
+  function acceptDeposit() {
+    let id = $('#deposit_id').val()
+    let name = $('#name').val();
+    let request = $('#request').val();
+    let amount = $('#amount').val();
+
+    $.ajax({
+      url: "/admin/deposit/" + id + "/accept",
+      type: "PUT",
+      data: {
+        name: name,
+        request: request,
+        amount: amount,
+        _token: '{{csrf_token()}}'
+      },
+      success: function (data) {
+        console.log(data);
+        // Thực hiện các tác vụ khác sau khi chấp nhận tiền gửi thành công
+      },
+      error: function (error) {
+        console.log(error);
+        // Xử lý lỗi nếu yêu cầu chấp nhận tiền gửi gặp sự cố
+      }
+    });
+    window.location.reload();
+  }
+
+  function denyDeposit() {
+    let id = $('#deposit_id').val()
+    let name = $('#name').val();
+    let request = $('#request').val();
+    let amount = $('#amount').val();
+
+    $.ajax({
+      url: "/admin/deposit/" + id + "/deny",
+      type: "PUT",
+      data: {
+        name: name,
+        request: request,
+        amount: amount,
+        _token: '{{csrf_token()}}'
+      },
+      success: function (data) {
+        console.log(data);
+        // Thực hiện các tác vụ khác sau khi chấp nhận tiền gửi thành công
+      },
+      error: function (error) {
+        console.log(error);
+        // Xử lý lỗi nếu yêu cầu chấp nhận tiền gửi gặp sự cố
+      }
+    });
+    window.location.reload();
+  }
+
+</script>
+@endpush
 <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
   <!-- Desktop sidebar -->
   @include('admin.layouts.sidebar')
@@ -44,6 +102,7 @@
                     <div class="flex items-center space-x-4 text-sm">
                       <div class="flex justify-center m-5">
                         <button id="successAcceptButton" data-modal-toggle="successAcceptModal"
+                          onclick="acceptDeposit()"
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-red-400 focus:outline-none focus:shadow-outline-gray"
                           type="button">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -78,17 +137,12 @@
                               </svg>
                               <span class="sr-only">Success</span>
                             </div>
-                            <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Successfully accept
-                              this deposit.</p>
-                            <button data-modal-toggle="successAcceptModal" type="button"
-                              class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900">
-                              Continue
-                            </button>
+                            <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">{{'Success'}}</p>
                           </div>
                         </div>
                       </div>
                       <div class="flex justify-center m-5">
-                        <button id="successDenyButton" data-modal-toggle="successDenyModal"
+                        <button id="successDenyButton" data-modal-toggle="successDenyModal" onclick="denyDeposit()"
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-red-400 focus:outline-none focus:shadow-outline-gray"
                           type="button">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -97,7 +151,7 @@
                           </svg>
                         </button>
                       </div>
-                      <div id="successDenyModal" tabindex="-1" aria-hidden="true"
+                      <div id="successDenyModal" tabindex="-1" aria-hidden="true" data-modal-toggle="successDenyModal"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                         <div class="relative p-4 w-full max-w-md h-full md:h-auto">
                           <!-- Modal content -->
@@ -112,6 +166,7 @@
                                   clip-rule="evenodd"></path>
                               </svg>
                               <span class="sr-only">Close modal</span>
+                              <input type="hidden" id="deposit_id" name="id" value="{{$Deposit->id}}">
                             </button>
                             <div
                               class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900 p-2 flex items-center justify-center mx-auto mb-3.5">
@@ -124,10 +179,6 @@
                             </div>
                             <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">Successfully removed
                               this deposit.</p>
-                            <button data-modal-toggle="successDenyModal" type="button"
-                              class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900">
-                              Continue
-                            </button>
                           </div>
                         </div>
                       </div>
@@ -137,8 +188,10 @@
               </tbody>
               @endforeach
             </table>
+            <p class="mt-3 text-xs">{{ $deposit->links()}}</p>
           </div>
         </div>
+
       </div>
     </main>
   </div>
