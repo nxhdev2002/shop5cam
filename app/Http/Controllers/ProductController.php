@@ -120,37 +120,83 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
+        $title = "Danh sách sản phẩm";
+        $categories = Category::all();
         $products = Product::where('name', 'like', '%' . $search . '%')
             ->orWhere('description', 'like', '%' . $search . '%')
-            ->get();
-        return view('products.index', ['products' => $products]);
+            ->paginate(12);
+
+        return view('product.index', compact(
+            'title',
+            'categories',
+            'products'
+        ));
     }
 
     public function filter(Request $request)
     {
-        $price = $request->input('price');
-        $amount = $request->input('amount');
-        $created_at = $request->input('created_at');
+        $category = $request->input('category');
+        $sort_by = $request->input('sort_by');
+        $price1 = $request->input('price1');
+        $price2 = $request->input('price2');
 
         // Tạo query builder cho bảng 'products'
         $query = Product::query();
 
         // Áp dụng các điều kiện lọc nếu có
-        if ($price) {
-            $query->where('price', '>', $price);
+        if ($category) {
+            $query->where('category_id', $category);
         }
 
-        if ($amount) {
-            $query->where('amount', '>', $amount);
+        if ($sort_by) {
+            switch ($sort_by) {
+                case 1:
+                    // lọc spham bán chạy nhất
+                    $query->withCount('orders')
+                        ->orderBy('orders_count', 'desc')
+                        ->get();
+                    break;
+                case 2:
+                    //lọc spham từ mới đến cũ
+                    $query->orderBy('updated_at', 'desc');
+                    break;
+                case 3:
+                    //lọc spham từ cũ đến mới
+                    $query->orderBy('updated_at', 'asc');
+                    break;
+                case 4:
+                    //lọc spham giá thấp đến cao
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 5:
+                    //lọc spham giá cao đến thấp
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 6:
+                    //lọc spham từ A đến Z
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 7:
+                    //lọc spham từ Z đến A
+                    $query->orderBy('name', 'desc');
+                    break;
+            }
+        }
+        if ($price1) {
+            $query->where('price', '>=', $price1);
         }
 
-        if ($created_at) {
-            $query->whereDate('created_at', $created_at);
+        if ($price2) {
+            $query->where('price', '<=', $price2);
         }
+        $title = "Danh sách sản phẩm";
+        $categories = Category::all();
+        $products = $query->paginate(12);
 
-        // Lấy kết quả lọc
-        $products = $query->get();
-
-        return view('products.index', ['products' => $products]);
+        return view('product.index', compact(
+            'products',
+            'categories',
+            'title'
+        ));
     }
 }

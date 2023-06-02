@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('phone', 20)->nullable();
             $table->string('payment', 200)->nullable();
             $table->decimal('balance', 18, 8)->default(0);
-            $table->integer('rights')->default('1');
+            $table->tinyInteger('is_banned')->default(0);
+            $table->tinyInteger('rights')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -5,10 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
-class CheckLogin
+class BannedMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,9 +17,10 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->rights >= 5) {
-            return $next($request);
+        if (Auth::check() && Auth::user()->is_banned) {
+            Auth::logout();
+            return redirect()->route('login')->withErrors('Tài khoản của bạn đã bị khoá');
         }
-        abort(404);
+        return $next($request);
     }
 }

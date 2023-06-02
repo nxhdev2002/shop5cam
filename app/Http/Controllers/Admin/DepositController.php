@@ -4,32 +4,65 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
+use App\Models\Gateway;
+use App\Models\GatewayCurrency;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
-class DepositController extends Controller 
+class DepositController extends Controller
 {
-    public function Deposit(){
+    public function Deposit()
+    {
         $deposit = Deposit::where('status', 0)->paginate(5);
-        return view( 'admin.frontend.deposit',compact('deposit'));    
+        return view('admin.frontend.deposit', compact('deposit'));
     }
-    public function editDeposit($id){
+    public function editDeposit($id)
+    {
         $deposit = Deposit::find($id);
         return view('admin.frontend.deposit', ['deposit' => $deposit]);
     }
-    public function updateAcceptDeposit($id){
+    public function updateAcceptDeposit($id)
+    {
         $deposit = Deposit::find($id);
         $deposit->status = 1;
-        $deposit->update(); 
-        // $user = User::find($id);
+        $deposit->update();
+        $gateway = GatewayCurrency::find($deposit->gateway->id);
+        $fee = $gateway->fixed_fee + ($deposit->amount * $gateway->percent_fee / 100);
+
+        $amount = $deposit->amount - $fee;
+
         $user = $deposit->user;
-        $user->balance += $deposit->amount;
+        $user->balance += $amount;
         $user->save();
+
+        $transaction = new Transaction();
+        $transaction->amount = $amount;
+        $transaction->user_id = $user->id;
+        $transaction->balance =  $user->balance;
+        $transaction->note = "Duyệt yêu cầu nạp " . number_format($deposit->amount) . " VNĐ ";
+        $transaction->type = "+";
+        $transaction->status = 1;
+        $transaction->save();
+
         return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
     }
-    public function updateDenyDeposit(Request $request, $id){
+    public function updateDenyDeposit(Request $request, $id)
+    {
         $deposit = Deposit::find($id);
-        $deposit->status = 2; 
-        $deposit->save(); 
-        return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');   
+        $deposit->status = 2;
+        $deposit->save();
+
+        $user = $deposit->user;
+
+        $transaction = new Transaction();
+        $transaction->amount = 0;
+        $transaction->user_id = $user->id;
+        $transaction->balance = $user->balance;
+        $transaction->note = "Từ chối yêu cầu nạp " . number_format($deposit->amount) . " VNĐ ";
+        $transaction->type = "+";
+        $transaction->status = 2;
+        $transaction->save();
+
+        return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
     }
 }

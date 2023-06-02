@@ -40,10 +40,14 @@
         </ol>
     </nav>
 
+    @if (count($products) == 0)
+    <p>Không có sản phẩm nào trong chuyên mục này.
+        @endif
+    </p>
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
         @foreach ($products as $product)
-        <x-item-cart-shadow :product="$product"></x-item-cart>
-            @endforeach
+        <x-product-shadow-item :product="$product"></x-product-shadow-item>
+        @endforeach
     </div>
     <p class="mt-3 text-xs">{{ $products->links()}}</p>
 </div>

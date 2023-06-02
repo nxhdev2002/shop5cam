@@ -69,7 +69,7 @@
                 <div class="absolute inset-0 w-full h-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
             </div>
             <div class="relative">
-                <ul class="h-64 space-y-5 overflow-scroll">
+                <ul class="h-64 space-y-5 ">
                     @foreach($carts as $cart)
                     <li class="flex justify-between">
                         <div class="inline-flex">
@@ -77,7 +77,7 @@
                             <div class="flex flex-col ml-3">
                                 <p class="text-base font-semibold text-white">{{$cart->product->name}}</p>
                                 <p class="text-xs font-medium text-white text-opacity-80">
-                                    {{substr($cart->product->description, 0, 40)}}...</p>
+                                    {{substr($cart->product->description, 0, 20)}}...</p>
                             </div>
                         </div>
                         <p class="text-sm font-semibold text-white">{{number_format($cart->product->price *

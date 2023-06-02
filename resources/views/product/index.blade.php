@@ -1,5 +1,32 @@
 @include('layouts.header')
 <div class="container px-4 py-8 mx-auto bg-white">
+    <nav class="flex p-3" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="{{route('site.index')}}"
+                    class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                        </path>
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Sản phẩm</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
     <span class="inline-block font-bold text-red-500 animate-blink">Danh sách sản phẩm</span>
     <div class="flex flex-col">
         <div>
@@ -13,9 +40,12 @@
                             </path>
                         </svg>
                     </div>
+                    <form action="{{route('products.search')}}" id="searchForm">
+                        <input type="text" placeholder="Search by listing, location, bedroom number..." name="search"
+                            class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
 
-                    <input type="text" placeholder="Search by listing, location, bedroom number..."
-                        class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
+                    </form>
+
                 </div>
 
                 <div class="flex items-center justify-between mt-4">
@@ -24,7 +54,7 @@
                     </p>
 
                     <div class="flex gap-3">
-                        <button type="button"
+                        <button type="submit" form="searchForm"
                             class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">
@@ -33,7 +63,7 @@
                             </svg>
                             Tìm kiếm
                         </button>
-                        <button type="button"
+                        <button type="submit" form="filterForm"
                             class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">
@@ -45,56 +75,65 @@
                     </div>
                 </div>
 
-                <div>
-                    <div class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-3 xl:grid-cols-4">
-                        <div class="relative">
-                            <label class="absolute z-20 px-1 text-xs bg-white -top-2 opacity-80 left-3">Danh mục</label>
-                            <select
-                                class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                                <option value="">Tất cả</option>
-                                @foreach ($categories as $category)
-                                <option value="{{$category->name}}">{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="relative">
-                            <label class="absolute z-20 px-1 text-xs bg-white -top-2 opacity-80 left-3">Sắp xếp</label>
-                            <select
-                                class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
-                                <option value="">Mặc định</option>
-                                <option value="for-rent">Bán chạy nhất</option>
-                                <option value="for-sale">Từ mới đến cũ</option>
-                                <option value="for-sale">Từ cũ đến mới</option>
-                                <option value="for-sale">Giá thấp đến cao</option>
-                                <option value="for-sale">Giá cao đến thấp</option>
-                                <option value="for-sale">Tên A-Z</option>
-                                <option value="for-sale">Tên Z-A</option>
-                            </select>
-                        </div>
-                        <div class="relative z-0 px-3 border-r">
-                            <input type="number" id="floating_standard"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" " />
-                            <label for="floating_standard"
-                                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mức
-                                giá từ</label>
-                        </div>
-                        <div class="relative z-0">
-                            <input type="number" id="floating_standard"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" " />
-                            <label for="floating_standard"
-                                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mức
-                                giá đến</label>
+                <form action="{{route('products.filter')}}" method="POST" id="filterForm">
+                    @csrf
+                    <div>
+                        <div class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-3 xl:grid-cols-4">
+                            <div class="relative">
+                                <label class="absolute z-20 px-1 text-xs bg-white -top-2 opacity-80 left-3">Danh
+                                    mục</label>
+                                <select name="category"
+                                    class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
+                                    <option value="">Tất cả</option>
+                                    @foreach ($categories as $category)
+                                    <option value="{{$category->name}}">{{$category->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="relative">
+                                <label class="absolute z-20 px-1 text-xs bg-white -top-2 opacity-80 left-3">Sắp
+                                    xếp</label>
+                                <select name="sort_by"
+                                    class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
+                                    <option value="">Mặc định</option>
+                                    <option value="1">Bán chạy nhất</option>
+                                    <option value="2">Từ mới đến cũ</option>
+                                    <option value="3">Từ cũ đến mới</option>
+                                    <option value="4">Giá thấp đến cao</option>
+                                    <option value="5">Giá cao đến thấp</option>
+                                    <option value="6">Tên A-Z</option>
+                                    <option value="7">Tên Z-A</option>
+                                </select>
+                            </div>
+                            <div class="relative z-0 px-3 border-r">
+                                <input type="number" id="floating_standard" name="price1"
+                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " />
+                                <label for="floating_standard"
+                                    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mức
+                                    giá từ</label>
+                            </div>
+                            <div class="relative z-0">
+                                <input type="number" id="floating_standard" name="price2"
+                                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " />
+                                <label for="floating_standard"
+                                    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mức
+                                    giá đến</label>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
+
         </div>
         <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+            @if (count($products) == 0)
+            <p>Không có sản phẩm</p>
+            @endif
             @foreach ($products as $product)
-            <x-item-cart-shadow :product="$product"></x-item-cart>
-                @endforeach
+            <x-product-shadow-item :product="$product"></x-product-shadow-item>
+            @endforeach
         </div>
     </div>
     <p class="mt-3 text-xs">{{ $products->links()}}</p>
