@@ -35,6 +35,8 @@
                 <ul class="flex items-center justify-end flex-shrink-0 space-x-6">
                     <!-- Profile menu -->
                     <li class="relative">
+                        <a href="{{route('site.index')}}" class="mr-2">
+                            Back To Site</a>
                         <button
                             class="relative text-gray-900 align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
                             @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"

@@ -9,6 +9,7 @@ use App\Models\WebConfig;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -119,7 +120,10 @@ class UserController extends Controller
 
     public function setting()
     {
-        return view('setting.setting');
+        $title = "Thay đổi thông tin";
+        return view('setting.setting', compact(
+            'title'
+        ));
     }
     public function settinglord(Request $request)
     {
@@ -127,7 +131,25 @@ class UserController extends Controller
         $user = User::find(auth()->user()->id);
         // Lấy thông tin người dùng từ cơ sở dữ liệu
         // $user = User::setting($id);
+        $request->validate([
+            'name' => 'bail|required',
+            'email' => 'bail|email',
+            'phone' => 'bail|nullable|max:10|min:0',
+            'oldPassword' => 'bail|nullable',
+            'newPassword' => 'bail|nullable'
+        ]);
 
+        if (strlen($request['oldPassword']) > 0) {
+            if (strlen($request['newPassword']) < 6) {
+                return back()->withErrors(['message' => 'Trường newPassword không hợp lệ. Yêu cầu lớn hơn 6 kí tự.']);
+            }
+            if (!Hash::check($request->oldPassword, auth()->user()->password)) {
+                return back()->withErrors(['message' => 'Sai mật khẩu']);
+            }
+            User::whereId(auth()->user()->id)->update([
+                'password' => Hash::make($request->newPassword)
+            ]);
+        }
         // Cập nhật thông tin người dùng
         $user->name = $request->input('name');
         $user->email = $request->input('email');

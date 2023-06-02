@@ -66,13 +66,7 @@
                                 class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sản
                                 phẩm</a>
                         </li>
-                        <li class="hidden md:block">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                            </svg>
-                        </li>
+
                         @auth
                         <li class="relative">
                             <button id="cartDropdownNavbarLink" data-dropdown-toggle="cartDropdownNavbar"
@@ -124,7 +118,7 @@
                                             sử giao dịch</a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="{{route('user.setting')}}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cài
                                             đặt</a>
                                     </li>
@@ -149,13 +143,16 @@
                                             <span class="font-semibold text-green-500">Seller</span>
                                             @break
                                             @case(5)
-                                            <span class="font-semibold text-blue-500">Staff</span>
+                                            <a href="{{route('admin.dashboard')}}"
+                                                class="font-semibold text-blue-500">Staff</a>
                                             @break
                                             @default
-                                            <span class="font-semibold text-red-500">Administrator</span>
+                                            <a href="{{route('admin.dashboard')}}"
+                                                class="font-semibold text-red-500">Administrator</a>
                                             @endswitch
                                         </span>
                                     </li>
+                                    <hr>
                                 </ul>
                                 <div class="py-1">
                                     <form action="/logout" method="POST">

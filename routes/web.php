@@ -60,6 +60,8 @@ Route::name('categories.')->prefix('categories')->group(function () {
 
 
 Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->group(function () {
+
+    /// CART
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::get('/load', [CartController::class, 'loadCart'])->name('load');
@@ -69,6 +71,8 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
         Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class])->name('add');
     });
 
+
+    /// DEPOSIT
     Route::prefix('deposit')->name('deposit.')->group(function () {
         Route::get('/', [PaymentController::class, 'deposit'])->name("index");
         Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("details");
@@ -76,6 +80,8 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
         Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
     });
 
+
+    /// ORDER
     Route::prefix('orders')->name('order.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name("index");
         Route::get('/details/{id}', [OrderController::class, 'details'])->name("details");
@@ -84,19 +90,26 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
         Route::post('/report/{id}', [OrderController::class, 'storeReport'])->name("reportSend");
     });
 
+
+    /// SETTINGS
+    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
+    Route::post('/setting/update', [UserController::class, 'settinglord'])->name('setting.update');
+
+
+    /// UPGRADE
+    Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
+    Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
+
+
+    /// OTHERS
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
 
     Route::post('/giftcode/apply', [UserController::class, 'applyGiftCode'])->name('applyGiftCode');
-
-    Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
-    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
-    Route::put('/setting/update', [UserController::class, 'settinglord'])->name('settinglord');
-    Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });
 
 // route admin
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'Dashboard']);
+    Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
