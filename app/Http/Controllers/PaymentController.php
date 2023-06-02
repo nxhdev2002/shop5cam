@@ -22,7 +22,7 @@ class PaymentController extends Controller
 
     public function deposit()
     {
-        $gateways = Gateway::all();
+        $gateways = Gateway::where('status', '1')->get();
         $title = "Nạp tiền";
         return view('deposit.index', compact(
             'title',

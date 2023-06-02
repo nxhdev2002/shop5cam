@@ -1,4 +1,4 @@
-<a href="/products/{{$product->id}}">
+<a href="{{route('products.show', $product->id)}}">
     <div class="p-4 border border-gray-300 rounded-md shadow-md">
         <div class="relative">
             <div class="relative hidden">

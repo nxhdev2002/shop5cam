@@ -12,8 +12,6 @@
     </div>
 </section>
 
-
-
 @push('scripts')
 <script>
     function addToCart(product_id, quantity) {

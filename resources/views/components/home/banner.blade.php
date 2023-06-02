@@ -17,7 +17,7 @@
                         <!-- Item 1 -->
                         @foreach ($high_products as $product)
                         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                            <a href="/products/{{$product->id}}">
+                            <a href="{{route('products.show', $product->id)}}">
                                 <img src="{{$product->picture_url}}"
                                     class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                                     alt="...">
