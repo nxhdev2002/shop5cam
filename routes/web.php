@@ -44,13 +44,13 @@ Route::post('upload-image', [ImageUploadController::class, 'store']);
 /// product route
 Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('/{id}', [ProductController::class, 'show'])->name('show');
+    Route::get('/{id}/show', [ProductController::class, 'show'])->name('show');
     Route::get('/create', [ProductController::class, 'create']);
     Route::post('/create', [ProductController::class, 'store']);
     Route::get('/{id}/edit', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'destroy']);
-    Route::get('/search', [ProductController::class, 'search']);
+    Route::get('/search', [ProductController::class, 'search'])->name('search');
     Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
 });
 

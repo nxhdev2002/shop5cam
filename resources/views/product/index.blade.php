@@ -40,9 +40,12 @@
                             </path>
                         </svg>
                     </div>
+                    <form action="{{route('products.search')}}" id="searchForm">
+                        <input type="text" placeholder="Search by listing, location, bedroom number..." name="search"
+                            class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
 
-                    <input type="text" placeholder="Search by listing, location, bedroom number..."
-                        class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
+                    </form>
+
                 </div>
 
                 <div class="flex items-center justify-between mt-4">
@@ -51,7 +54,7 @@
                     </p>
 
                     <div class="flex gap-3">
-                        <button type="button"
+                        <button type="submit" form="searchForm"
                             class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-6 h-6">

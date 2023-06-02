@@ -118,10 +118,17 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
+        $title = "Danh sách sản phẩm";
+        $categories = Category::all();
         $products = Product::where('name', 'like', '%' . $search . '%')
             ->orWhere('description', 'like', '%' . $search . '%')
-            ->get();
-        return view('products.index', ['products' => $products]);
+            ->paginate(12);
+
+        return view('product.index', compact(
+            'title',
+            'categories',
+            'products'
+        ));
     }
 
     public function filter(Request $request)
