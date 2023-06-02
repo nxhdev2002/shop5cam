@@ -4,10 +4,14 @@
     <div class="flex flex-col flex-1 w-full">
         @include('admin.layouts.header')
         <main class="h-full pb-16 overflow-y-auto">
-            <div class="container grid px-6 mx-auto">
-                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                    Gateway
-                </h2>
+            <div class="container mx-auto">
+                <div class="flex justify-between mt-3">
+                    <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                        Gateway
+                    </h2>
+                    <a href="{{route('admin.gateway.add')}}"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</a>
+                </div>
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
 
@@ -44,7 +48,7 @@
                                             {{$gateway->id}}
                                         </th>
                                         <td class="px-6 py-4">
-                                            <img src="{{$gateway->image}}" class="w-8 h-8">
+                                            <img src="{{ asset($gateway->image) }}" class="w-8 h-8">
                                         </td>
                                         <td class="px-6 py-4">
                                             {{$gateway->name}}

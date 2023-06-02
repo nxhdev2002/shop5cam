@@ -104,8 +104,10 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
 
     Route::get('/gateways', [GatewayController::class, 'index'])->name('gateway.index');
+    Route::get('/gateways/add', [GatewayController::class, 'add'])->name('gateway.add');
     Route::get('/gateway/{id}', [GatewayController::class, 'show'])->name('gateway.show');
     Route::post('/gateway/{id}/update', [GatewayController::class, 'update'])->name('gateway.update');
+    Route::post('/gateway/store', [GatewayController::class, 'store'])->name('gateway.store');
 
     Route::get('/deposit', [DepositController::class, 'Deposit']);
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);

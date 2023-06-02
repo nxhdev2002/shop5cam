@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gateway;
+use App\Models\GatewayCurrency;
 use Illuminate\Http\Request;
 
 class GatewayController extends Controller
@@ -32,9 +33,9 @@ class GatewayController extends Controller
             return redirect()->route('admin.gateway.index')->withErrors(['message' => 'Gateway không tồn tại']);
         }
         $request->validate([
-            'name' => 'bail|min:1|max:100|required',
+            'name' => 'bail|min:1|max:50|required',
             'description' => 'bail|min:0|required',
-            'content' => 'bail|required',
+            'content' => 'bail|required|min:0',
             'status' => 'bail|nullable',
         ]);
 
@@ -48,5 +49,44 @@ class GatewayController extends Controller
         $gateway->save();
 
         return redirect()->back()->with('success', 'Cập nhật gateway thành công.');
+    }
+
+    public function add()
+    {
+        return view('admin.frontend.gateway.add');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'bail|required|min:0|max:50',
+            'description' => 'bail|min:0|required',
+            'content' => 'bail|required|min:0',
+            'percent_fee' => 'bail|required|between:0,99.99|numeric',
+            'fixed_fee' => 'bail|required|numeric|gte:0',
+            'min_amount' => 'bail|required|numeric|gte:0',
+            'max_amount' => 'bail|required|numeric|gte:' . $request['min_amount'],
+            'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
+
+        $path = $request->file('thumb')->store('public/images');
+
+        $gateway = new Gateway();
+        $gateway->name = $request['name'];
+        $gateway->image = substr($path, strlen('public/'));
+        $gateway->status = 1;
+        $gateway->description = $request['description'];
+        $gateway->content = $request['content'];
+        $gateway->save();
+
+        $currency = new GatewayCurrency();
+        $currency->gateway_id = $gateway->id;
+        $currency->percent_fee = $request['percent_fee'];
+        $currency->fixed_fee = $request['fixed_fee'];
+        $currency->min_amount = $request['min_amount'];
+        $currency->max_amount = $request['max_amount'];
+        $currency->save();
+
+        return redirect()->back()->with('success', 'Tạo gateway thành công!');
     }
 }

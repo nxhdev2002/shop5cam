@@ -3,7 +3,7 @@
     <div class="flex flex-col flex-1 w-full">
         @include('admin.layouts.header')
         <main class="h-full overflow-y-auto">
-            <div class="container px-6 mx-auto grid">
+            <div class="container grid px-6 mx-auto">
                 <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                     Dashboard
                 </h2>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- Card -->
-                    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <!-- <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
                             class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -46,7 +46,7 @@
                                 $15
                             </p>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Card -->
                     <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
@@ -62,7 +62,7 @@
                                 Seller Requests
                             </p>
                             <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                                1
+                                {{$sellerReq}}
                             </p>
                         </div>
                     </div>
@@ -87,62 +87,102 @@
                     </div>
                 </div>
 
-                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                    Deposit History
-                </h2>
 
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
-                        <table class="w-full whitespace-no-wrap">
-                            <thead>
-                                <tr
-                                    class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                    <th class="px-4 py-3">User Name</th>
-                                    <th class="px-4 py-3">Amount</th>
-                                    <th class="px-4 py-3">Status</th>
-                                    <th class="px-4 py-3">Note</th>
-                                    <th class="px-4 py-3">Date</th>
-                                </tr>
-                            </thead>
-                            @foreach($listDeposit as $q)
-                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                <tr class="text-gray-700 dark:text-gray-400">
-                                    <td class="px-4 py-3">
-                                        {{$q->user->name}}
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{number_format($q->amount)}} VNĐ
-                                    </td>
-                                    <td class="px-4 py-3 text-xs">
-                                        @if ($q->status == 0)
-                                        <span
-                                            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                                            Chờ duyệt
-                                        </span>
-                                        @endif
-                                        @if ($q->status == 1)
-                                        <span
-                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                            Đã duyệt
-                                        </span>
-                                        @endif
-                                        @if ($q->status == 2)
-                                        <span
-                                            class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
-                                            Bị từ chối
-                                        </span>
-                                        @endif
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{$q->note}}
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{$q->updated_at}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                            @endforeach
-                        </table>
+
+                <div class="flex justify-between">
+                    <div class="mr-2 overflow-hidden rounded-lg shadow-xs md:basis-2/3 basis-full">
+                        <div class="w-full overflow-x-auto">
+                            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                                Deposit History
+                            </h2>
+                            <table class="w-full whitespace-no-wrap">
+                                <thead>
+                                    <tr
+                                        class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                        <th class="px-4 py-3">User Name</th>
+                                        <th class="px-4 py-3">Amount</th>
+                                        <th class="px-4 py-3">Status</th>
+                                        <th class="px-4 py-3">Note</th>
+                                        <th class="px-4 py-3">Date</th>
+                                    </tr>
+                                </thead>
+                                @foreach($listDeposit as $q)
+                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            {{$q->user->name}}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{number_format($q->amount)}} VNĐ
+                                        </td>
+                                        <td class="px-4 py-3 text-xs">
+                                            @if ($q->status == 0)
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                                Chờ duyệt
+                                            </span>
+                                            @endif
+                                            @if ($q->status == 1)
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                Đã duyệt
+                                            </span>
+                                            @endif
+                                            @if ($q->status == 2)
+                                            <span
+                                                class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+                                                Bị từ chối
+                                            </span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{$q->note}}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{$q->updated_at}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-lg shadow-xs md:basis-1/3 basis-full">
+                        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                            New user registered
+                        </h2>
+                        <div class="w-full overflow-x-auto">
+                            <table class="w-full whitespace-no-wrap">
+                                <thead>
+                                    <tr
+                                        class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                        <th class="px-4 py-3">ID</th>
+                                        <th class="px-4 py-3">Name</th>
+                                        <th class="px-4 py-3">Email</th>
+                                        <th class="px-4 py-3">Date</th>
+                                    </tr>
+                                </thead>
+                                @foreach($newUsers as $user)
+                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">
+                                            {{$user->id}}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{$user->name}}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{$user->email}}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{$user->created_at}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                @endforeach
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
