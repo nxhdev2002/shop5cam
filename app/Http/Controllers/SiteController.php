@@ -42,13 +42,23 @@ class SiteController extends Controller
             ->get();
 
         $categories = Category::where('status', 1)->get();
+
+        $productsOfHighLight = array();
+        $highlightCate = Category::where('is_highlight', '1')->get();
+        foreach ($highlightCate as $key => $category) {
+            $products = Product::where('category_id', $category->id)->take(8)->get();
+            array_push($productsOfHighLight, $products);
+        }
+
         return view('index', compact(
             'title',
             'categories',
             'products',
             'ads_products',
             'high_products',
-            'latest_orders'
+            'latest_orders',
+            'highlightCate',
+            'productsOfHighLight'
         ));
         //list pro theo tên danh mục  
     }
