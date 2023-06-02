@@ -19,6 +19,9 @@ class CartController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->email_verified_at == null) {
+            return view('auth.verify-email', ['title' => 'Xác thực email']);
+        }
         $title = "Giỏ hàng";
         $carts = Cart::where('user_id', auth()->user()->id)->get();
         $total = 0;

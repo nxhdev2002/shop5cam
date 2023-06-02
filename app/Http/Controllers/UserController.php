@@ -17,6 +17,11 @@ class UserController extends Controller
         if (auth()->user()->rights != 1) {
             abort(404);
         }
+
+        if (auth()->user()->email_verified_at == null) {
+            return view('auth.verify-email', ['title' => 'Xác thực email']);
+        }
+
         $generalSettings = WebConfig::first();
         $title = "Nâng cấp thành viên";
         $request = UpgradeRequest::where("user_id", auth()->user()->id)

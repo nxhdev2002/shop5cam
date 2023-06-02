@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- Card -->
-                    <!-- <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
                             class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -40,13 +40,13 @@
                         </div>
                         <div>
                             <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                Account Balance
+                                Total Running Ads
                             </p>
                             <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                                $15
+                                {{count($adsRunning)}}
                             </p>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- Card -->
                     <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
@@ -87,7 +87,70 @@
                     </div>
                 </div>
 
+                <div class="flex justify-around">
+                    <div class="chart-container">
+                        <canvas id="user"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="money"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ads"></canvas>
+                    </div>
+                    <script>
+                        var data = {
+                            labels: ["1-3", "4-6", "7-9", "10-12"],
+                            datasets: [{
+                                label: "User registered (month)",
+                                backgroundColor: "rgba(255,99,132,0.2)",
+                                borderColor: "rgba(255,99,132,1)",
+                                borderWidth: 2,
+                                hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                                hoverBorderColor: "rgba(255,99,132,1)",
+                                data: [
+                                    ("{{$userRegisteredByMonth[0]}}"),
+                                    ("{{$userRegisteredByMonth[1]}}"),
+                                    ("{{$userRegisteredByMonth[2]}}"),
+                                    ("{{$userRegisteredByMonth[3]}}")
+                                ],
+                            }]
+                        };
 
+                        var options = {
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    stacked: true,
+                                    grid: {
+                                        display: true,
+                                        color: "rgba(255,99,132,0.2)"
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        };
+
+                        new Chart('user', {
+                            type: 'bar',
+                            options: options,
+                            data: data
+                        });
+                        new Chart('money', {
+                            type: 'doughnut',
+                            options: options,
+                            data: data
+                        });
+                        new Chart('ads', {
+                            type: 'line',
+                            options: options,
+                            data: data
+                        });
+                    </script>
+                </div>
 
                 <div class="flex justify-between">
                     <div class="mr-2 overflow-hidden rounded-lg shadow-xs md:basis-2/3 basis-full">
@@ -106,15 +169,24 @@
                                         <th class="px-4 py-3">Date</th>
                                     </tr>
                                 </thead>
-                                @foreach($listDeposit as $q)
+
                                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+
+                                    @if (count($listDeposit) == 0)
+                                    <tr>
+                                        <td colspan="5" class="text-center">Không có bản ghi được ghi nhận.</td>
+                                    </tr>
+                                    @else
+                                    @foreach($listDeposit as $q)
                                     <tr class="text-gray-700 dark:text-gray-400">
                                         <td class="px-4 py-3">
                                             {{$q->user->name}}
                                         </td>
+
                                         <td class="px-4 py-3 text-sm">
                                             {{number_format($q->amount)}} VNĐ
                                         </td>
+
                                         <td class="px-4 py-3 text-xs">
                                             @if ($q->status == 0)
                                             <span
@@ -135,15 +207,20 @@
                                             </span>
                                             @endif
                                         </td>
+
                                         <td class="px-4 py-3 text-sm">
                                             {{$q->note}}
                                         </td>
+
                                         <td class="px-4 py-3 text-sm">
                                             {{$q->updated_at}}
                                         </td>
+
                                     </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
-                                @endforeach
+
                             </table>
                         </div>
                     </div>

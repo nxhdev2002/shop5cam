@@ -21,6 +21,8 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\GatewayController;
+use App\Http\Controllers\Admin\GiftCodeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -118,6 +120,10 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
+
+    Route::get('/giftcodes', [GiftCodeController::class, 'index'])->name('giftcode.index');
+    Route::post('/giftcodes/store', [GiftCodeController::class, 'store'])->name('giftcode.store');
+    Route::delete('/giftcode/{id}/remove', [GiftCodeController::class, 'remove'])->name('giftcode.remove');
 
     Route::get('/search', [AdminUserController::class, 'searchUser']);
     Route::get('/web-config', [WebConfigController::class, 'index']);
