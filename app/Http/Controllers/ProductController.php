@@ -143,10 +143,9 @@ class ProductController extends Controller
             switch ($sort_by) {
                 case 1:
                     // lọc spham bán chạy nhất
-                    $query-> join('orders', 'products.id', '=', 'orders.product_id')
-                    ->select('products.*', DB::raw('SUM(orders.quantity) as total_orders'))
-                    ->groupBy('products.id')
-                    ->orderBy('total_orders', 'desc');
+                    $query->withCount('orders')
+                        ->orderBy('orders_count', 'desc')
+                        ->get();
                     break;
                 case 2:
                     //lọc spham từ mới đến cũ
@@ -160,7 +159,7 @@ class ProductController extends Controller
                     //lọc spham giá thấp đến cao
                     $query->orderBy('price', 'asc');
                     break;
-                case 5: 
+                case 5:
                     //lọc spham giá cao đến thấp
                     $query->orderBy('price', 'desc');
                     break;
@@ -171,9 +170,9 @@ class ProductController extends Controller
                 case 7:
                     //lọc spham từ Z đến A
                     $query->orderBy('name', 'desc');
-                    break;   
+                    break;
+            }
         }
-
         if ($price1) {
             $query->where('price', '>=', $price1);
         }
@@ -181,11 +180,14 @@ class ProductController extends Controller
         if ($price2) {
             $query->where('price', '<=', $price2);
         }
+        $title = "Danh sách sản phẩm";
+        $categories = Category::all();
+        $products = $query->paginate(12);
 
-        // Lấy kết quả lọc
-        $products = $query->get();
-
-        return view('products.index', ['products' => $products]);
-        }
+        return view('product.index', compact(
+            'products',
+            'categories',
+            'title'
+        ));
     }
 }

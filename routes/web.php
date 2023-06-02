@@ -51,7 +51,7 @@ Route::name('products.')->prefix('products')->group(function () {
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'destroy']);
     Route::get('/search', [ProductController::class, 'search']);
-    Route::get('/filter', [ProductController::class, 'filter']);
+    Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
 });
 
 Route::name('categories.')->prefix('categories')->group(function () {
