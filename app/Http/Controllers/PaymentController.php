@@ -13,7 +13,7 @@ class PaymentController extends Controller
     public function history()
     {
         $title = "Lịch sử giao dịch";
-        $trans = Transaction::where("customer_id", auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
+        $trans = Transaction::where("user_id", auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(10);
         return view("transaction.index", compact(
             'trans',
             'title'
@@ -36,6 +36,9 @@ class PaymentController extends Controller
         if (!$gateway) {
             return redirect()->back()->withErrors(['Không tồn tại gateway']);
         }
+        if (!$gateway->status) {
+            return redirect()->back()->withErrors(['message' => 'Gateway hiện không hỗ trợ nạp tiền']);
+        }
         $gatewayCurrency = GatewayCurrency::where("gateway_id", $gateway->id)->first();
 
         $title = $gateway->name;
@@ -51,6 +54,9 @@ class PaymentController extends Controller
     {
         $title = "Preview";
         $gateway = Gateway::find($request['gateway']);
+        if (!$gateway->status) {
+            return redirect()->back()->withErrors(['message' => 'Gateway hiện không hỗ trợ nạp tiền']);
+        }
         $amount = $request['amount'];
         $gatewayCurrency = GatewayCurrency::where("gateway_id", 1)->first();
 
