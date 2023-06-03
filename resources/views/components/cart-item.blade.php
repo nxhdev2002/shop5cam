@@ -4,7 +4,8 @@
         <img class="w-16 h-16 mr-4 rounded" src="{{$cart->product->picture_url}}" alt="{{$cart->product->name}}">
     </div>
     <div class="flex-grow flex-shrink-1 flex-basis-0">
-        <a href="{{route('products.show', $cart->product->id)}}">
+        <a
+            href="{{route('products.showByName', ['id' => $cart->product->id, 'name' => \App\Helpers\Utils::create_slug($cart->product->name)])}}">
             <h3 class="text-lg font-medium text-gray-900">{{$cart->product->name}}</h3>
 
             <p class="text-gray-600">{{number_format($cart->product->price)}} VNĐ</p>

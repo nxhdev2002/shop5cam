@@ -8,7 +8,8 @@
 
             <div class="flex flex-col md:flex-row basis-full md:basis-5/6">
                 @foreach ($ads_products as $product)
-                <a href="{{route('products.show', $product->id)}}">
+                <a
+                    href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
                     <div class="flex flex-col items-center py-3 px-9 sm:max-xl:border-b-2 md:border-l-2">
                         <div class="px-3 py-2">
                             <img src="{{$product->picture_url}}" alt="">

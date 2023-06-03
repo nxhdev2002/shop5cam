@@ -47,7 +47,7 @@ Route::post('upload-image', [ImageUploadController::class, 'store']);
 Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::get('/{id}-{name}.html', [ProductController::class, 'showByName'])->name('showByName');
-    Route::get('/{id}/show', [ProductController::class, 'showById'])->name('show');
+    Route::get('/{id}', [ProductController::class, 'showById'])->name('show');
     Route::get('/create', [ProductController::class, 'create']);
     Route::post('/create', [ProductController::class, 'store']);
     Route::get('/{id}/edit', [ProductController::class, 'edit']);
