@@ -20,6 +20,10 @@ class CategoriesController extends Controller
     }
     public function storeCategories(Request $request)
     {
+        $category = Category::where('name', $request['name'])->first();
+        if ($category) {
+            return redirect()->back()->withErrors(['message' => 'Danh mục đã tồn tại trong hệ thống rồi.']);
+        }
         $category = new Category;
         $category->name = $request->input('name');
         $category->status = 1;
@@ -42,6 +46,7 @@ class CategoriesController extends Controller
             ]);
         $category->name = $request->input('name');
         $category->status = $request->input('status');
+        $category->is_highlight = $request->input('highlight');
         $category->save();
         return response()->json([
             'success' => true,

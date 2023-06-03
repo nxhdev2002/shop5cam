@@ -10,7 +10,8 @@
                 <!-- Cards -->
                 <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                     <!-- Card -->
-                    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <a href="{{route('admin.user.index')}}"
+                        class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
                             class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -27,9 +28,10 @@
                                 {{ $totalUsers }}
                             </p>
                         </div>
-                    </div>
+                    </a>
                     <!-- Card -->
-                    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <a href="{{route('admin.ads.index')}}"
+                        class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
                             class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -46,7 +48,7 @@
                                 {{count($adsRunning)}}
                             </p>
                         </div>
-                    </div>
+                    </a>
                     <!-- Card -->
                     <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
@@ -67,13 +69,14 @@
                         </div>
                     </div>
                     <!-- Card -->
-                    <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <a href="{{route('admin.deposit.index')}}"
+                        class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                         <div
-                            class="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                                </path>
                             </svg>
                         </div>
                         <div>
@@ -84,7 +87,7 @@
                                 {{$depositRequests}}
                             </p>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="flex justify-around">

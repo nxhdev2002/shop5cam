@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->tinyInteger('status');
-            $table->tinyInteger('is_highlight');
+            $table->tinyInteger('is_highlight')->default(0);
             $table->timestamps();
         });
     }

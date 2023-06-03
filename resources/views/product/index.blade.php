@@ -86,7 +86,7 @@
                                     class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
                                     <option value="">Tất cả</option>
                                     @foreach ($categories as $category)
-                                    <option value="{{$category->name}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach
                                 </select>
                             </div>

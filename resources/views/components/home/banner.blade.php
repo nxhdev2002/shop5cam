@@ -3,7 +3,7 @@
         <div class="flex flex-col md:flex-row">
             <div class="flex flex-col mx-3 my-3 overflow-auto max-h-52 md:h-96 md:max-h-96 basis-full md:basis-1/4">
                 @foreach ($categories as $category)
-                <a href="{{route('categories.show', $category->id)}}"
+                <a href="{{route('categories.showByName', ['id' => $category->id, 'name' => \App\Helpers\Utils::create_slug($category->name)])}}"
                     class="p-3 rounded-sm hover:bg-blue-100">{{$category->name}}</a>
                 @endforeach
 
@@ -17,7 +17,8 @@
                         <!-- Item 1 -->
                         @foreach ($high_products as $product)
                         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                            <a href="{{route('products.show', $product->id)}}">
+                            <a
+                                href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
                                 <img src="{{$product->picture_url}}"
                                     class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                                     alt="...">
