@@ -16,6 +16,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->word,
             'status' => $this->faker->numberBetween(0, 1),
+            'is_highlight' => $this->faker->numberBetween(0, 1)
         ];
     }
 }

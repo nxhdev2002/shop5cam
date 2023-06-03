@@ -57,7 +57,7 @@
                         {{$users->email}}
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{$users->balance}}
+                        {{number_format($users->balance)}} VNĐ
                     </td>
                     <td class="px-4 py-3 text-sm">
                         @if ($users->rights == 1)

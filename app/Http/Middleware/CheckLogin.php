@@ -19,7 +19,7 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->rights >= 7) {
+        if (Auth::check() && Auth::user()->rights >= 5) {
             return $next($request);
         }
         abort(404);

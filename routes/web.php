@@ -20,6 +20,9 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WebConfigController;
+use App\Http\Controllers\Admin\GatewayController;
+use App\Http\Controllers\Admin\GiftCodeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,14 +44,14 @@ Route::post('upload-image', [ImageUploadController::class, 'store']);
 /// product route
 Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('/{id}', [ProductController::class, 'show'])->name('show');
+    Route::get('/{id}/show', [ProductController::class, 'show'])->name('show');
     Route::get('/create', [ProductController::class, 'create']);
     Route::post('/create', [ProductController::class, 'store']);
     Route::get('/{id}/edit', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'destroy']);
-    Route::get('/search', [ProductController::class, 'search']);
-    Route::get('/filter', [ProductController::class, 'filter']);
+    Route::get('/search', [ProductController::class, 'search'])->name('search');
+    Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
 });
 
 Route::name('categories.')->prefix('categories')->group(function () {
@@ -56,7 +59,9 @@ Route::name('categories.')->prefix('categories')->group(function () {
 });
 
 
-Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
+Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->group(function () {
+
+    /// CART
     Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::get('/load', [CartController::class, 'loadCart'])->name('load');
@@ -66,6 +71,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::post('/add-to-cart', [CartController::class, 'addToCart'])->withoutMiddleware([VerifyCsrfToken::class])->name('add');
     });
 
+
+    /// DEPOSIT
     Route::prefix('deposit')->name('deposit.')->group(function () {
         Route::get('/', [PaymentController::class, 'deposit'])->name("index");
         Route::get('/{id}', [PaymentController::class, 'depositDetails'])->name("details");
@@ -73,6 +80,8 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::post('/confirm', [PaymentController::class, 'depositConfirm'])->name("confirm");
     });
 
+
+    /// ORDER
     Route::prefix('orders')->name('order.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name("index");
         Route::get('/details/{id}', [OrderController::class, 'details'])->name("details");
@@ -81,20 +90,26 @@ Route::name('user.')->prefix('user')->middleware('auth')->group(function () {
         Route::post('/report/{id}', [OrderController::class, 'storeReport'])->name("reportSend");
     });
 
+
+    /// SETTINGS
+    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
+    Route::post('/setting/update', [UserController::class, 'settinglord'])->name('setting.update');
+
+
+    /// UPGRADE
+    Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
+    Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
+
+
+    /// OTHERS
     Route::get('/trans', [PaymentController::class, 'history'])->name('trans');
 
     Route::post('/giftcode/apply', [UserController::class, 'applyGiftCode'])->name('applyGiftCode');
-
-    Route::get('/upgrade', [UserController::class, 'upgrade'])->name('upgrade');
-    Route::get('/setting', [UserController::class, 'setting'])->name('setting');
-    Route::put('/setting/update', [UserController::class, 'settinglord'])->name('settinglord');
-    Route::post('/upgrade/confirm', [UserController::class, 'confirmUpgrade'])->name('confirmUpgrade');
 });
 
 // route admin
-
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'Dashboard']);
+    Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
     Route::get('/categories', [CategoriesController::class, 'Categories']);
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
@@ -103,15 +118,25 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
 
+    Route::get('/gateways', [GatewayController::class, 'index'])->name('gateway.index');
+    Route::get('/gateways/add', [GatewayController::class, 'add'])->name('gateway.add');
+    Route::get('/gateway/{id}', [GatewayController::class, 'show'])->name('gateway.show');
+    Route::post('/gateway/{id}/update', [GatewayController::class, 'update'])->name('gateway.update');
+    Route::post('/gateway/store', [GatewayController::class, 'store'])->name('gateway.store');
+
     Route::get('/deposit', [DepositController::class, 'Deposit']);
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
 
     Route::get('/user', [AdminUserController::class, 'User']);
-    Route::put('/user/{id}/ban', [AdminUserController::class, 'banUser']);
+    Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
+
+    Route::get('/giftcodes', [GiftCodeController::class, 'index'])->name('giftcode.index');
+    Route::post('/giftcodes/store', [GiftCodeController::class, 'store'])->name('giftcode.store');
+    Route::delete('/giftcode/{id}/remove', [GiftCodeController::class, 'remove'])->name('giftcode.remove');
 
     Route::get('/search', [AdminUserController::class, 'searchUser']);
     Route::get('/web-config', [WebConfigController::class, 'index']);
