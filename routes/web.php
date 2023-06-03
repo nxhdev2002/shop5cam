@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
+use App\Http\Controllers\Seller\WithDrawController;
 
 /*
 |--------------------------------------------------------------------------
@@ -146,17 +147,21 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
 });
 
 // route seller
-Route::name('seller.')->prefix('seller')->middleware('auth', 'checkSeller')->group(function () {
+Route::name('seller.')->prefix('seller')->middleware('auth')->group(function () {
     Route::get('/dashboard', [SellerController::class, 'Dashboard']);
 
-    Route::get('/products/create', [SelllerProductController::class, 'createProduct']);
-    Route::post('/products/store', [SelllerProductController::class, 'storeProduct'])->name('storeProduct');
-    Route::get('/product', [SelllerProductController::class, 'history']);
-    Route::get('/testTonKho', [SelllerProductController::class, 'createProduct']);
+    Route::get('/products/create', [SellerProductController::class, 'createProduct']);
+    Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
+    Route::get('/products/history', [SellerProductController::class, 'history']);
+    Route::get('/myProduct', [SellerProductController::class, 'createProduct']);
 
-    Route::get('/testRutTien', [SellerWithDrawController::class, 'Test']);
+    Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
     Route::get('/TestAds', [SellerAds::class, 'Test']);
     Route::get('/TestDoanhThu', [SellerRevenueController::class, 'Test']);
+});
+
+Route::get('/f', function(){
+    return view('test');
 });
 
 require __DIR__ . '/auth.php';
