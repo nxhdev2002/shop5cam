@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
+use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\Seller\SellerProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,6 +143,20 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::get('/search', [AdminUserController::class, 'searchUser']);
     Route::get('/web-config', [WebConfigController::class, 'index']);
     Route::put('/web-config/update', [WebConfigController::class, 'updateWebConfig'])->name('updateWebConfig');
+});
+
+// route seller
+Route::name('seller.')->prefix('seller')->middleware('auth', 'checkSeller')->group(function () {
+    Route::get('/dashboard', [SellerController::class, 'Dashboard']);
+
+    Route::get('/products/create', [SelllerProductController::class, 'createProduct']);
+    Route::post('/products/store', [SelllerProductController::class, 'storeProduct'])->name('storeProduct');
+    Route::get('/product', [SelllerProductController::class, 'history']);
+    Route::get('/testTonKho', [SelllerProductController::class, 'createProduct']);
+
+    Route::get('/testRutTien', [SellerWithDrawController::class, 'Test']);
+    Route::get('/TestAds', [SellerAds::class, 'Test']);
+    Route::get('/TestDoanhThu', [SellerRevenueController::class, 'Test']);
 });
 
 require __DIR__ . '/auth.php';
