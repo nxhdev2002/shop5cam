@@ -190,7 +190,7 @@
 
     </div>
 
-
+    @auth
     @push("scripts")
 
     <script>
@@ -237,3 +237,4 @@
         }
     </script>
     @endpush
+    @endauth
