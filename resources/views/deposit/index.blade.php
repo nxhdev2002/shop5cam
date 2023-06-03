@@ -8,7 +8,7 @@
             @foreach ($gateways as $gateway)
             <a href="{{route('user.deposit.details', $gateway->id)}}" class="flex border rounded-lg">
                 <div class="p-3 thumbnail">
-                    <img src="{{ asset($gateway->image) }}" class="w-16 h-16">
+                    <img src="{{ ($gateway->image) }}" class="w-16 h-16">
                 </div>
                 <div class="flex flex-col justify-center ml-3">
                     <h3>{{$gateway->name}}</h3>

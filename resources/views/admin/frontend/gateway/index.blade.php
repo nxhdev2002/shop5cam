@@ -48,7 +48,7 @@
                                             {{$gateway->id}}
                                         </th>
                                         <td class="px-6 py-4">
-                                            <img src="{{ asset($gateway->image) }}" class="w-8 h-8">
+                                            <img src="{{ ($gateway->image) }}" class="w-8 h-8">
                                         </td>
                                         <td class="px-6 py-4">
                                             {{$gateway->name}}

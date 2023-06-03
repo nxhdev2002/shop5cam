@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
 use Illuminate\Http\Request;
+use Cloudinary\Cloudinary;
+use Cloudinary\Transformation\Resize;
 
 class GatewayController extends Controller
 {
@@ -69,11 +71,26 @@ class GatewayController extends Controller
             'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
-        $path = $request->file('thumb')->store('public/images');
+        // $path = $request->file('thumb')->store('public/images');
+        $cloudinary = new Cloudinary(
+            [
+                'cloud' => [
+                    'cloud_name' => 'dhcevvymr',
+                    'api_key'    => '543482997368214',
+                    'api_secret' => '2ThE9oQ7OSNq5q6mVTI4Ajplwog',
+                ],
+            ]
+        );
+
+        $file = $cloudinary->uploadApi()->upload(
+            $request->file('thumb')->path(),
+            ['public_id' => $request->file('thumb')->getClientOriginalName()]
+        );
+
 
         $gateway = new Gateway();
         $gateway->name = $request['name'];
-        $gateway->image = substr($path, strlen('public/'));
+        $gateway->image = $file['url'];
         $gateway->status = 1;
         $gateway->description = $request['description'];
         $gateway->content = $request['content'];
