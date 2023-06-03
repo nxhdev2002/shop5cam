@@ -29,7 +29,38 @@ class ProductController extends Controller
         return view('product.index', $data);
     }
 
-    public function show($id)
+    public function showByName($id, $name = null)
+    {
+        $data = array();
+        $data['product'] = Product::find($id);
+        if (!$data['product']) {
+            return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
+        }
+
+        $feedbacks = feedback::where('product_id', $data['product']->id)->where('rate', 5)->get();
+        if (!$feedbacks) {
+            $feedbacks = [];
+        }
+        $data['product']->views += 1;
+        $data['product']->rank_point +=
+            ($this->view_rate * $data['product']->views) +
+            ($this->comment_rate * count($feedbacks)) +
+            ($this->share_rate * 1) +
+            ($this->date_rate *
+                (Carbon::now()->diffInRealMinutes(
+                    Carbon::parse($data['product']->created_at)
+                ))
+            );
+
+        $data['product']->save();
+
+        $data['category'] = Category::find($data['product']->category_id);
+        $data['seller'] = User::find($data['product']->seller_id);
+        $data['title'] = $data['product']->name;
+        return view('product.info', $data);
+    }
+
+    public function showById($id)
     {
         $data = array();
         $data['product'] = Product::find($id);

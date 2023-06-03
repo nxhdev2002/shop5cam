@@ -1,5 +1,6 @@
 <div class="flex flex-col justify-between p-4 border-b border-gray-300 rounded-md shadow-md">
-    <a href="{{route('products.show', $product->id)}}">
+    <a
+        href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
         <img src="{{$product->picture_url}}" alt="{{$product->name}}" class="object-cover max-w-full max-h-full mb-4">
         <h2 class="text-lg font-bold">{{$product->name}}</h2>
         <p class="mb-2 text-gray-500 overflow-ellipsis">{{ strlen($product->description) < 64 ? $product->description :
