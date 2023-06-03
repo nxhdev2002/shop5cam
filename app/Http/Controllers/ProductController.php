@@ -142,11 +142,11 @@ class ProductController extends Controller
         $query = Product::query();
 
         // Áp dụng các điều kiện lọc nếu có
-        if ($category) {
+        if (strlen($category) > 0) {
             $query->where('category_id', $category);
         }
 
-        if ($sort_by) {
+        if (strlen($sort_by) > 0) {
             switch ($sort_by) {
                 case 1:
                     // lọc spham bán chạy nhất
@@ -180,13 +180,12 @@ class ProductController extends Controller
                     break;
             }
         }
-        if ($price1) {
+        if (strlen($price1) > 0)
             $query->where('price', '>=', $price1);
-        }
 
-        if ($price2) {
+        if (strlen($price2) > 0)
             $query->where('price', '<=', $price2);
-        }
+
         $title = "Danh sách sản phẩm";
         $categories = Category::all();
         $products = $query->paginate(12);

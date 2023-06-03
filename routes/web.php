@@ -126,12 +126,12 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::post('/gateway/{id}/update', [GatewayController::class, 'update'])->name('gateway.update');
     Route::post('/gateway/store', [GatewayController::class, 'store'])->name('gateway.store');
 
-    Route::get('/deposit', [DepositController::class, 'Deposit']);
+    Route::get('/deposit', [DepositController::class, 'Deposit'])->name('deposit.index');
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
 
-    Route::get('/user', [AdminUserController::class, 'User']);
+    Route::get('/user', [AdminUserController::class, 'User'])->name('user.index');
     Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
@@ -139,6 +139,8 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::get('/giftcodes', [GiftCodeController::class, 'index'])->name('giftcode.index');
     Route::post('/giftcodes/store', [GiftCodeController::class, 'store'])->name('giftcode.store');
     Route::delete('/giftcode/{id}/remove', [GiftCodeController::class, 'remove'])->name('giftcode.remove');
+
+    Route::get('/ads', [])->name('ads.index');
 
     Route::get('/search', [AdminUserController::class, 'searchUser']);
     Route::get('/web-config', [WebConfigController::class, 'index']);
