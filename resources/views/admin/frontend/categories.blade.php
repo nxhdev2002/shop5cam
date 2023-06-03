@@ -2,14 +2,16 @@
 <script>
     function update(cateID) {
         let id = $('#cate_id_' + cateID).val()
-        let name = $('#name').val()
-        let status = $('#status').find(':selected').val()
+        let name = $('#name-' + cateID).val()
+        let status = $('#status-' + cateID).find(':selected').val()
+        let highlight = $('#highlight-' + cateID).is(':checked') ? 1 : 0
         $.ajax({
             url: "/admin/categories/" + id + "/update",
             type: "PUT",
             data: {
                 name: name,
                 status: status,
+                highlight: highlight,
                 _token: '{{csrf_token()}}'
             },
             success: function (data) {
@@ -182,14 +184,15 @@
                                                         <label for="name"
                                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category
                                                             Name</label>
-                                                        <input type="text" name="name" id="name" value="{{$cate->name}}"
+                                                        <input type="text" name="name" id="name-{{$cate->id}}"
+                                                            value="{{$cate->name}}"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                             placeholder="">
                                                     </div>
                                                     <div>
                                                         <label for="status"
                                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                                        <select id="status" name="status"
+                                                        <select id="status-{{$cate->id}}" name="status"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                                             @if ($cate->status)
                                                             <option selected value="1">Hiện</option>
@@ -202,6 +205,20 @@
                                                         <input type="hidden" id="cate_id_{{$cate->id}}" name="id"
                                                             value="{{$cate->id}}">
                                                     </div>
+
+                                                    <label
+                                                        class="relative inline-flex items-center mr-5 cursor-pointer">
+                                                        <input type="checkbox" value="1" class="sr-only peer"
+                                                            id="highlight-{{$cate->id}}" {{$cate->is_highlight ?
+                                                        "checked" : ""}}>
+                                                        <div
+                                                            class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600">
+                                                        </div>
+                                                        <span
+                                                            class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">High
+                                                            Light</span>
+                                                    </label>
+
                                                 </div>
                                                 <div class="flex items-center justify-center space-x-4">
                                                     <button type="submit" onclick="update('{{$cate->id}}')"

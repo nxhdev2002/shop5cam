@@ -6,7 +6,8 @@
             <img alt="" class="object-cover object-center w-full border border-gray-200 rounded lg:w-1/2"
                 src="{{$product->picture_url}}">
             <div class="w-full mt-6 lg:w-1/2 lg:pl-10 lg:py-6 lg:mt-0">
-                <h2 class="text-sm tracking-widest text-gray-500 title-font">{{$product->category->name}}</h2>
+                <a href="{{route('categories.showByName', ['id' => $category->id, 'name' => \App\Helpers\Utils::create_slug($category->name)])}}"
+                    class="text-sm tracking-widest text-gray-500 title-font">{{$product->category->name}}</a>
                 <h1 class="mb-1 text-3xl font-medium text-gray-900 title-font">{{ $product->name }}</h1>
                 <div class="flex mb-4">
                     <span class="flex items-center">
