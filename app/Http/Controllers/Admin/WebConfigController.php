@@ -21,12 +21,14 @@ class WebConfigController extends Controller
             'order_fixed_fee' => 'bail|required|gte:0',
             'order_percent_fee' => 'bail|required|gte:0',
             'notification_time' => 'bail|required|gte:0',
+            'guarantee_time' => 'bail|required|gte:0'
         ]);
         $webConfig = WebConfig::first();
         $webConfig->upgrade_fee = $request->input('upgrade_fee');
         $webConfig->order_fixed_fee = $request->input('order_fixed_fee');
         $webConfig->order_percent_fee = $request->input('order_percent_fee');
         $webConfig->notification_display_time = $request->input('notification_time');
+        $webConfig->guarantee_time = $request->input('guarantee_time');
         $webConfig->save();
 
         return response()->json([

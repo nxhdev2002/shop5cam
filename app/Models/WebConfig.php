@@ -13,4 +13,10 @@ class WebConfig extends Model
         $config = WebConfig::first();
         return $config->cloudinary_upload_api;
     }
+
+    public static function getGuaranteeTime()
+    {
+        $config = WebConfig::first();
+        return $config->guarantee_time;
+    }
 }
