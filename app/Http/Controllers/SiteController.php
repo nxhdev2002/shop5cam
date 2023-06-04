@@ -46,7 +46,7 @@ class SiteController extends Controller
         $productsOfHighLight = array();
         $highlightCate = Category::where('is_highlight', '1')->get();
         foreach ($highlightCate as $key => $category) {
-            $products = Product::where('category_id', $category->id)->take(8)->get();
+            $products = Product::where('category_id', $category->id)->orderBy('rank_point', 'DESC')->take(8)->get();
             array_push($productsOfHighLight, $products);
         }
 

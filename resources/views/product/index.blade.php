@@ -75,8 +75,7 @@
                     </div>
                 </div>
 
-                <form action="{{route('products.filter')}}" method="POST" id="filterForm">
-                    @csrf
+                <form action="{{route('products.filter')}}" id="filterForm">
                     <div>
                         <div class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-3 xl:grid-cols-4">
                             <div class="relative">
@@ -123,6 +122,7 @@
                             </div>
                         </div>
                     </div>
+                    @csrf
                 </form>
             </div>
 

@@ -47,15 +47,11 @@ Route::post('upload-image', [ImageUploadController::class, 'store']);
 /// product route
 Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('/search', [ProductController::class, 'search'])->name('search');
+    Route::get('/filter', [ProductController::class, 'filter'])->name('filter');
     Route::get('/{id}-{name}.html', [ProductController::class, 'showByName'])->name('showByName');
     Route::get('/{id}', [ProductController::class, 'showById'])->name('show');
-    Route::get('/create', [ProductController::class, 'create']);
-    Route::post('/create', [ProductController::class, 'store']);
-    Route::get('/{id}/edit', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
-    Route::delete('/{id}', [ProductController::class, 'destroy']);
-    Route::get('/search', [ProductController::class, 'search'])->name('search');
-    Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
 });
 
 Route::name('categories.')->prefix('categories')->group(function () {

@@ -1,11 +1,20 @@
 <div class="flex flex-col justify-between p-4 border-b border-gray-300 rounded-md shadow-md">
-    <a
-        href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
-        <img src="{{$product->picture_url}}" alt="{{$product->name}}" class="object-cover max-w-full max-h-full mb-4">
-        <h2 class="text-lg font-bold">{{$product->name}}</h2>
-        <p class="mb-2 text-gray-500 overflow-ellipsis">{{ strlen($product->description) < 64 ? $product->description :
-                substr($product->description, 0, 64).'...'}}</p>
-    </a>
+    <div class="relative">
+        @if ($product->is_ads)
+        <span
+            class="absolute top-2 left-1.5 bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Nổi
+            bật</span>
+        @endif
+        <a
+            href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
+            <img src="{{$product->picture_url}}" alt="{{$product->name}}"
+                class="object-cover max-w-full max-h-full mb-4">
+            <h2 class="text-lg font-bold">{{$product->name}}</h2>
+            <p class="mb-2 text-gray-500 overflow-ellipsis">{{ strlen($product->description) < 64 ? $product->
+                    description :
+                    substr($product->description, 0, 64).'...'}}</p>
+        </a>
+    </div>
     <div class="flex justify-between">
         <p class="text-lg font-bold">{{number_format($product->price)}} VNĐ</p>
         @auth
