@@ -156,11 +156,11 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::get('/products/create', [SellerProductController::class, 'createProduct']);
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/products/history', [SellerProductController::class, 'history']);
-    Route::get('/myProduct', [SellerProductController::class, 'createProduct']);
+    Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
 
     Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
     Route::get('/TestAds', [SellerAds::class, 'Test']);
-    Route::get('/TestDoanhThu', [SellerRevenueController::class, 'Test']);
+    Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
 });
 
 Route::get('/f', function () {
