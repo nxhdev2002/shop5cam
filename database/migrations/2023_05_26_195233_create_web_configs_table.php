@@ -13,13 +13,13 @@ class CreateWebConfigsTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('web_configs');
         Schema::create('web_configs', function (Blueprint $table) {
             $table->id();
             $table->decimal('upgrade_fee', 18, 8);
             $table->decimal('order_fixed_fee', 18, 8)->default(0.0);
             $table->float('order_percent_fee', 18, 8)->default(5);
             $table->integer('notification_display_time')->default(3);
+            $table->string('cloudinary_upload_api')->nullable();
             $table->timestamps();
         });
     }
