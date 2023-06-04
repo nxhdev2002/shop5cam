@@ -6,11 +6,62 @@ use App\Http\Controllers\Controller;
 use App\Models\Ads;
 use App\Models\User;
 use App\Models\Deposit;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductStatistic;
 use App\Models\UpgradeRequest;
+use Carbon\Carbon;
 
 class AdsController extends Controller
 {
     public function index()
     {
+        $ads = Ads::all();
+        return view('admin.frontend.ads.index', compact(
+            'ads'
+        ));
+    }
+
+    public function show($id)
+    {
+        $ad = Ads::find($id);
+        if (!$ad) {
+            return redirect()->back()->withErrors(['message' => 'Ads không tồn tại']);
+        }
+
+        return view('admin.frontend.ads.detail', compact(
+            'ad'
+        ));
+    }
+
+    public function statistic($id)
+    {
+        $ads = Ads::find($id);
+        $product = $ads->products;
+        $statistic = ProductStatistic::where('product_id', $product->id)->take(5)->orderBy('created_at')->get();
+
+        $endDate = Carbon::now(); // Ngày kết thúc, là ngày hiện tại
+        $startDate = now()->subDays(3)->toDateString(); // Ngày bắt đầu, là ngày 3 ngày trước
+
+        $orders = $product->orders->whereBetween('created_at', [$startDate, $endDate])
+            ->pluck('created_at')
+            ->map(function ($date) {
+                return $date->format('d/m');
+            })
+            ->countBy()
+            ->toArray();
+        $result = [];
+        foreach ($orders as $date => $count) {
+            $result[$date] = $count;
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lấy thông tin thành công',
+            'data' => [
+                'view' => $statistic,
+                'order' => $result
+            ]
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Helpers\Utils;
 use App\Models\Category;
 use App\Models\feedback;
 use App\Models\Product;
+use App\Models\ProductStatistic;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ProductController extends Controller
         $data = array();
         $data['title'] = "Danh sách sản phẩm";
         $data['products'] = DB::table('products')
-            ->orderBy('views', 'DESC')
+            ->orderBy('rank_point', 'DESC')
             ->paginate(12);
         $data['categories'] = Category::all();
         return view('product.index', $data);
@@ -42,9 +43,15 @@ class ProductController extends Controller
         if (!$feedbacks) {
             $feedbacks = [];
         }
-        $data['product']->views += 1;
-        $data['product']->rank_point +=
-            ($this->view_rate * $data['product']->views) +
+
+        $currentDate = Carbon::today()->format('Y-m-d');
+        $statistic = ProductStatistic::whereDate('created_at', $currentDate)->where('product_id', $data['product']->id)->first();
+
+        $statistic->view_count += 1;
+        $statistic->save();
+
+        $data['product']->rank_point =
+            ($this->view_rate * $data['product']->total_views($data['product']->id)) +
             ($this->comment_rate * count($feedbacks)) +
             ($this->share_rate * 1) +
             ($this->date_rate *

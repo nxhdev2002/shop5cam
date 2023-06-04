@@ -21,13 +21,12 @@ class SiteController extends Controller
         $high_products = DB::table('products')
             ->where('amount', '>', 0)
             ->where('status', '1')
-            ->orderBy('views', 'DESC')
+            ->orderBy('rank_point', 'DESC')
             ->take(5)
             ->get();
 
         $ads_products = Product::withCount('orders')
             ->orderBy('orders_count', 'desc')
-            ->orderBy('views', 'DESC')
             ->orderBy('rank_point', 'DESC')
             ->where('amount', '>', 0)
             ->where('status', '1')

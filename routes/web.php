@@ -16,6 +16,7 @@ use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
 use Faker\Provider\ar_EG\Payment;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
@@ -109,7 +110,7 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
 });
 
 // route admin
-Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
+Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'BannedMiddleware')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
     Route::get('/categories', [CategoriesController::class, 'Categories'])->name('categories.index');
@@ -139,7 +140,9 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::post('/giftcodes/store', [GiftCodeController::class, 'store'])->name('giftcode.store');
     Route::delete('/giftcode/{id}/remove', [GiftCodeController::class, 'remove'])->name('giftcode.remove');
 
-    Route::get('/ads', [])->name('ads.index');
+    Route::get('/ads', [AdsController::class, 'index'])->name('ads.index');
+    Route::get('/ads/{id}', [AdsController::class, 'show'])->name('ads.detail');
+    Route::get('/ads/{id}/statistic', [AdsController::class, 'statistic'])->name('ads.statistic');
 
     Route::get('/search', [AdminUserController::class, 'searchUser']);
     Route::get('/web-config', [WebConfigController::class, 'index'])->name('webconfig.index');
@@ -147,7 +150,7 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
 });
 
 // route seller
-Route::name('seller.')->prefix('seller')->middleware('auth')->group(function () {
+Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')->group(function () {
     Route::get('/dashboard', [SellerController::class, 'Dashboard']);
 
     Route::get('/products/create', [SellerProductController::class, 'createProduct']);

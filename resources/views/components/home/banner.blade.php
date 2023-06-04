@@ -91,7 +91,7 @@
                     <div class="mx-3 mt-3 overflow-auto h-96">
                         @endauth
                         @guest
-                        <div class="mx-3 mt-3 overflow-scroll h-52">
+                        <div class="mx-3 mt-3 overflow-auto h-52">
                             @endguest
                             @if (count($latest_orders) > 0)
                             @foreach ($latest_orders as $order)
@@ -100,7 +100,7 @@
                                     <span class="font-bold text-red-300">{{$order->quantity}}</span>
                                     <span class="font-bold text-blue-400">
                                         <a
-                                            href="{{route('products.show', $order->product->id)}}">{{$order->product->name}}</a>
+                                            href="{{route('products.showByName', ['id' => $order->product->id, 'name' => \App\Helpers\Utils::create_slug($order->product->name)])}}">{{$order->product->name}}</a>
                                     </span>
                                 </p>
                             </div>

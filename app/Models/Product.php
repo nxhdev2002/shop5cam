@@ -18,10 +18,18 @@ class Product extends Model
     }
     function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'product_id', 'id');
     }
     function ads()
     {
         return $this->hasMany(Ads::class, 'product_id', 'id');
+    }
+    function statistic()
+    {
+        return $this->hasMany(ProductStatistic::class);
+    }
+    function total_views($id)
+    {
+        return ProductStatistic::where('product_id', $id)->sum('view_count');
     }
 }

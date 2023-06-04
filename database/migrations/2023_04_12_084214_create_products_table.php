@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->timestamp('guarantee');
             $table->string('picture_url');
             $table->decimal('price', 18, 8);
-            $table->integer('views')->default(0);
             $table->float('rank_point')->default(0);
             $table->tinyInteger('is_ads')->default(0);
             $table->tinyInteger('status');
