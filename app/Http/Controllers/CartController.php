@@ -160,7 +160,7 @@ class CartController extends Controller
     {
         $request->validate([
             'product_id' => 'bail|required|integer|gt:0',
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer|gt:0'
         ]);
 
         $product_id = $request['product_id'];

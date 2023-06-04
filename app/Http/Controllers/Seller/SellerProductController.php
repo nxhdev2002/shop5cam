@@ -50,8 +50,7 @@ class SellerProductController extends Controller
 	return view('seller.frontend.history', compact('history'));
     }
 
-    public function myproduct(){
+    public function myProduct(){
         return view('seller.frontend.myproduct');
     }
-
 }

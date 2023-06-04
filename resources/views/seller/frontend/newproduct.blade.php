@@ -51,7 +51,7 @@
                             placeholder="" />
                     </label>
 
-                    <!-- <div class="mt-4 text-sm justify-end">
+                    <div class="mt-4 text-sm justify-end">
                         <div>
                             <span class="text-gray-700 dark:text-gray-400">
                                 Ảnh sản phẩm
@@ -61,7 +61,7 @@
                             <input id="upload" type="file" accept="image/*"
                                 class=" rounded-lg shadow-sm w-1/4 mt-1 text-sm focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray" />
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="justify-center mt-4">
                         <button type="submit"
