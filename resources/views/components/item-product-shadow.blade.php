@@ -12,6 +12,11 @@
                         {{$product->amount > 0 ? $product->amount : "Hết hàng"}}
                     </span>
                 </div>
+                @if ($product->is_ads)
+                <span
+                    class="absolute top-2 left-1.5 bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Nổi
+                    bật</span>
+                @endif
             </div>
 
             <div id="product-{{$product->id}}" class="absolute inset-0 flex items-center justify-center bg-gray-200">

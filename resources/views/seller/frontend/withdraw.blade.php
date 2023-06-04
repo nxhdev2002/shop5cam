@@ -41,19 +41,6 @@
                                 required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Phương thức rút tiền</label>
-                            <select name="method" class="form-select mt-1 block w-full rounded-lg shadow-sm" required>
-                                <option value="bank_transfer">Chuyển khoản ngân hàng</option>
-                                <option value="paypal">PayPal</option>
-                                <option value="other">Phương thức khác</option>
-                            </select>
-                        </div>
-                        <div class="mb-4 ">
-                            <label class="block text-sm font-medium text-gray-700">Số tài khoản</label>
-                            <input type="number" name="account"
-                                class="form-input mt-1 block w-full rounded-lg shadow-sm" required>
-                        </div>
-                        <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">Thông tin liên hệ</label>
                             <textarea name="contact_info" class="form-textarea mt-1 block w-full rounded-lg shadow-sm"
                                 rows="3" required></textarea>

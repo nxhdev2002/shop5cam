@@ -37,19 +37,6 @@
                     <li class="relative">
                         <a href="{{route('site.index')}}" class="mr-2">
                             Back To Site</a>
-                        <button
-                            class="relative text-gray-900 align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-                            @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"
-                            aria-label="Notifications" aria-haspopup="true">
-                            <svg class="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                            </svg>
-                            <!-- Notification badge -->
-                            <span aria-hidden="true"
-                                class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
-                        </button>
                         <template x-if="isNotificationsMenuOpen">
                             <ul x-transition:leave="transition ease-in duration-150"
                                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"

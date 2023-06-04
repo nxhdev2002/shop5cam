@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\WebConfig;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -78,7 +79,7 @@ class CartController extends Controller
             foreach ($carts as $cart) {
                 $current_time = Carbon::now();
                 $order = new Order();
-                $order->paydate = $current_time->addDays(7);
+                $order->paydate = $current_time->addDays(WebConfig::getGuaranteeTime());
                 $order->quantity = $cart->quantity;
                 $order->status = 1;
                 $order->price = $cart->product->price * $cart->quantity;
@@ -160,7 +161,7 @@ class CartController extends Controller
     {
         $request->validate([
             'product_id' => 'bail|required|integer|gt:0',
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer|gt:0'
         ]);
 
         $product_id = $request['product_id'];

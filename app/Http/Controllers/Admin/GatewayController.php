@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
+use App\Models\WebConfig;
 use Illuminate\Http\Request;
 use Cloudinary\Cloudinary;
 use Cloudinary\Transformation\Resize;
@@ -72,15 +73,7 @@ class GatewayController extends Controller
         ]);
 
         // $path = $request->file('thumb')->store('public/images');
-        $cloudinary = new Cloudinary(
-            [
-                'cloud' => [
-                    'cloud_name' => 'dhcevvymr',
-                    'api_key'    => '543482997368214',
-                    'api_secret' => '2ThE9oQ7OSNq5q6mVTI4Ajplwog',
-                ],
-            ]
-        );
+        $cloudinary = new Cloudinary(json_decode(WebConfig::getCloudinaryConfig(), true));
 
         $file = $cloudinary->uploadApi()->upload(
             $request->file('thumb')->path(),

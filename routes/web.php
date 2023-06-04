@@ -47,15 +47,11 @@ Route::post('upload-image', [ImageUploadController::class, 'store']);
 /// product route
 Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('/search', [ProductController::class, 'search'])->name('search');
+    Route::get('/filter', [ProductController::class, 'filter'])->name('filter');
     Route::get('/{id}-{name}.html', [ProductController::class, 'showByName'])->name('showByName');
     Route::get('/{id}', [ProductController::class, 'showById'])->name('show');
-    Route::get('/create', [ProductController::class, 'create']);
-    Route::post('/create', [ProductController::class, 'store']);
-    Route::get('/{id}/edit', [ProductController::class, 'edit']);
     Route::put('/{id}', [ProductController::class, 'update']);
-    Route::delete('/{id}', [ProductController::class, 'destroy']);
-    Route::get('/search', [ProductController::class, 'search'])->name('search');
-    Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
 });
 
 Route::name('categories.')->prefix('categories')->group(function () {
@@ -116,7 +112,7 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
-    Route::get('/categories', [CategoriesController::class, 'Categories']);
+    Route::get('/categories', [CategoriesController::class, 'Categories'])->name('categories.index');
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
     Route::post('/categories/create', [CategoriesController::class, 'storeCategories'])->name('storeCategory');
     Route::get('/categories/{id}/edit', [CategoriesController::class, 'editCategories']);
@@ -146,7 +142,7 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(
     Route::get('/ads', [])->name('ads.index');
 
     Route::get('/search', [AdminUserController::class, 'searchUser']);
-    Route::get('/web-config', [WebConfigController::class, 'index']);
+    Route::get('/web-config', [WebConfigController::class, 'index'])->name('webconfig.index');
     Route::put('/web-config/update', [WebConfigController::class, 'updateWebConfig'])->name('updateWebConfig');
 });
 
@@ -164,7 +160,7 @@ Route::name('seller.')->prefix('seller')->middleware('auth')->group(function () 
     Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
 });
 
-Route::get('/f', function(){
+Route::get('/f', function () {
     return view('test');
 });
 
