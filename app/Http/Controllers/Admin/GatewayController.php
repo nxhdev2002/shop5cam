@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
 use App\Models\WebConfig;
@@ -44,6 +45,10 @@ class GatewayController extends Controller
 
         $status = isset($request->status) ? 1 : 0;
 
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Gateway " . $gateway->name . " đã được update bởi " . auth()->user()->name;
+        $log->save();
 
         $gateway->name = $request['name'];
         $gateway->description = $request['description'];
@@ -96,6 +101,11 @@ class GatewayController extends Controller
         $currency->min_amount = $request['min_amount'];
         $currency->max_amount = $request['max_amount'];
         $currency->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Gateway " . $gateway->name . " đã được tạo bởi " . auth()->user()->name;
+        $log->save();
 
         return redirect()->back()->with('success', 'Tạo gateway thành công!');
     }

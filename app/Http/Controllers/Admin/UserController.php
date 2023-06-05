@@ -21,6 +21,9 @@ class UserController extends Controller
     public function updateUser(Request $request, $id)
     {
         $user = User::find($id);
+        if ($user->rights >= auth()->user()->rights) {
+            return redirect()->back()->withErrors(['message' => 'Bạn không thể chỉnh sửa người dùng có chức vụ cao hơn hoặc ngang hàng bạn.']);
+        }
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');

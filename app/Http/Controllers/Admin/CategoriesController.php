@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,12 @@ class CategoriesController extends Controller
         $category->name = $request->input('name');
         $category->status = 1;
         $category->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Danh mục " . $category->name . " đã được tạo bởi " . auth()->user()->name;
+        $log->save();
+
         return redirect()->back()->with('success', 'Tạo danh mục thành công.');
     }
     public function editCategories($id)
@@ -48,6 +55,12 @@ class CategoriesController extends Controller
         $category->status = $request->input('status');
         $category->is_highlight = $request->input('highlight');
         $category->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Danh mục " . $category->name . " đã được cập nhật bởi " . auth()->user()->name;
+        $log->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Cập nhật danh mục thành công'

@@ -47,6 +47,7 @@ class AdsController extends Controller
         $product->save();
 
         $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
         $log->detail = "Ads có tên " . $ad->name . " đã bị xoá bởi " . auth()->user()->name;
         $log->save();
 

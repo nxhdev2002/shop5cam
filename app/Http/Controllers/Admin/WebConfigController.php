@@ -4,18 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\WebConfig;
 
 class WebConfigController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->rights < 9) {
+            abort(404);
+        }
         $webConfig = WebConfig::first();
         return view('admin.frontend.web-config', compact('webConfig'));
     }
 
     public function updateWebConfig(Request $request)
     {
+        if (auth()->user()->rights < 9) {
+            abort(404);
+        }
         $request->validate([
             'upgrade_fee' => 'bail|required',
             'order_fixed_fee' => 'bail|required|gte:0',
@@ -30,6 +37,11 @@ class WebConfigController extends Controller
         $webConfig->notification_display_time = $request->input('notification_time');
         $webConfig->guarantee_time = $request->input('guarantee_time');
         $webConfig->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Config đã được update bởi " . auth()->user()->name;
+        $log->save();
 
         return response()->json([
             'success' => true,

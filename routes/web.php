@@ -111,6 +111,9 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
 
 // route admin
 Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'BannedMiddleware')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
     Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
     Route::get('/categories', [CategoriesController::class, 'Categories'])->name('categories.index');
@@ -142,7 +145,11 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 
     Route::get('/ads', [AdsController::class, 'index'])->name('ads.index');
     Route::get('/ads/{id}', [AdsController::class, 'show'])->name('ads.detail');
+    Route::post('/ads/{id}/delete', [AdsController::class, 'delete'])->name('ads.delete');
     Route::get('/ads/{id}/statistic', [AdsController::class, 'statistic'])->name('ads.statistic');
+
+    Route::get('/activities', [AdminController::class, 'activities'])->name('activities');
+    Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
 
     Route::get('/search', [AdminUserController::class, 'searchUser']);
     Route::get('/web-config', [WebConfigController::class, 'index'])->name('webconfig.index');
