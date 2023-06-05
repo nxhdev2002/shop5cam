@@ -32,4 +32,9 @@ class Product extends Model
     {
         return ProductStatistic::where('product_id', $id)->sum('view_count');
     }
+
+    function total_shares($id)
+    {
+        return ProductStatistic::where('product_id', $id)->sum('share_count');
+    }
 }

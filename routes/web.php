@@ -50,6 +50,7 @@ Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::get('/search', [ProductController::class, 'search'])->name('search');
     Route::get('/filter', [ProductController::class, 'filter'])->name('filter');
+    Route::get('/{id}/share', [ProductController::class, 'share'])->name('share');
     Route::get('/{id}-{name}.html', [ProductController::class, 'showByName'])->name('showByName');
     Route::get('/{id}', [ProductController::class, 'showById'])->name('show');
     Route::put('/{id}', [ProductController::class, 'update']);

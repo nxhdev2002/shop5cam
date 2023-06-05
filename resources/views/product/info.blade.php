@@ -9,39 +9,29 @@
                 <a href="{{route('categories.showByName', ['id' => $category->id, 'name' => \App\Helpers\Utils::create_slug($category->name)])}}"
                     class="text-sm tracking-widest text-gray-500 title-font">{{$product->category->name}}</a>
                 <h1 class="mb-1 text-3xl font-medium text-gray-900 title-font">{{ $product->name }}</h1>
-                <div class="flex mb-4">
+                <div class="flex p-2 mb-4">
                     <span class="flex items-center">
-                        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                            </path>
-                        </svg>
-                        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                            </path>
-                        </svg>
-                        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                            </path>
-                        </svg>
-                        <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                            </path>
-                        </svg>
-                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                            </path>
-                        </svg>
-                        <span class="ml-3 text-gray-600">{{$product->total_views($product->id)}} lượt xem</span>
+                        <span class="inline-flex ml-3 text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-6 h-6 mx-2">
+                                <path fill-rule="evenodd"
+                                    d="M15.75 4.5a3 3 0 11.825 2.066l-8.421 4.679a3.002 3.002 0 010 1.51l8.421 4.679a3 3 0 11-.729 1.31l-8.421-4.678a3 3 0 110-4.132l8.421-4.679a3 3 0 01-.096-.755z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                            {{$product->total_shares($product->id)}}</span>
+
+
+                        <span class="inline-flex ml-3 text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-6 h-6 mx-2">
+                                <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                                <path fill-rule="evenodd"
+                                    d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                            {{$product->total_views($product->id)}}</span>
                     </span>
                     <span class="flex py-2 pl-3 ml-3 border-l-2 border-gray-200">
                         <a class="text-gray-500" id="fb-share-button">
@@ -50,7 +40,7 @@
                                 <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                             </svg>
                         </a>
-                        <a class="ml-2 text-gray-500">
+                        <a class="ml-2 text-gray-500" id="tw-share-button">
                             <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 class="w-5 h-5" viewBox="0 0 24 24">
                                 <path
@@ -120,7 +110,8 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        $('#fb-share-button').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(window.location))
+        $('#fb-share-button').attr('href', '{{route("products.share", ["id" => $product->id, "type" => "facebook"])}}')
+        $('#tw-share-button').attr('href', '{{route("products.share", ["id" => $product->id, "type" => "twitter"])}}')
     });
 </script>
 <script>

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class ProductController extends Controller
 {
     public $ads_rate = 0.4;
@@ -217,5 +218,33 @@ class ProductController extends Controller
             'categories',
             'title'
         ));
+    }
+
+    public function share(Request $request, $id)
+    {
+        $currentDate = Carbon::today()->format('Y-m-d');
+        $product = Product::find($id);
+        $statistic = ProductStatistic::whereDate('created_at', $currentDate)->where('product_id', $product->id)->first();
+        if (!$statistic) {
+            $statistic = new ProductStatistic();
+            $statistic->product_id = $product->id;
+            $statistic->save();
+        }
+        $statistic->share_count += 1;
+        $statistic->save();
+
+        $type = $request['type'];
+        switch ($type) {
+            case 'facebook':
+                $url = 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode(route('products.showByName', ['id' => $product->id, 'name' => Utils::create_slug($product->name)]));
+                break;
+            case 'twitter':
+                $url = 'https://twitter.com/intent/tweet?text=' . urlencode(route('products.showByName', ['id' => $product->id, 'name' => Utils::create_slug($product->name)]));
+                break;
+            default:
+                $url = route('site.index');
+                break;
+        }
+        return redirect($url);
     }
 }
