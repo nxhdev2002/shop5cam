@@ -26,6 +26,7 @@ class ProductController extends Controller
         $data = array();
         $data['title'] = "Danh sách sản phẩm";
         $data['products'] = DB::table('products')
+            ->where('is_removed', 0)
             ->orderBy('rank_point', 'DESC')
             ->paginate(12);
         $data['categories'] = Category::all();
@@ -36,7 +37,7 @@ class ProductController extends Controller
     {
         $data = array();
         $data['product'] = Product::find($id);
-        if (!$data['product']) {
+        if (!$data['product'] || $data['product']->is_removed) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
 
@@ -77,7 +78,7 @@ class ProductController extends Controller
     {
         $data = array();
         $data['product'] = Product::find($id);
-        if (!$data['product']) {
+        if (!$data['product'] || $data['product']->is_removed) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
         return redirect()->route('products.showByName', ['id' => $data['product']->id, 'name' => Utils::create_slug($data['product']->name)]);

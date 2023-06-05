@@ -12,7 +12,7 @@
 <aside id="sidebar-multi-level-sidebar"
     class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
     aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-green-400 dark:bg-gray-800">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gradient-to-r from-green-400 to-red-300 dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
             <li class="p-2">
                 <a href="{{route('admin.dashboard')}}"
@@ -60,7 +60,7 @@
                             class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Ads</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{route('admin.product.index')}}"
                             class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Products</a>
                     </li>
                     <li>

@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
+use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\WithDrawController;
@@ -117,6 +118,8 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
     });
     Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
+
+    /// CATEGORIES
     Route::get('/categories', [CategoriesController::class, 'Categories'])->name('categories.index');
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
     Route::post('/categories/create', [CategoriesController::class, 'storeCategories'])->name('storeCategory');
@@ -124,31 +127,48 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
 
+
+    /// GATEWAYS
     Route::get('/gateways', [GatewayController::class, 'index'])->name('gateway.index');
     Route::get('/gateways/add', [GatewayController::class, 'add'])->name('gateway.add');
     Route::get('/gateway/{id}', [GatewayController::class, 'show'])->name('gateway.show');
     Route::post('/gateway/{id}/update', [GatewayController::class, 'update'])->name('gateway.update');
     Route::post('/gateway/store', [GatewayController::class, 'store'])->name('gateway.store');
 
+    /// PRODUCTS
+    Route::get('/products', [AdminProductController::class, 'index'])->name('product.index');
+    Route::get('/products/{id}', [AdminProductController::class, 'show'])->name('product.show');
+    Route::post('/products/{id}/remove', [AdminProductController::class, 'remove'])->name('product.remove');
+    Route::post('/products/{id}/stop', [AdminProductController::class, 'stop'])->name('product.stop');
+
+    /// DEPOSITS
     Route::get('/deposit', [DepositController::class, 'Deposit'])->name('deposit.index');
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
 
+
+    /// USERS
     Route::get('/user', [AdminUserController::class, 'User'])->name('user.index');
     Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
 
+
+    /// GIFTCODES
     Route::get('/giftcodes', [GiftCodeController::class, 'index'])->name('giftcode.index');
     Route::post('/giftcodes/store', [GiftCodeController::class, 'store'])->name('giftcode.store');
     Route::delete('/giftcode/{id}/remove', [GiftCodeController::class, 'remove'])->name('giftcode.remove');
 
+
+    /// ADS
     Route::get('/ads', [AdsController::class, 'index'])->name('ads.index');
     Route::get('/ads/{id}', [AdsController::class, 'show'])->name('ads.detail');
     Route::post('/ads/{id}/delete', [AdsController::class, 'delete'])->name('ads.delete');
     Route::get('/ads/{id}/statistic', [AdsController::class, 'statistic'])->name('ads.statistic');
 
+
+    /// OTHERS
     Route::get('/activities', [AdminController::class, 'activities'])->name('activities');
     Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
 
