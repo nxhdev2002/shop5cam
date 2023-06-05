@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Ads;
 use App\Models\User;
 use App\Models\Deposit;
@@ -34,6 +35,26 @@ class AdsController extends Controller
         ));
     }
 
+    public function delete($id)
+    {
+        $ad = Ads::find($id);
+        if (!$ad) {
+            return redirect()->back()->withErrors(['message' => 'Ads không tồn tại']);
+        }
+
+        $product = $ad->products;
+        $product->is_ads = 0;
+        $product->save();
+
+        $log = new ActivityLog();
+        $log->detail = "Ads có tên " . $ad->name . " đã bị xoá bởi " . auth()->user()->name;
+        $log->save();
+
+        $ad->delete();
+
+        return redirect()->route('admin.ads.index')->with('success', 'Xoá thành công.');
+    }
+
     public function statistic($id)
     {
         $ads = Ads::find($id);
@@ -59,7 +80,7 @@ class AdsController extends Controller
             'success' => true,
             'message' => 'Lấy thông tin thành công',
             'data' => [
-                'view' => $statistic,
+                'stat' => $statistic,
                 'order' => $result
             ]
         ]);

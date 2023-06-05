@@ -46,7 +46,11 @@ class ProductController extends Controller
 
         $currentDate = Carbon::today()->format('Y-m-d');
         $statistic = ProductStatistic::whereDate('created_at', $currentDate)->where('product_id', $data['product']->id)->first();
-
+        if (!$statistic) {
+            $statistic = new ProductStatistic();
+            $statistic->product_id = $data['product']->id;
+            $statistic->save();
+        }
         $statistic->view_count += 1;
         $statistic->save();
 

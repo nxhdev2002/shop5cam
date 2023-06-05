@@ -22,7 +22,7 @@ class Product extends Model
     }
     function ads()
     {
-        return $this->hasMany(Ads::class, 'product_id', 'id');
+        return $this->hasOne(Ads::class, 'product_id', 'id');
     }
     function statistic()
     {

@@ -20,7 +20,7 @@ class CreateAdsTable extends Migration
             $table->foreignId('product_id')->constrained('products')->unique();
             $table->tinyInteger('status');
             $table->decimal('price', 18, 8);
-
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }
