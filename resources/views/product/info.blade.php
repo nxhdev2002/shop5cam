@@ -58,7 +58,7 @@
                         </a>
                     </span>
                 </div>
-                <p class="leading-relaxed">{{$product->description}}.</p>
+                <h3 class="italic leading-relaxed">"{{$product->description}}."</h3>
                 <div class="flex flex-col pb-5 mt-6 mb-5 border-b-2 border-gray-200">
                     <p>Số lượng: {{$product->amount}}</p>
                     <p>Trạng thái:
@@ -103,7 +103,12 @@
                 </div>
             </div>
         </div>
+        <hr class="my-5">
+        <div>
+            <p>{!! $product->content !!}</p>
+        </div>
     </div>
+
 </section>
 
 
