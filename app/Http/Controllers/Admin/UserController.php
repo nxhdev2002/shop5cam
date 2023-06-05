@@ -24,6 +24,9 @@ class UserController extends Controller
         if ($user->rights >= auth()->user()->rights) {
             return redirect()->back()->withErrors(['message' => 'Bạn không thể chỉnh sửa người dùng có chức vụ cao hơn hoặc ngang hàng bạn.']);
         }
+        if ($request->input('rights') > auth()->user()->rights) {
+            return redirect()->back()->withErrors(['message' => 'Bạn không thể trao quyền hạn cao hơn bạn.']);
+        }
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
