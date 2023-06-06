@@ -22,6 +22,6 @@ class Order extends Model
     }
     public static function getExpiredOrders()
     {
-        return Order::where('paydate', '<', now())->get();
+        return Order::where('paydate', '<', now())->where('status', 1)->get();
     }
 }

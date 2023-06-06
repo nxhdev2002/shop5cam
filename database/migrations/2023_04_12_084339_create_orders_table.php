@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('product_details_id')->default('[]');
             $table->foreignId('product_id')->constrained('products');
             $table->foreignId('customer_id')->constrained('users');
+            $table->string('hash');
             $table->timestamps();
         });
     }

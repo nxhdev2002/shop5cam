@@ -35,37 +35,96 @@
                     </div>
                 </li>
                 <li>
-                    <div class="w-full p-4 text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400"
-                        role="alert">
+                    <div class="w-full p-4 {{($report->status >= 1 || $report->status == -1) ? " text-green-700
+                        border-green-300 bg-green-50" : "text-blue-700 bg-blue-100 border-blue-300" }} border rounded-lg
+                        dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400" role="alert">
                         <div class="flex items-center justify-between">
                             <span class="sr-only">Liên hệ</span>
                             <h3 class="font-medium">2. Liên hệ</h3>
+
+                            @if ($report->status >= 1 || $report->status == -1)
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            @else
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
                                     clip-rule="evenodd"></path>
                             </svg>
+                            @endif
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="w-full p-4 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                        role="alert">
+                    <div class="w-full p-4 {{($report->status >= 2 || $report->status == -1) ? " text-green-700
+                        border-green-300 bg-green-50" : "text-blue-700 bg-blue-100 border-blue-300" }} border rounded-lg
+                        dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400" role="alert">
                         <div class="flex items-center justify-between">
                             <span class="sr-only">Xem xét</span>
                             <h3 class="font-medium">3. Xem xét</h3>
+                            @if ($report->status >= 2 || $report->status == -1)
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            @else
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            @endif
                         </div>
                     </div>
                 </li>
                 <li>
-                    <div class="w-full p-4 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                    @if ($report->status == 2)
+                    <div class="w-full p-4 text-green-700 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400"
                         role="alert">
-                        <div class="flex items-center justify-between">
-                            <span class="sr-only">Hoàn tiền</span>
-                            <h3 class="font-medium">4. Hoàn tiền</h3>
-                        </div>
-                    </div>
+                        @elseif ($report->status == -1)
+                        <div class="w-full p-4 text-red-900 bg-red-100 border border-red-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                            role="alert">
+                            @else
+                            <div class="w-full p-4 text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                role="alert">
+                                @endif
+                                <div class="flex items-center justify-between">
+                                    <span class="sr-only">Hoàn tiền</span>
+                                    <h3 class="font-medium">4. Hoàn tiền</h3>
+                                    @if ($report->status == -1)
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-6 h-6">
+                                        <path fill-rule="evenodd"
+                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+
+                                    @elseif ($report->status == 2)
+                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+
+                                    @else
+                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    @endif
+                                </div>
+                            </div>
                 </li>
                 <li>
                     <button onclick="deleteReport()"

@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\WithDrawController;
@@ -141,6 +142,14 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
     Route::get('/products/{id}', [AdminProductController::class, 'show'])->name('product.show');
     Route::post('/products/{id}/remove', [AdminProductController::class, 'remove'])->name('product.remove');
     Route::post('/products/{id}/stop', [AdminProductController::class, 'stop'])->name('product.stop');
+
+
+    /// ORDERS
+    Route::get('/order-reports', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/order-reports/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::get('/order-reports/{id}/contact', [AdminOrderController::class, 'contact'])->name('orders.contact');
+    Route::post('/order-reports/{id}/approved', [AdminOrderController::class, 'approve'])->name('orders.approve');
+    Route::post('/order-reports/{id}/rejected', [AdminOrderController::class, 'reject'])->name('orders.reject');
 
     /// DEPOSITS
     Route::get('/deposit', [DepositController::class, 'Deposit'])->name('deposit.index');
