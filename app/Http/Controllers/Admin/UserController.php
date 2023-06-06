@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
+use App\Models\Transaction;
+use App\Models\UpgradeRequest;
 use App\Models\User;
+use App\Models\WebConfig;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -11,8 +15,81 @@ class UserController extends Controller
     public function User()
     {
         $user = User::paginate(5);
-        return view('admin.frontend.user', compact('user'));
+        return view('admin.frontend.users.user', compact('user'));
     }
+
+    public function showAdmin()
+    {
+        # code...
+    }
+
+    public function showSeller()
+    {
+        # code...
+    }
+
+    public function upgradeRequests()
+    {
+        $requests = UpgradeRequest::where('status', 0)->paginate(10);
+        return view('admin.frontend.users.upgrade', compact(
+            'requests'
+        ));
+    }
+
+    public function upgradeRequestsApprove($id)
+    {
+        $requestUpg = UpgradeRequest::find($id);
+        if (!$requestUpg) abort(404);
+
+        $requestUpg->status = 1;
+        $requestUpg->save();
+
+        $requestUpg->user->rights = 3;
+        $requestUpg->user->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Upgrade Request #" . $id . " đã được chấp nhận bởi " . auth()->user()->name;
+        $log->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Chấp nhận yêu cầu thành công'
+        ]);
+    }
+
+    public function upgradeRequestsReject($id)
+    {
+        $requestUpg = UpgradeRequest::find($id);
+        if (!$requestUpg) abort(404);
+
+        $requestUpg->status = -1;
+        $requestUpg->save();
+
+        $generalSettings = WebConfig::first();
+        $requestUpg->user->balance += $generalSettings->upgrade_fee;
+        $requestUpg->user->save();
+
+        $trans = new Transaction();
+        $trans->user_id = $requestUpg->user->id;
+        $trans->amount = $generalSettings->upgrade_fee;
+        $trans->balance = $requestUpg->user->balance;
+        $trans->note = "Từ chối yêu cầu nâng cấp người bán";
+        $trans->type = '+';
+        $trans->status = 1;
+        $trans->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Upgrade Request #" . $id . " đã bị từ chối bởi " . auth()->user()->name;
+        $log->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Từ chối yêu cầu thành công'
+        ]);
+    }
+
     public function editUser($id)
     {
         $user = User::find($id);

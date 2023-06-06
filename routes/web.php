@@ -159,7 +159,12 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 
 
     /// USERS
-    Route::get('/user', [AdminUserController::class, 'User'])->name('user.index');
+    Route::get('/users', [AdminUserController::class, 'User'])->name('user.index');
+    Route::get('/users/admins', [AdminUserController::class, 'showAdmin'])->name('user.admin');
+    Route::get('/users/sellers', [AdminUserController::class, 'showSeller'])->name('user.seller');
+    Route::get('/users/upgrade_requests', [AdminUserController::class, 'upgradeRequests'])->name('user.upgrade_request');
+    Route::post('/users/upgrade_requests/{id}/approve', [AdminUserController::class, 'upgradeRequestsApprove'])->name('user.upgrade_request.approve');
+    Route::post('/users/upgrade_requests/{id}/reject', [AdminUserController::class, 'upgradeRequestsReject'])->name('user.upgrade_request.reject');
     Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
