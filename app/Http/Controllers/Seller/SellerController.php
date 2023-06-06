@@ -20,10 +20,10 @@ class SellerController extends Controller
     $accountBalance = User::where('id', $user->id)->value('balance');					
 	$revenue = DB::table('orders')
     		->join('products', 'products.id', '=', 'orders.product_id')
-    		->select(DB::raw('SUM(price) as revenue_seller'))
+    		->select(DB::raw('SUM(orders.price) as revenue_seller'))
     		->where('seller_id', '=', $user->id)
     		->first();
-    return view('', compact('totalOrders','accountBalance','revenue'));
+    return view('seller.dashboard', compact('totalOrders','accountBalance','revenue'));
 
     }
 }

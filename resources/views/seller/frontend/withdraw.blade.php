@@ -18,7 +18,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <div class="">
+                    <div class="w-1/3">
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             Số dư tài khoản
                         </p>
@@ -27,6 +27,34 @@
                         </p>
                     </div>
                 </div>
+                <div class="mt-4">
+                    <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        Lịch sử rút tiền
+                    </p>
+                    <ul class="bg-white divide-y divide-gray-200 dark:bg-gray-800">
+                        <li class="px-4 py-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M10 2a8 8 0 100 16 8 8 0 000-16zM5 10a1 1 0 011-1h8a1 1 0 110 2H6a1                        1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H6z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                        Rút tiền
+                                    </div>
+                                </div>
+                                <div class="text-sm text-gray-500 dark:text-gray-300">Ngày</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-300">
+                                    -$5
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
 
                 <div>
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">

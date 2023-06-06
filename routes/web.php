@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\WithDrawController;
+use App\Http\Controllers\Seller\SellerAdsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,9 +186,10 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/products/history', [SellerProductController::class, 'history']);
     Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
+    Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
 
     Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
-    Route::get('/TestAds', [SellerAds::class, 'Test']);
+    Route::get('/ads', [SellerAdsController::class, 'ads']);
     Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
 });
 
