@@ -41,15 +41,7 @@ class SellersAdsController extends Controller
         $product = $ad->products;
         $product->is_ads = 0;
         $product->save();
-
-        $log = new ActivityLog();
-        $log->user_id = auth()->user()->id;
-        $log->detail = "Ads có tên " . $ad->name . " đã bị xoá bởi " . auth()->user()->name;
-        $log->save();
-
-        $ad->delete();
-
-        return redirect()->route('')->with('success', 'Xoá thành công.');
+        return redirect()->route('seller.ads.index')->with('success', 'Xoá thành công.');
     }
 
     public function statistic($id)

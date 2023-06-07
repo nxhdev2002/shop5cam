@@ -59,9 +59,5 @@ class SellerStatController extends Controller
 
 		);
         return view('', compact('result','revenueRegisteredByMonth'));
-        
-
     }
-    
-
 }
