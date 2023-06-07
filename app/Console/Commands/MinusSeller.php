@@ -40,12 +40,17 @@ class MinusSeller extends Command
     public function handle()
     {
         $users = User::where('rights',3);
-        foreach ($users as $user ){$webConfig = WebConfig::first();
-        if 
-            ($webConfig->upgrade_fee <= $user->payment)
-            {$user->payment-=$webConfig->upgrade_fee;$user->save();}
-        else
-            {$user->rights = 1;$user->products()->status = 0;$user->save();
-            echo "Xin vui lòng nạp thêm tiền để tiếp tục làm người bán";}}
+        foreach ($users as $user ){
+            $webConfig = WebConfig::first();
+            if ($webConfig->upgrade_fee <= $user->balance){
+                $user->balance-=$webConfig->upgrade_fee;
+                $user->save();
+            }else{
+                $user->rights = 1;
+                $user->products()->status = 0;
+                $user->save();
+        }
+        }
+        
     }
 }

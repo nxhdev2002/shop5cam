@@ -25,11 +25,10 @@ use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Seller\SellerAdsController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\WithDrawController;
-use App\Http\Controllers\Seller\SellerAdsController;
-use App\Http\Controllers\Seller\StatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -204,8 +203,14 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
 
     Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
-    Route::get('/ads', [SellerAdsController::class, 'ads']);
-    Route::get('/stat', [StatController::class, 'stat']);
+
+    // Route::get('/TestAds', [SellerAds::class, 'Test']);
+    Route::get('/ads', [SellerAdsController::class, 'index'])->name('ads.index');
+    Route::get('/ads/{id}', [SellerAdsController::class, 'show'])->name('ads.detail');
+    Route::post('/ads/{id}/delete', [SellerAdsController::class, 'delete'])->name('ads.delete');
+    Route::get('/ads/{id}/statistic', [SellerAdsController::class, 'statistic'])->name('ads.statistic');
+
+    Route::get('/statistical', [SellerStatController::class, 'statistical']);
 });
 
 Route::get('/f', function () {

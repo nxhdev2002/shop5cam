@@ -39,9 +39,21 @@ class MinusAds extends Command
     public function handle()
     {
         $users = DB::table('ads')
-        ->select('users.')->join('users', 'ads.user_id', '=', 'users.id')->distinct()->get();
-        foreach ($users as $user) {$totalPriceAds = $user->ads()->sum('price');
-        if ($totalPriceAds <= $user->payment){$user->ads()->price -= 5;$countAds = $user->ads()->count();$user->payment -= 5 * $countAds;$user->save();} else{$user->ads()->status = 0;$user->ads()->products()->is_ads = 0;$user->save();
-            echo "Xin vui lòng nạp thêm tiền để tiếp tục quảng cáo";}}
+        ->select('users.*')
+        ->join('users', 'ads.user_id', '=', 'users.id')
+        ->distinct()
+        ->get();
+        foreach ($users as $user) {
+        $totalPriceAds = $user->ads()->sum('price');
+        if ($totalPriceAds <= $user->balance){
+            $user->ads()->price -= 5;
+            $countAds = $user->ads()->count();
+            $user->balance -= 5 * $countAds;
+            $user->save();
+        } else{
+            $user->ads()->status = 0;
+            $user->ads()->products()->is_ads = 0;
+            $user->save();
+        }
     }
-}
+}}
