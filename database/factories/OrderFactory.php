@@ -3,6 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Stringable;
+use Illuminate\Support\Str;
 
 class OrderFactory extends Factory
 {
@@ -23,6 +26,7 @@ class OrderFactory extends Factory
             'price' => $faker->randomFloat(8, 1, 100),
             'product_id' => $product->id,
             'customer_id' => $customer->id,
+            'hash' => Hash::make(Str::random()),
         ];
     }
 }

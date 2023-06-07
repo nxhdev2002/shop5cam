@@ -14,7 +14,9 @@ use App\Models\WebConfig;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -85,6 +87,7 @@ class CartController extends Controller
                 $order->price = $cart->product->price * $cart->quantity;
                 $order->product_id = $cart->product_id;
                 $order->customer_id = $user->id;
+                $order->hash = Str::random(20);
 
                 $user->balance -= $cart->product->price * $cart->quantity;
                 $user->save();

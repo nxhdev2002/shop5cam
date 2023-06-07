@@ -90,17 +90,17 @@
             <div class="mr-2 overflow-hidden rounded-lg shadow-xs md:basis-2/3 basis-full">
                 <div class="w-full overflow-x-auto">
                     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        Deposit History
+                        Sản phẩm nổi bật
                     </h2>
                     <table class="w-full whitespace-no-wrap">
                         <thead>
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-4 py-3">User Name</th>
-                                <th class="px-4 py-3">Amount</th>
-                                <th class="px-4 py-3">Status</th>
-                                <th class="px-4 py-3">Note</th>
-                                <th class="px-4 py-3">Date</th>
+                                <th class="px-4 py-3">Tên sản phẩm</th>
+                                <th class="px-4 py-3">Danh mục</th>
+                                <th class="px-4 py-3">Trạng thái</th>
+                                <th class="px-4 py-3">Số lượng</th>
+                                <th class="px-4 py-3">Lượng người mua</th>
                             </tr>
                         </thead>
 
@@ -126,11 +126,8 @@
                                 <td class="px-4 py-3 text-sm">
 
                                 </td>
-
                             </tr>
-
                         </tbody>
-
                     </table>
                 </div>
             </div>

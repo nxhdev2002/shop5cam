@@ -1,3 +1,4 @@
+@push('script')
 <script>
     const addH1 = () => {
         var headingText = "<h1></h1>"; // Văn bản thô bạn muốn thêm vào <textarea>
@@ -24,6 +25,7 @@
         });
     }
 </script>
+@endpush
 @include('admin.layouts.header')
 @include('admin.layouts.sidebar')
 <main class="p-4 sm:ml-64">
@@ -65,6 +67,48 @@
                                         class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Status</span>
                                 </label>
 
+                            </div>
+                            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="percent_fee" name="percent_fee"
+                                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                            placeholder=" " value="{{$gateway->currency->percent_fee}}">
+                                        <label for="percent_fee"
+                                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">
+                                            Percent Fee (%)</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="fixed_fee" name="fixed_fee"
+                                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                            placeholder=" " value="{{$gateway->currency->fixed_fee}}">
+                                        <label for="fixed_fee"
+                                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">
+                                            Fixed Fee (VNĐ)</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="min_amount" name="min_amount"
+                                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                            placeholder=" " value="{{$gateway->currency->min_amount}}">
+                                        <label for="min_amount"
+                                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">
+                                            Min Amount (VNĐ)</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="max_amount" name="max_amount"
+                                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                            placeholder=" " value="{{$gateway->currency->max_amount}}">
+                                        <label for="max_amount"
+                                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">
+                                            Max Amount (VNĐ)</label>
+                                    </div>
+                                </div>
                             </div>
                             <div>
 

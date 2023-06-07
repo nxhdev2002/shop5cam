@@ -46,7 +46,7 @@ class AdminController extends Controller
 
     public function activities()
     {
-        $acts = ActivityLog::paginate(10);
+        $acts = ActivityLog::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.frontend.adactivities', compact(
             'acts'
         ));
@@ -54,7 +54,7 @@ class AdminController extends Controller
 
     public function transactions()
     {
-        $trans = Transaction::paginate(10);
+        $trans = Transaction::orderBy('created_at', 'desc')->paginate(10);
         return view('admin.frontend.transactions', compact(
             'trans'
         ));

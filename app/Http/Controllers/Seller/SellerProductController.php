@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Category;
 use App\Models\WebConfig;
 use Cloudinary\Cloudinary;
 use Cloudinary\Transformation\Resize;
@@ -68,7 +69,7 @@ class SellerProductController extends Controller
             ->select('products.*', 'orders.*')
             ->where('seller_id', $user->id)
             ->get();
-        return view('', compact('history'));
+        return view('seller.frontend.history', compact('history'));
     }
 
     public function inventory()
@@ -76,5 +77,10 @@ class SellerProductController extends Controller
         $user = Auth::user();
         $inventory = Prouduct::where('seller_id', $user->id);
         return view('', compact('inventory'));
+    }
+
+    public function myProduct()
+    {
+        return view('seller.frontend.myproduct.index');
     }
 }

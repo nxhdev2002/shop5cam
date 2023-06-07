@@ -25,7 +25,7 @@
                             {{$tran->id}}
                         </th>
                         <td class="px-6 py-4">
-                            {{$tran->user->name}}
+                            {{$tran->user->name}} (ID: {{$tran->user->id}})
                         </td>
                         <td class="px-6 py-4">
                             {{$tran->type}}{{number_format($tran->amount)}} VNĐ

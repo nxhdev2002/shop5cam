@@ -24,10 +24,12 @@ use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Seller\SellerAdsController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\WithDrawController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +144,14 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
     Route::post('/products/{id}/remove', [AdminProductController::class, 'remove'])->name('product.remove');
     Route::post('/products/{id}/stop', [AdminProductController::class, 'stop'])->name('product.stop');
 
+
+    /// ORDERS
+    Route::get('/order-reports', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/order-reports/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::get('/order-reports/{id}/contact', [AdminOrderController::class, 'contact'])->name('orders.contact');
+    Route::post('/order-reports/{id}/approved', [AdminOrderController::class, 'approve'])->name('orders.approve');
+    Route::post('/order-reports/{id}/rejected', [AdminOrderController::class, 'reject'])->name('orders.reject');
+
     /// DEPOSITS
     Route::get('/deposit', [DepositController::class, 'Deposit'])->name('deposit.index');
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
@@ -150,7 +160,12 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 
 
     /// USERS
-    Route::get('/user', [AdminUserController::class, 'User'])->name('user.index');
+    Route::get('/users', [AdminUserController::class, 'User'])->name('user.index');
+    Route::get('/users/admins', [AdminUserController::class, 'showAdmin'])->name('user.admin');
+    Route::get('/users/sellers', [AdminUserController::class, 'showSeller'])->name('user.seller');
+    Route::get('/users/upgrade_requests', [AdminUserController::class, 'upgradeRequests'])->name('user.upgrade_request');
+    Route::post('/users/upgrade_requests/{id}/approve', [AdminUserController::class, 'upgradeRequestsApprove'])->name('user.upgrade_request.approve');
+    Route::post('/users/upgrade_requests/{id}/reject', [AdminUserController::class, 'upgradeRequestsReject'])->name('user.upgrade_request.reject');
     Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
@@ -186,15 +201,10 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/products/history', [SellerProductController::class, 'history']);
     Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
+    Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
 
     Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
-    
-    //Route::get('/TestAds', [SellerAds::class, 'Test']);
-    Route::get('/ads', [SellerAdsController::class, 'index'])->name('ads.index');
-    Route::get('/ads/{id}', [SellerAdsController::class, 'show'])->name('ads.detail');
-    Route::post('/ads/{id}/delete', [SellerAdsController::class, 'delete'])->name('ads.delete');
-    Route::get('/ads/{id}/statistic', [SellerAdsController::class, 'statistic'])->name('ads.statistic');
-
+    Route::get('/TestAds', [SellerAds::class, 'Test']);
     Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
 });
 
