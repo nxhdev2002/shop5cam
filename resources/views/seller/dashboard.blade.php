@@ -23,7 +23,7 @@
                             Sản phẩm tồn kho
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-
+                            {{ $accountBalance }}
                         </p>
                     </div>
                 </a>
@@ -60,7 +60,7 @@
                             Sản phẩm đã bán
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-
+                            {{ $totalOrders->total_orders }}
                         </p>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                             Tổng doanh thu
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-
+                            {{ $revenue->revenue_seller }}
                         </p>
                     </div>
                 </a>
@@ -103,7 +103,7 @@
                                 <th class="px-4 py-3">Lượng người mua</th>
                             </tr>
                         </thead>
-
+                        foreach()
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
                             <tr class="text-gray-700 dark:text-gray-400">
@@ -124,7 +124,7 @@
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
-
+                                    
                                 </td>
                             </tr>
                         </tbody>

@@ -29,6 +29,7 @@ use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\WithDrawController;
 use App\Http\Controllers\Seller\SellerAdsController;
+use App\Http\Controllers\Seller\StatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -204,7 +205,7 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
 
     Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
     Route::get('/ads', [SellerAdsController::class, 'ads']);
-    Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
+    Route::get('/stat', [StatController::class, 'stat']);
 });
 
 Route::get('/f', function () {

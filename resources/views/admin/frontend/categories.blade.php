@@ -91,7 +91,7 @@
                                         class="p-3 px-4 mr-2 text-indigo-500 bg-transparent rounded-lg modal-close hover:bg-gray-100 hover:text-indigo-400">
                                         Lưu
                                     </button>
-                                    <button type="button" onclick=""
+                                    <button type="button"
                                         class="p-3 px-4 text-white bg-indigo-500 rounded-lg modal-close hover:bg-indigo-400">
                                         Hủy
                                     </button>
