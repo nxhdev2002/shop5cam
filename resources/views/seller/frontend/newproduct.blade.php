@@ -64,15 +64,13 @@
                         </span>
                         <select
                             class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
-                            <option>Option 4</option>
-                            <option>Option 5</option>
+                            @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
                         </select>
                     </label>
 
-                    <label class="block mt-4 text-sm">
+                    <label class=" block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Số lượng</span>
                         <input type="number"
                             class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"

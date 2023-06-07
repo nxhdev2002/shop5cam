@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Product;
@@ -17,8 +19,8 @@ class SellerProductController extends Controller
 {
     public function createProduct()
     {
-        $category = Category::where('status', 1)->get();
-        return view('', compact('category'));
+        $categories = Category::where('status', 1)->get();
+        return view('seller.frontend.newproduct', compact('categories'));
     }
     public function storeProduct(Request $request)
     {
@@ -48,8 +50,6 @@ class SellerProductController extends Controller
             $request->file('thumb')->path()
         );
         $product->image = $file['url'];
-        $fileEx = $request->file('excel_file');
-        $filePath = $fileEx->storeAs('excel', $file->getClientOriginalName());
         $product->guarantee = $request->input('guarantee');
         $product->price = $request->input('price');
         $product->amount = $request->input('amount');
@@ -72,15 +72,10 @@ class SellerProductController extends Controller
         return view('seller.frontend.history', compact('history'));
     }
 
-    public function inventory()
-    {
-        $user = Auth::user();
-        $inventory = Prouduct::where('seller_id', $user->id);
-        return view('', compact('inventory'));
-    }
-
     public function myProduct()
     {
-        return view('seller.frontend.myproduct.index');
+        $user = Auth::user();
+        $myProduct = Product::where('seller_id', $user->id);
+        return view('seller.frontend.myproduct.index', compact('myProduct'));
     }
 }

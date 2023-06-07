@@ -58,10 +58,6 @@ class SellerStatController extends Controller
     		->first(),
 
 		);
-        return view('', compact('result','revenueRegisteredByMonth'));
+        return view('seller.frontend.stat', compact('result','revenueRegisteredByMonth'));
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 831db5ec595d02dc46e30974dfc66fffdc6e217c

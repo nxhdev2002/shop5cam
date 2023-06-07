@@ -45,6 +45,6 @@ class SellerController extends Controller
 			->where('seller_id', '=', $user->id)
 			->orderBy('orders.created_at','desc')
 			->get();
-    return view('', compact('totalProducts','totalAds','totalOrders','accountBalance','revenue','bestsellerProduct','lastestOrders'));
+    return view('seller.dashboard', compact('totalProducts','totalAds','totalOrders','accountBalance','revenue','bestsellerProduct','lastestOrders'));
  }
 }

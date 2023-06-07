@@ -23,7 +23,7 @@
                             Sản phẩm tồn kho
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            {{ $accountBalance }}
+                            {{$totalProducts}}
                         </p>
                     </div>
                 </a>
@@ -39,10 +39,10 @@
                     </div>
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Các sản phẩm đang chạy quảng cáo
+                            Quảng cáo đang chạy
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-
+                            {{$totalAds}}
                         </p>
                     </div>
                 </a>
@@ -103,7 +103,7 @@
                                 <th class="px-4 py-3">Lượng người mua</th>
                             </tr>
                         </thead>
-                        foreach()
+
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
                             <tr class="text-gray-700 dark:text-gray-400">
@@ -124,7 +124,7 @@
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
-                                    
+
                                 </td>
                             </tr>
                         </tbody>
