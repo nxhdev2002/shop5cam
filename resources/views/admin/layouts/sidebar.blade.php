@@ -70,7 +70,7 @@
             <li class="p-2">
                 <button type="button"
                     class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                    aria-controls="E-commerce-drop" data-collapse-toggle="E-commerce-drop">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -84,7 +84,7 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                <ul id="E-commerce-drop" class="hidden py-2 space-y-2">
                     <li>
                         <a href="{{route('admin.ads.index')}}"
                             class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Ads</a>
