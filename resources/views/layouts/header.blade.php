@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.8/dist/sweetalert2.all.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         toastr.options = {
             "closeButton": false,
@@ -33,8 +34,22 @@
         }
     </script>
 </head>
+<script>
+    $(document).ready(function () {
+        setTimeout(() => {
+            $('#loading-screen').addClass('hidden')
+        }, 500)
+    });
+</script>
 
-<body class="bg-slate-100 dark:bg-slate-800">
+<body class="bg-slate-100 dark:bg-slate-700">
+    <div id="loading-screen" class="fixed top-0 left-0 z-50 block w-full h-full bg-white opacity-75">
+        <span class="relative block w-0 h-0 mx-auto my-0 text-green-500 opacity-75 top-1/2">
+            <i class="fas fa-circle-notch fa-spin fa-5x"></i>
+        </span>
+    </div>
+
+
     <div class="header-2">
         <nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
@@ -53,7 +68,7 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <div class="z-50 hidden w-full md:block md:w-auto" id="navbar-dropdown">
+                <div class="z-40 hidden w-full md:block md:w-auto" id="navbar-dropdown">
                     <ul
                         class="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
@@ -190,7 +205,7 @@
 
     </div>
 
-
+    @auth
     @push("scripts")
 
     <script>
@@ -237,3 +252,4 @@
         }
     </script>
     @endpush
+    @endauth

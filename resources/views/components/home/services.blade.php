@@ -1,78 +1,207 @@
 <section class="services">
     <div class="container mx-auto my-3 bg-white">
-        <div class="flex flex-col items-center mx-3 my-3 basis-full md:basis-1/4">
-            <h1 class="p-4 text-lg font-medium">Dịch vụ & Điểm mạnh</h1>
-            <p class="font-light text-gray-400">Own services & strengths</p>
+
+        <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="sm:hidden">
+                <label for="tabs" class="sr-only">Select tab</label>
+                <select id="tabs"
+                    class="bg-gray-50 border-0 border-b border-gray-200 text-gray-900 text-sm rounded-t-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option>Statistics</option>
+                    <option>Services</option>
+                    <option>FAQ</option>
+                </select>
+            </div>
+            <ul class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg sm:flex dark:divide-gray-600 dark:text-gray-400"
+                id="fullWidthTab" data-tabs-toggle="#fullWidthTabContent" role="tablist">
+                <li class="w-full">
+                    <button id="stats-tab" data-tabs-target="#stats" type="button" role="tab" aria-controls="stats"
+                        aria-selected="true"
+                        class="inline-block w-full p-4 rounded-tl-lg bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">Statistics</button>
+                </li>
+                <li class="w-full">
+                    <button id="about-tab" data-tabs-target="#about" type="button" role="tab" aria-controls="about"
+                        aria-selected="false"
+                        class="inline-block w-full p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">Services</button>
+                </li>
+                <li class="w-full">
+                    <button id="faq-tab" data-tabs-target="#faq" type="button" role="tab" aria-controls="faq"
+                        aria-selected="false"
+                        class="inline-block w-full p-4 rounded-tr-lg bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">FAQ</button>
+                </li>
+            </ul>
+            <div id="fullWidthTabContent" class="border-t border-gray-200 dark:border-gray-600">
+                <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel"
+                    aria-labelledby="stats-tab">
+                    <dl
+                        class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
+                        <div class="flex flex-col items-center justify-center">
+                            <dt class="mb-2 text-3xl font-extrabold">73M+</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Developers</dd>
+                        </div>
+                        <div class="flex flex-col items-center justify-center">
+                            <dt class="mb-2 text-3xl font-extrabold">100M+</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Public repositories</dd>
+                        </div>
+                        <div class="flex flex-col items-center justify-center">
+                            <dt class="mb-2 text-3xl font-extrabold">1000s</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Open source projects</dd>
+                        </div>
+                        <div class="flex flex-col items-center justify-center">
+                            <dt class="mb-2 text-3xl font-extrabold">1B+</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Contributors</dd>
+                        </div>
+                        <div class="flex flex-col items-center justify-center">
+                            <dt class="mb-2 text-3xl font-extrabold">90+</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Top Forbes companies</dd>
+                        </div>
+                        <div class="flex flex-col items-center justify-center">
+                            <dt class="mb-2 text-3xl font-extrabold">4M+</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Organizations</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="about" role="tabpanel"
+                    aria-labelledby="about-tab">
+                    <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">We invest in
+                        the world’s potential</h2>
+                    <!-- List -->
+                    <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
+                        <li class="flex space-x-2">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="leading-tight">Dynamic reports and dashboards</span>
+                        </li>
+                        <li class="flex space-x-2">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="leading-tight">Templates for everyone</span>
+                        </li>
+                        <li class="flex space-x-2">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="leading-tight">Development workflow</span>
+                        </li>
+                        <li class="flex space-x-2">
+                            <!-- Icon -->
+                            <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="leading-tight">Limitless business automation</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="faq" role="tabpanel"
+                    aria-labelledby="faq-tab">
+                    <div id="accordion-flush" data-accordion="collapse"
+                        data-active-classes="bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                        data-inactive-classes="text-gray-500 dark:text-gray-400">
+                        <h2 id="accordion-flush-heading-1">
+                            <button type="button"
+                                class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+                                data-accordion-target="#accordion-flush-body-1" aria-expanded="true"
+                                aria-controls="accordion-flush-body-1">
+                                <span>What is Flowbite?</span>
+                                <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </h2>
+                        <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
+                            <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is an open-source library of
+                                    interactive components built on top of Tailwind CSS including buttons, dropdowns,
+                                    modals, navbars, and more.</p>
+                                <p class="text-gray-500 dark:text-gray-400">Check out this guide to learn how to <a
+                                        href="/docs/getting-started/introduction/"
+                                        class="text-blue-600 dark:text-blue-500 hover:underline">get started</a> and
+                                    start developing websites even faster with components on top of Tailwind CSS.</p>
+                            </div>
+                        </div>
+                        <h2 id="accordion-flush-heading-2">
+                            <button type="button"
+                                class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+                                data-accordion-target="#accordion-flush-body-2" aria-expanded="false"
+                                aria-controls="accordion-flush-body-2">
+                                <span>Is there a Figma file available?</span>
+                                <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </h2>
+                        <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
+                            <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and
+                                    designed using the Figma software so everything you see in the library has a design
+                                    equivalent in our Figma file.</p>
+                                <p class="text-gray-500 dark:text-gray-400">Check out the <a
+                                        href="https://flowbite.com/figma/"
+                                        class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a>
+                                    based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+                            </div>
+                        </div>
+                        <h2 id="accordion-flush-heading-3">
+                            <button type="button"
+                                class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
+                                data-accordion-target="#accordion-flush-body-3" aria-expanded="false"
+                                aria-controls="accordion-flush-body-3">
+                                <span>What are the differences between Flowbite and Tailwind UI?</span>
+                                <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor"
+                                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </h2>
+                        <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
+                            <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the core
+                                    components from Flowbite are open source under the MIT license, whereas Tailwind UI
+                                    is a paid product. Another difference is that Flowbite relies on smaller and
+                                    standalone components, whereas Tailwind UI offers sections of pages.</p>
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend using
+                                    both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason
+                                    stopping you from using the best of two worlds.</p>
+                                <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:
+                                </p>
+                                <ul class="pl-5 text-gray-500 list-disc dark:text-gray-400">
+                                    <li><a href="https://flowbite.com/pro/"
+                                            class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a>
+                                    </li>
+                                    <li><a href="https://tailwindui.com/" rel="nofollow"
+                                            class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-6 p-4 md:grid-cols-4">
-            <div class="relative p-4">
-                <div class="h-3/4">
-                    <img src="https://blog.dktcdn.net/files/4-cach-de-dan-dau-xu-the-ban-le.jpg"
-                        class="w-full h-full max-w-full max-h-">
-                </div>
-                <h2 class="left-0 w-full pt-2 font-light text-center bottom-2">Uy tín tin cậy</h2>
-                <p class="text-xs text-center font-extralight">Hệ thống giữ tiền người bán trong thời gian 7 ngày. Nếu
-                    có bất cứ sai
-                    sót nào xảy ra, hệ thống sẽ hoàn lại tiền người mua</p>
-                <div class="absolute p-2 bg-blue-500 rounded-full right-3 top-2/3 bg-opacity-40">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path
-                            d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="relative p-4">
-                <div class="h-3/4">
-                    <img src="https://cdnimg.vietnamplus.vn/uploaded/znaets/2022_10_17/pr_plx_21.jpg"
-                        class="w-full h-full max-w-full max-h-">
-                </div>
-                <h2 class="left-0 w-full pt-2 font-light text-center bottom-2">Giao dịch dễ dàng</h2>
-                <p class="text-xs text-center font-extralight">Hỗ trợ nhiều phương thức thanh toán như Visa, Mastercard,
-                    Chuyển khoản ngân hàng, Momo,...</p>
-                <div class="absolute p-2 bg-blue-500 rounded-full right-3 top-2/3 bg-opacity-40">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd"
-                            d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="relative p-4 ">
-                <div class="h-3/4">
-                    <img src="https://tronhouse.com/assets/data/editor/source/vach-tran-nhung-review-5-sao-gia-mao-tren-amazon/chup-hinh-quang-cao-1.jpg"
-                        class="w-full h-full max-w-full max-h-">
-                </div>
-                <h2 class="left-0 w-full pt-2 font-light text-center bottom-2">Đánh giá giao dịch</h2>
-                <p class="text-xs text-center font-extralight">Hệ thống đánh giá giao dịch, quý khách có thể xem đánh
-                    giá để quyết định có chọn mặt hàng đó hay không.</p>
-                <div class="absolute p-2 bg-blue-500 rounded-full right-3 top-2/3 bg-opacity-40">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd"
-                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-
-            <div class="relative p-4">
-                <div class="h-3/4">
-                    <img src="https://lumi.vn/wp-content/uploads/2020/10/Internet-of-thing.jpg"
-                        class="w-full h-full max-w-full max-h-">
-                </div>
-                <h2 class="left-0 w-full pt-2 font-light text-center bottom-2">Hệ thống thông minh</h2>
-                <p class="text-xs text-center font-extralight">Hệ thống trang web đánh giá mặt hàng dựa trên tương tác
-                    và sẽ gợi ý mặt hàng trên trang chủ.</p>
-                <div class="absolute p-3 bg-blue-500 rounded-full right-3 top-2/3 bg-opacity-40">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                        <path fill-rule="evenodd"
-                            d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-        </div>
     </div>
 </section>

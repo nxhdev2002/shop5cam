@@ -14,7 +14,7 @@ class WebConfigFactory extends Factory
     public function definition()
     {
         return [
-            'upgrade_fee' => 50000
+            'upgrade_fee' => 50000,
         ];
     }
 }

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
+use App\Models\WebConfig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Cloudinary\Cloudinary;
+use Cloudinary\Transformation\Resize;
 
 class GatewayController extends Controller
 {
@@ -37,16 +42,31 @@ class GatewayController extends Controller
             'description' => 'bail|min:0|required',
             'content' => 'bail|required|min:0',
             'status' => 'bail|nullable',
+            'percent_fee' => 'bail|required|between:0,99.99|numeric',
+            'fixed_fee' => 'bail|required|numeric|gte:0',
+            'min_amount' => 'bail|required|numeric|gte:0',
+            'max_amount' => 'bail|required|numeric|gte:' . $request['min_amount'],
         ]);
 
         $status = isset($request->status) ? 1 : 0;
 
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Gateway " . $gateway->name . " đã được update bởi " . auth()->user()->name;
+        $log->save();
 
         $gateway->name = $request['name'];
         $gateway->description = $request['description'];
         $gateway->status = $status;
         $gateway->content = $request->content;
         $gateway->save();
+
+        $currency = $gateway->currency;
+        $currency->percent_fee = $request['percent_fee'];
+        $currency->fixed_fee = $request['fixed_fee'];
+        $currency->min_amount = $request['min_amount'];
+        $currency->max_amount = $request['max_amount'];
+        $currency->save();
 
         return redirect()->back()->with('success', 'Cập nhật gateway thành công.');
     }
@@ -69,11 +89,18 @@ class GatewayController extends Controller
             'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
-        $path = $request->file('thumb')->store('public/images');
+        // $path = $request->file('thumb')->store('public/images');
+        $cloudinary = new Cloudinary(json_decode(WebConfig::getCloudinaryConfig(), true));
+
+        $file = $cloudinary->uploadApi()->upload(
+            $request->file('thumb')->path(),
+            ['public_id' => Str::random()]
+        );
+
 
         $gateway = new Gateway();
         $gateway->name = $request['name'];
-        $gateway->image = substr($path, strlen('public/'));
+        $gateway->image = $file['url'];
         $gateway->status = 1;
         $gateway->description = $request['description'];
         $gateway->content = $request['content'];
@@ -86,6 +113,11 @@ class GatewayController extends Controller
         $currency->min_amount = $request['min_amount'];
         $currency->max_amount = $request['max_amount'];
         $currency->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Gateway " . $gateway->name . " đã được tạo bởi " . auth()->user()->name;
+        $log->save();
 
         return redirect()->back()->with('success', 'Tạo gateway thành công!');
     }

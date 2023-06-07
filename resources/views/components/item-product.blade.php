@@ -1,12 +1,23 @@
 <div class="flex flex-col justify-between p-4 border-b border-gray-300 rounded-md shadow-md">
-    <a href="{{route('products.show', $product->id)}}">
-        <img src="{{$product->picture_url}}" alt="{{$product->name}}" class="object-cover max-w-full max-h-full mb-4">
-        <h2 class="text-lg font-bold">{{$product->name}}</h2>
-        <p class="mb-2 text-gray-500 overflow-ellipsis">{{ strlen($product->description) < 64 ? $product->description :
-                substr($product->description, 0, 64).'...'}}</p>
-    </a>
+    <div class="relative">
+        @if ($product->is_ads)
+        <span
+            class="absolute top-2 left-1.5 bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Nổi
+            bật</span>
+        @endif
+        <a
+            href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
+            <img src="{{$product->picture_url}}" alt="{{$product->name}}"
+                class="object-cover max-w-full max-h-full mb-4">
+            <h2 class="text-lg font-bold">{{$product->name}}</h2>
+            <p class="mb-2 text-gray-500 overflow-ellipsis">{{ strlen($product->description) < 64 ? $product->
+                    description :
+                    substr($product->description, 0, 64).'...'}}</p>
+        </a>
+    </div>
     <div class="flex justify-between">
         <p class="text-lg font-bold">{{number_format($product->price)}} VNĐ</p>
+        @auth
         <button onclick="addToCart( `{{ $product->id }}`, 1)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-6 h-6">
@@ -14,6 +25,7 @@
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
             </svg>
         </button>
+        @endauth
         <div class="hidden" role="status" id="status-{{$product->id}}">
             <svg aria-hidden="true"
                 class="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

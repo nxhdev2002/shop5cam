@@ -10,10 +10,13 @@ use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\WebConfig;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -78,12 +81,13 @@ class CartController extends Controller
             foreach ($carts as $cart) {
                 $current_time = Carbon::now();
                 $order = new Order();
-                $order->paydate = $current_time->addDays(7);
+                $order->paydate = $current_time->addDays(WebConfig::getGuaranteeTime());
                 $order->quantity = $cart->quantity;
                 $order->status = 1;
                 $order->price = $cart->product->price * $cart->quantity;
                 $order->product_id = $cart->product_id;
                 $order->customer_id = $user->id;
+                $order->hash = Str::random(20);
 
                 $user->balance -= $cart->product->price * $cart->quantity;
                 $user->save();
@@ -160,7 +164,7 @@ class CartController extends Controller
     {
         $request->validate([
             'product_id' => 'bail|required|integer|gt:0',
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer|gt:0'
         ]);
 
         $product_id = $request['product_id'];

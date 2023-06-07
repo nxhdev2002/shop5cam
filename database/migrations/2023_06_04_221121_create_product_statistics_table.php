@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUpgradeRequestsTable extends Migration
+class CreateProductStatisticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateUpgradeRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('upgrade_requests', function (Blueprint $table) {
+        Schema::create('product_statistics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->tinyInteger('status');
+            $table->foreignId('product_id')->constrained('products');
+            $table->bigInteger('view_count')->default(0);
+            $table->bigInteger('share_count')->default(0);
+            $table->bigInteger('comment_count')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateUpgradeRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('upgrade_requests');
+        Schema::dropIfExists('product_statistics');
     }
 }

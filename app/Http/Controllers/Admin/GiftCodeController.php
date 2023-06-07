@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
 use App\Models\GiftCode;
@@ -13,6 +14,9 @@ class GiftCodeController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->rights < 9) {
+            abort(404);
+        }
         $giftcodes = GiftCode::paginate(10);
         return view('admin.frontend.giftcode', compact(
             'giftcodes'
@@ -21,6 +25,9 @@ class GiftCodeController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->rights < 9) {
+            abort(404);
+        }
         $request->validate([
             'code' => 'bail|required|min:1|max:15',
             'end_date' => 'bail|date|required',
@@ -37,11 +44,19 @@ class GiftCodeController extends Controller
         $giftcode->amount = $request['amount'];
         $giftcode->save();
 
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Giftcode " . $giftcode->code . " đã được tạo bởi " . auth()->user()->name;
+        $log->save();
+
         return redirect()->back()->with('success', 'Thêm giftcode thành công!');
     }
 
     public function remove($id)
     {
+        if (auth()->user()->rights < 9) {
+            abort(404);
+        }
         $giftcode = GiftCode::find($id);
         if (!$giftcode) {
             return response()->json([
@@ -50,6 +65,12 @@ class GiftCodeController extends Controller
             ]);
         }
         $giftcode->delete();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Giftcode " . $giftcode->code . " đã bị xoá bởi " . auth()->user()->name;
+        $log->save();
+
         return response()->json([
             'success' => true,
             'message' => 'Xoá thành công!'

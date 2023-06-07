@@ -20,12 +20,13 @@ class DatabaseSeeder extends Seeder
         \App\Models\Product::factory(30)->create();
         \App\Models\Ads::factory(3)->create();
         \App\Models\Cart::factory(11)->create();
-        \App\Models\Gateway::factory(1)->create();
-        \App\Models\GatewayCurrency::factory(1)->create();
 
         $products = Product::all();
         foreach ($products as $value) {
             \App\Models\ProductDetail::factory($value->amount)->create([
+                'product_id' => $value->id
+            ]);
+            \App\Models\ProductStatistic::factory(1)->create([
                 'product_id' => $value->id
             ]);
         }

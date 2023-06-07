@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Ads;
 use App\Models\User;
 use App\Models\Deposit;
+use App\Models\Transaction;
 use App\Models\UpgradeRequest;
 
 class AdminController extends Controller
@@ -39,6 +41,22 @@ class AdminController extends Controller
             'newUsers',
             'adsRunning',
             'userRegisteredByMonth'
+        ));
+    }
+
+    public function activities()
+    {
+        $acts = ActivityLog::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.frontend.adactivities', compact(
+            'acts'
+        ));
+    }
+
+    public function transactions()
+    {
+        $trans = Transaction::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.frontend.transactions', compact(
+            'trans'
         ));
     }
 }

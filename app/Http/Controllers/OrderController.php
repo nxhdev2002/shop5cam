@@ -22,13 +22,23 @@ class OrderController extends Controller
         return view('order.index', $data);
     }
 
-    public function details($id)
+    public function details(Request $request, $id)
     {
         $title = "Chi tiết giao dịch #" . $id;
         $success = true;
         $order = Order::find($id);
         if (!$order) {
             return redirect()->back()->withErrors('message', 'Đơn hàng không tồn tại.');
+        }
+
+        if ($order->customer_id !== auth()->user()->id) {
+            if (empty($request->hash)) {
+                abort(404);
+            }
+
+            if ($request->hash !== $order->hash) {
+                abort(404);
+            }
         }
 
         $productDetails = array();
@@ -49,12 +59,22 @@ class OrderController extends Controller
         ));
     }
 
-    public function report($id)
+    public function report(Request $request, $id)
     {
         $order = Order::find($id);
         if (!$order) {
             return redirect()->back()->withErrors(['message', 'Đơn đặt hàng không tồn tại.']);
         }
+        if ($order->customer_id !== auth()->user()->id) {
+            if (empty($request->hash)) {
+                abort(404);
+            }
+
+            if ($request->hash !== $order->hash) {
+                abort(404);
+            }
+        }
+
         $title = "Báo cáo đơn đặt hàng #" . $order->id;
 
         $report = OrderReport::where('user_id', auth()->user()->id)->where('order_id', $order->id)->first();

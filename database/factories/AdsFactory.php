@@ -22,6 +22,7 @@ class AdsFactory extends Factory
             'price' => $faker->randomFloat(8, 1, 100),
             'user_id' => $user->id,
             'product_id' => $product->id,
+            'expired_at' => $faker->dateTimeBetween('now', '+10 days'),
         ];
     }
 }

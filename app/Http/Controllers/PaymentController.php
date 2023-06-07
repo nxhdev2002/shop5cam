@@ -36,6 +36,9 @@ class PaymentController extends Controller
         if (!$gateway) {
             return redirect()->back()->withErrors(['Không tồn tại gateway']);
         }
+        if (!$gateway->status) {
+            return redirect()->back()->withErrors(['message' => 'Gateway hiện không hỗ trợ nạp tiền']);
+        }
         $gatewayCurrency = GatewayCurrency::where("gateway_id", $gateway->id)->first();
 
         $title = $gateway->name;
@@ -51,6 +54,9 @@ class PaymentController extends Controller
     {
         $title = "Preview";
         $gateway = Gateway::find($request['gateway']);
+        if (!$gateway->status) {
+            return redirect()->back()->withErrors(['message' => 'Gateway hiện không hỗ trợ nạp tiền']);
+        }
         $amount = $request['amount'];
         $gatewayCurrency = GatewayCurrency::where("gateway_id", 1)->first();
 

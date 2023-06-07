@@ -16,12 +16,19 @@ use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
 use Faker\Provider\ar_EG\Payment;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\Seller\SellerProductController;
+use App\Http\Controllers\Seller\WithDrawController;
+use App\Http\Controllers\Seller\SellerAdsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,18 +51,17 @@ Route::post('upload-image', [ImageUploadController::class, 'store']);
 /// product route
 Route::name('products.')->prefix('products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('index');
-    Route::get('/{id}/show', [ProductController::class, 'show'])->name('show');
-    Route::get('/create', [ProductController::class, 'create']);
-    Route::post('/create', [ProductController::class, 'store']);
-    Route::get('/{id}/edit', [ProductController::class, 'edit']);
-    Route::put('/{id}', [ProductController::class, 'update']);
-    Route::delete('/{id}', [ProductController::class, 'destroy']);
     Route::get('/search', [ProductController::class, 'search'])->name('search');
-    Route::post('/filter', [ProductController::class, 'filter'])->name('filter');
+    Route::get('/filter', [ProductController::class, 'filter'])->name('filter');
+    Route::get('/{id}/share', [ProductController::class, 'share'])->name('share');
+    Route::get('/{id}-{name}.html', [ProductController::class, 'showByName'])->name('showByName');
+    Route::get('/{id}', [ProductController::class, 'showById'])->name('show');
+    Route::put('/{id}', [ProductController::class, 'update']);
 });
 
 Route::name('categories.')->prefix('categories')->group(function () {
-    Route::get('/{id}', [CategoryController::class, 'show'])->name('show');
+    Route::get('/{id}-{name}.html', [CategoryController::class, 'showByName'])->name('showByName');
+    Route::get('/{id}', [CategoryController::class, 'showById'])->name('show');
 });
 
 
@@ -110,39 +116,101 @@ Route::name('user.')->prefix('user')->middleware('auth', 'BannedMiddleware')->gr
 });
 
 // route admin
-Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin')->group(function () {
+Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'BannedMiddleware')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
     Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
 
-    Route::get('/categories', [CategoriesController::class, 'Categories']);
+
+    /// CATEGORIES
+    Route::get('/categories', [CategoriesController::class, 'Categories'])->name('categories.index');
     Route::get('/categories/create', [CategoriesController::class, 'createCategories']);
     Route::post('/categories/create', [CategoriesController::class, 'storeCategories'])->name('storeCategory');
     Route::get('/categories/{id}/edit', [CategoriesController::class, 'editCategories']);
     Route::put('/categories/{id}/update', [CategoriesController::class, 'updateCategories']);
     Route::delete('/categories/{id}/delete', [CategoriesController::class, 'destroyCategories']);
 
+
+    /// GATEWAYS
     Route::get('/gateways', [GatewayController::class, 'index'])->name('gateway.index');
     Route::get('/gateways/add', [GatewayController::class, 'add'])->name('gateway.add');
     Route::get('/gateway/{id}', [GatewayController::class, 'show'])->name('gateway.show');
     Route::post('/gateway/{id}/update', [GatewayController::class, 'update'])->name('gateway.update');
     Route::post('/gateway/store', [GatewayController::class, 'store'])->name('gateway.store');
 
-    Route::get('/deposit', [DepositController::class, 'Deposit']);
+    /// PRODUCTS
+    Route::get('/products', [AdminProductController::class, 'index'])->name('product.index');
+    Route::get('/products/{id}', [AdminProductController::class, 'show'])->name('product.show');
+    Route::post('/products/{id}/remove', [AdminProductController::class, 'remove'])->name('product.remove');
+    Route::post('/products/{id}/stop', [AdminProductController::class, 'stop'])->name('product.stop');
+
+
+    /// ORDERS
+    Route::get('/order-reports', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/order-reports/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::get('/order-reports/{id}/contact', [AdminOrderController::class, 'contact'])->name('orders.contact');
+    Route::post('/order-reports/{id}/approved', [AdminOrderController::class, 'approve'])->name('orders.approve');
+    Route::post('/order-reports/{id}/rejected', [AdminOrderController::class, 'reject'])->name('orders.reject');
+
+    /// DEPOSITS
+    Route::get('/deposit', [DepositController::class, 'Deposit'])->name('deposit.index');
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
 
-    Route::get('/user', [AdminUserController::class, 'User']);
+
+    /// USERS
+    Route::get('/users', [AdminUserController::class, 'User'])->name('user.index');
+    Route::get('/users/admins', [AdminUserController::class, 'showAdmin'])->name('user.admin');
+    Route::get('/users/sellers', [AdminUserController::class, 'showSeller'])->name('user.seller');
+    Route::get('/users/upgrade_requests', [AdminUserController::class, 'upgradeRequests'])->name('user.upgrade_request');
+    Route::post('/users/upgrade_requests/{id}/approve', [AdminUserController::class, 'upgradeRequestsApprove'])->name('user.upgrade_request.approve');
+    Route::post('/users/upgrade_requests/{id}/reject', [AdminUserController::class, 'upgradeRequestsReject'])->name('user.upgrade_request.reject');
     Route::put('/user/ban/{id}', [AdminUserController::class, 'banUser']);
     Route::get('/user/edit/{id}', [AdminUserController::class, 'editUser']);
     Route::post('/user/update/{id}', [AdminUserController::class, 'updateUser'])->name('confirmUpdateUser');
 
+
+    /// GIFTCODES
     Route::get('/giftcodes', [GiftCodeController::class, 'index'])->name('giftcode.index');
     Route::post('/giftcodes/store', [GiftCodeController::class, 'store'])->name('giftcode.store');
     Route::delete('/giftcode/{id}/remove', [GiftCodeController::class, 'remove'])->name('giftcode.remove');
 
+
+    /// ADS
+    Route::get('/ads', [AdsController::class, 'index'])->name('ads.index');
+    Route::get('/ads/{id}', [AdsController::class, 'show'])->name('ads.detail');
+    Route::post('/ads/{id}/delete', [AdsController::class, 'delete'])->name('ads.delete');
+    Route::get('/ads/{id}/statistic', [AdsController::class, 'statistic'])->name('ads.statistic');
+
+
+    /// OTHERS
+    Route::get('/activities', [AdminController::class, 'activities'])->name('activities');
+    Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
+
     Route::get('/search', [AdminUserController::class, 'searchUser']);
-    Route::get('/web-config', [WebConfigController::class, 'index']);
+    Route::get('/web-config', [WebConfigController::class, 'index'])->name('webconfig.index');
     Route::put('/web-config/update', [WebConfigController::class, 'updateWebConfig'])->name('updateWebConfig');
+});
+
+// route seller
+Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')->group(function () {
+    Route::get('/dashboard', [SellerController::class, 'Dashboard']);
+
+    Route::get('/products/create', [SellerProductController::class, 'createProduct']);
+    Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
+    Route::get('/products/history', [SellerProductController::class, 'history']);
+    Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
+    Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
+
+    Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
+    Route::get('/ads', [SellerAdsController::class, 'ads']);
+    Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
+});
+
+Route::get('/f', function () {
+    return view('test');
 });
 
 require __DIR__ . '/auth.php';

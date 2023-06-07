@@ -8,8 +8,10 @@ use App\Models\UpgradeRequest;
 use App\Models\WebConfig;
 use App\Models\User;
 use Carbon\Carbon;
+use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -38,21 +40,33 @@ class UserController extends Controller
 
     public function confirmUpgrade(Request $request)
     {
+        $request->validate([
+            'image' => 'bail|required|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
         $generalSettings = WebConfig::first();
         if (auth()->user()->balance < $generalSettings->upgrade_fee) {
             return redirect()->back()->withErrors(['Bạn không có đủ tiền để nâng cấp.']);
         }
 
-        $request = UpgradeRequest::where("user_id", auth()->user()->id)
+        $requestExist = UpgradeRequest::where("user_id", auth()->user()->id)
             ->where("status", 0)
             ->first();
 
-        if ($request) {
+        if ($requestExist) {
             return redirect()->back()->withErrors(['Bạn đã gửi yêu cầu nâng cấp rồi.']);
         }
+
+        $cloudinary = new Cloudinary(json_decode(WebConfig::getCloudinaryConfig(), true));
+
+        $file = $cloudinary->uploadApi()->upload(
+            $request->file('image')->path(),
+            ['public_id' => Str::random()]
+        );
+
         $upgRequest = new UpgradeRequest();
         $upgRequest->user_id = auth()->user()->id;
         $upgRequest->status = 0;
+        $upgRequest->image = $file['url'];
         $upgRequest->save();
 
         $user = User::find(auth()->user()->id);

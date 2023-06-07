@@ -17,14 +17,15 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name', 20);
             $table->string('description', 200);
+            $table->longText('content')->nullable();
             $table->foreignId('seller_id')->constrained('users');
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamp('guarantee');
             $table->string('picture_url');
             $table->decimal('price', 18, 8);
-            $table->integer('views')->default(0);
             $table->float('rank_point')->default(0);
             $table->tinyInteger('is_ads')->default(0);
+            $table->tinyInteger('is_removed')->default(0);
             $table->tinyInteger('status');
             $table->integer('amount', false, false);
 

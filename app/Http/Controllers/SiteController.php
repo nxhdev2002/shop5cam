@@ -19,15 +19,16 @@ class SiteController extends Controller
             ->get();
 
         $high_products = DB::table('products')
+            ->where('is_removed', 0)
             ->where('amount', '>', 0)
             ->where('status', '1')
-            ->orderBy('views', 'DESC')
+            ->orderBy('rank_point', 'DESC')
             ->take(5)
             ->get();
 
         $ads_products = Product::withCount('orders')
+            ->where('is_removed', 0)
             ->orderBy('orders_count', 'desc')
-            ->orderBy('views', 'DESC')
             ->orderBy('rank_point', 'DESC')
             ->where('amount', '>', 0)
             ->where('status', '1')
@@ -35,6 +36,7 @@ class SiteController extends Controller
             ->get();
 
         $products = Product::withCount('orders')
+            ->where('is_removed', 0)
             ->orderBy('orders_count', 'desc')
             ->where('status', '1')
             ->where('amount', '>', 0)
@@ -46,7 +48,7 @@ class SiteController extends Controller
         $productsOfHighLight = array();
         $highlightCate = Category::where('is_highlight', '1')->get();
         foreach ($highlightCate as $key => $category) {
-            $products = Product::where('category_id', $category->id)->take(8)->get();
+            $products = Product::where('category_id', $category->id)->orderBy('rank_point', 'DESC')->take(8)->where('is_removed', 0)->get();
             array_push($productsOfHighLight, $products);
         }
 

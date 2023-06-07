@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Deposit;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
@@ -44,6 +45,11 @@ class DepositController extends Controller
         $transaction->status = 1;
         $transaction->save();
 
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Yêu cầu nạp #" . $deposit->id . " đã được accepted bởi " . auth()->user()->name;
+        $log->save();
+
         return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
     }
     public function updateDenyDeposit(Request $request, $id)
@@ -62,6 +68,11 @@ class DepositController extends Controller
         $transaction->type = "+";
         $transaction->status = 2;
         $transaction->save();
+
+        $log = new ActivityLog();
+        $log->user_id = auth()->user()->id;
+        $log->detail = "Yêu cầu nạp #" . $deposit->id . " đã bị rejected bởi " . auth()->user()->name;
+        $log->save();
 
         return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
     }

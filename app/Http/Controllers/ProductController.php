@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Utils;
 use App\Models\Category;
 use App\Models\feedback;
 use App\Models\Product;
+use App\Models\ProductStatistic;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class ProductController extends Controller
 {
@@ -23,19 +26,18 @@ class ProductController extends Controller
         $data = array();
         $data['title'] = "Danh sách sản phẩm";
         $data['products'] = DB::table('products')
-            ->orderBy('views', 'DESC')
+            ->where('is_removed', 0)
+            ->orderBy('rank_point', 'DESC')
             ->paginate(12);
         $data['categories'] = Category::all();
         return view('product.index', $data);
     }
 
-    public function show($id)
+    public function showByName($id, $name = null)
     {
         $data = array();
         $data['product'] = Product::find($id);
-        $data['category'] = Category::find($data['product']->category_id);
-        $data['seller'] = User::find($data['product']->seller_id);
-        if (!$data['product']) {
+        if (!$data['product'] || $data['product']->is_removed) {
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
         }
 
@@ -43,9 +45,19 @@ class ProductController extends Controller
         if (!$feedbacks) {
             $feedbacks = [];
         }
-        $data['product']->views += 1;
-        $data['product']->rank_point +=
-            ($this->view_rate * $data['product']->views) +
+
+        $currentDate = Carbon::today()->format('Y-m-d');
+        $statistic = ProductStatistic::whereDate('created_at', $currentDate)->where('product_id', $data['product']->id)->first();
+        if (!$statistic) {
+            $statistic = new ProductStatistic();
+            $statistic->product_id = $data['product']->id;
+            $statistic->save();
+        }
+        $statistic->view_count += 1;
+        $statistic->save();
+
+        $data['product']->rank_point =
+            ($this->view_rate * $data['product']->total_views($data['product']->id)) +
             ($this->comment_rate * count($feedbacks)) +
             ($this->share_rate * 1) +
             ($this->date_rate *
@@ -60,6 +72,16 @@ class ProductController extends Controller
         $data['seller'] = User::find($data['product']->seller_id);
         $data['title'] = $data['product']->name;
         return view('product.info', $data);
+    }
+
+    public function showById($id)
+    {
+        $data = array();
+        $data['product'] = Product::find($id);
+        if (!$data['product'] || $data['product']->is_removed) {
+            return redirect()->back()->withErrors(['message' => 'Sản phẩm không được bày bán trên hệ thống.']);
+        }
+        return redirect()->route('products.showByName', ['id' => $data['product']->id, 'name' => Utils::create_slug($data['product']->name)]);
     }
 
     public function create(Request $request)
@@ -144,11 +166,11 @@ class ProductController extends Controller
         $query = Product::query();
 
         // Áp dụng các điều kiện lọc nếu có
-        if ($category) {
+        if (strlen($category) > 0) {
             $query->where('category_id', $category);
         }
 
-        if ($sort_by) {
+        if (strlen($sort_by) > 0) {
             switch ($sort_by) {
                 case 1:
                     // lọc spham bán chạy nhất
@@ -182,13 +204,12 @@ class ProductController extends Controller
                     break;
             }
         }
-        if ($price1) {
+        if (strlen($price1) > 0)
             $query->where('price', '>=', $price1);
-        }
 
-        if ($price2) {
+        if (strlen($price2) > 0)
             $query->where('price', '<=', $price2);
-        }
+
         $title = "Danh sách sản phẩm";
         $categories = Category::all();
         $products = $query->paginate(12);
@@ -198,5 +219,33 @@ class ProductController extends Controller
             'categories',
             'title'
         ));
+    }
+
+    public function share(Request $request, $id)
+    {
+        $currentDate = Carbon::today()->format('Y-m-d');
+        $product = Product::find($id);
+        $statistic = ProductStatistic::whereDate('created_at', $currentDate)->where('product_id', $product->id)->first();
+        if (!$statistic) {
+            $statistic = new ProductStatistic();
+            $statistic->product_id = $product->id;
+            $statistic->save();
+        }
+        $statistic->share_count += 1;
+        $statistic->save();
+
+        $type = $request['type'];
+        switch ($type) {
+            case 'facebook':
+                $url = 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode(route('products.showByName', ['id' => $product->id, 'name' => Utils::create_slug($product->name)]));
+                break;
+            case 'twitter':
+                $url = 'https://twitter.com/intent/tweet?text=' . urlencode(route('products.showByName', ['id' => $product->id, 'name' => Utils::create_slug($product->name)]));
+                break;
+            default:
+                $url = route('site.index');
+                break;
+        }
+        return redirect($url);
     }
 }
