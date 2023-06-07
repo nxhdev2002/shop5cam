@@ -16,7 +16,7 @@ class SellerProductController extends Controller
 {
     public function createProduct()
     {
-        $category = Category::where('status', $category)->get();
+        $category = Category::where('status', 1)->get();
         return view('', compact('category'));
     }
     public function storeProduct(Request $request)
@@ -44,9 +44,11 @@ class SellerProductController extends Controller
         $cloudinary = new Cloudinary(json_decode(WebConfig::getCloudinaryConfig(), true));
 
         $file = $cloudinary->uploadApi()->upload(
-            $request->file('thumb')->path(),
-            ['public_id' => $request->file('thumb')->getClientOriginalName()]
+            $request->file('thumb')->path()
         );
+        $product->image = $file['url'];
+        $fileEx = $request->file('excel_file');
+        $filePath = $fileEx->storeAs('excel', $file->getClientOriginalName());
         $product->guarantee = $request->input('guarantee');
         $product->price = $request->input('price');
         $product->amount = $request->input('amount');
