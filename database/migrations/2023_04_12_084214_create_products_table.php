@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->float('rank_point')->default(0);
             $table->tinyInteger('is_ads')->default(0);
             $table->tinyInteger('is_removed')->default(0);
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->integer('amount', false, false);
 
             $table->timestamps();

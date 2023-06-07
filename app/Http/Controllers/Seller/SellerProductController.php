@@ -7,13 +7,16 @@ use App\Models\ProductDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Category;
 use App\Models\WebConfig;
+use Carbon\Carbon;
 use Cloudinary\Cloudinary;
 use Cloudinary\Transformation\Resize;
+
 
 class SellerProductController extends Controller
 {
@@ -28,38 +31,41 @@ class SellerProductController extends Controller
             'name' => 'bail|required|min:0|max:50',
             'description' => 'bail|min:0|required',
             'category_id' => 'bail|required|numeric|gte:0',
-            'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:1024',
-            'guarantee' => 'bail|min:0|required',
+            'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'guarantee' => 'bail|min:0|nullable',
             'price' => 'bail|required|numeric|gte:0',
             'amount' => 'bail|required|numeric|gte:0',
         ]);
-        $product = new Product;
-        $product->name = $request->input('name');
-        $product->description = $request->input('description');
-        $user = Auth::user();
-        $product->seller_id = $user->id;
-        //$category = Category::where('name', $categoryName)->first();
-        // nhap danh muc dang text
-        // $categoryName = $request->input('category');
-        // $category = Category::findOrCreate(['name' => $categoryName], ['status' => 1]);
-        // $product->category_id = $category->id;
-        $product->category_id = $request->input('category_id');
+
         $cloudinary = new Cloudinary(json_decode(WebConfig::getCloudinaryConfig(), true));
 
         $file = $cloudinary->uploadApi()->upload(
-            $request->file('thumb')->path()
+            $request->file('thumb')->path(),
+            ['public_id' => Str::random()]
         );
-        $product->image = $file['url'];
-        $product->guarantee = $request->input('guarantee');
+        $user = Auth::user();
+
+        $product = new Product;
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->content = $request->input('content');
+        $product->seller_id = $user->id;
+        $product->category_id = $request->input('category_id');
+        $product->picture_url = $file['url'];
+        $product->guarantee = Carbon::now()->addDays(7);
         $product->price = $request->input('price');
         $product->amount = $request->input('amount');
+        $product->status = 1;
         $product->save();
-        $productDetail = new ProductDetail();
-        $productDetail->product_id = $product->id;
-        $productDetail->detail = $request->input('detail');
-        $productDetail->status = 1;
-        $productDetail->price = $request->input('price');
-        $productDetail->save();
+
+
+        // $productDetail = new ProductDetail();
+        // $productDetail->product_id = $product->id;
+        // $productDetail->detail = $request->input('detail');
+        // $productDetail->status = 1;
+        // $productDetail->price = $request->input('price');
+        // $productDetail->save();
+        return redirect()->back()->with('success', 'Thêm thành công');
     }
 
     public function history()

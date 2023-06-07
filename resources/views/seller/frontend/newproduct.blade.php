@@ -1,31 +1,3 @@
-@push('script')
-<script>
-    const addH1 = () => {
-        var headingText = "<h1></h1>"; // Văn bản thô bạn muốn thêm vào <textarea>
-        var $textarea = $("#content"); // Tạo một đối tượng jQuery từ thẻ <textarea>
-
-        $textarea.val(function (i, val) {
-            return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
-        });
-    }
-    const addImg = () => {
-        var headingText = "<img src=\"replace link here\"></img>"; // Văn bản thô bạn muốn thêm vào <textarea>
-        var $textarea = $("#content"); // Tạo một đối tượng jQuery từ thẻ <textarea>
-
-        $textarea.val(function (i, val) {
-            return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
-        });
-    }
-    const addLink = () => {
-        var headingText = "<a href=\"replace link here\">Text</a>"; // Văn bản thô bạn muốn thêm vào <textarea>
-        var $textarea = $("#content"); // Tạo một đối tượng jQuery từ thẻ <textarea>
-
-        $textarea.val(function (i, val) {
-            return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
-        });
-    }
-</script>
-@endpush
 @include('layouts.header')
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')
@@ -34,58 +6,58 @@
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 Thông tin sản phẩm mới
             </h2>
-            <form action="{{route('seller.storeProduct')}}" method="POST">
+            <form action="{{route('seller.storeProduct')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                     <label class="block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Tên sản phẩm</span>
-                        <input
-                            class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        <input name="name"
+                            class="block w-full mt-1 text-sm rounded-lg shadow-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Nhập tên sản phẩm" />
                     </label>
 
                     <label class="block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Chi tiết</span>
-                        <textarea
-                            class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        <textarea name="description"
+                            class="block w-full mt-1 text-sm rounded-lg shadow-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                             rows="3" placeholder="Nhập chi tiết sản phẩm"></textarea>
                     </label>
 
                     <label class="block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">Giá</span>
-                        <input type="number"
-                            class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        <input type="number" name="price"
+                            class="block w-full mt-1 text-sm rounded-lg shadow-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Giá" />
                     </label>
 
-                    <label class="rounded-lg shadow-sm block mt-4 text-sm">
+                    <label class="block mt-4 text-sm rounded-lg shadow-sm">
                         <span class="text-gray-700 dark:text-gray-400">
                             Danh mục
                         </span>
-                        <select
-                            class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                        <select name="category_id"
+                            class="block w-full mt-1 text-sm rounded-lg shadow-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                             @foreach($categories as $category)
                             <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </select>
                     </label>
 
-                    <label class=" block mt-4 text-sm">
+                    <label class="block mt-4 text-sm ">
                         <span class="text-gray-700 dark:text-gray-400">Số lượng</span>
-                        <input type="number"
-                            class="rounded-lg shadow-sm block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        <input type="number" name="amount"
+                            class="block w-full mt-1 text-sm rounded-lg shadow-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Số lượng" />
                     </label>
 
-                    <div class="mt-4 text-sm justify-end">
+                    <div class="justify-end mt-4 text-sm">
                         <div>
                             <span class="text-gray-700 dark:text-gray-400">
                                 Ảnh sản phẩm
                             </span>
                         </div>
                         <div>
-                            <input id="upload" type="file" accept="image/*"
-                                class=" rounded-lg shadow-sm w-1/4 mt-1 text-sm focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray" />
+                            <input id="upload" type="file" accept="image/*" name="thumb"
+                                class="w-1/4 mt-1 text-sm rounded-lg shadow-sm focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray" />
                         </div>
                     </div>
                     <div class="mt-4">
@@ -138,7 +110,7 @@
 
                     </div>
 
-                    <div class=" justify-center mt-4">
+                    <div class="justify-center mt-4 ">
                         <button type="submit"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit
                         </button>
@@ -148,3 +120,33 @@
         </div>
     </main>
 </div>
+@push('scripts')
+<script>
+    const addH1 = () => {
+        var headingText = "<h1></h1>"; // Văn bản thô bạn muốn thêm vào <textarea>
+        var $textarea = $("#content"); // Tạo một đối tượng jQuery từ thẻ <textarea>
+
+        $textarea.val(function (i, val) {
+            return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
+        });
+    }
+    const addImg = () => {
+        var headingText = "<img src=\"replace link here\"></img>"; // Văn bản thô bạn muốn thêm vào <textarea>
+        var $textarea = $("#content"); // Tạo một đối tượng jQuery từ thẻ <textarea>
+
+        $textarea.val(function (i, val) {
+            return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
+        });
+    }
+    const addLink = () => {
+        var headingText = "<a href=\"replace link here\">Text</a>"; // Văn bản thô bạn muốn thêm vào <textarea>
+        var $textarea = $("#content"); // Tạo một đối tượng jQuery từ thẻ <textarea>
+
+        $textarea.val(function (i, val) {
+            return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
+        });
+    }
+</script>
+@endpush
+
+@include('layouts.footer')

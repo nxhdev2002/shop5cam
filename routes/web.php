@@ -194,11 +194,11 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 
 // route seller
 Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')->group(function () {
-    Route::get('/dashboard', [SellerController::class, 'Dashboard']);
+    Route::get('/dashboard', [SellerController::class, 'Dashboard'])->name('index');
 
     Route::get('/products/create', [SellerProductController::class, 'createProduct']);
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
-    Route::get('/products/history', [SellerProductController::class, 'history']);
+    Route::get('/products/history', [SellerProductController::class, 'history'])->name('product.history');
     Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
     Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
 
