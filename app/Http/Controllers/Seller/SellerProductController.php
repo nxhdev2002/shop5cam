@@ -34,7 +34,7 @@ class SellerProductController extends Controller
             'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'guarantee' => 'bail|min:0|nullable',
             'price' => 'bail|required|numeric|gte:0',
-            'amount' => 'bail|required|numeric|gte:0',
+            'detail' => 'required'
         ]);
 
         $cloudinary = new Cloudinary(json_decode(WebConfig::getCloudinaryConfig(), true));
@@ -45,6 +45,8 @@ class SellerProductController extends Controller
         );
         $user = Auth::user();
 
+        $prods = json_decode(base64_decode($request->detail));
+
         $product = new Product;
         $product->name = $request->input('name');
         $product->description = $request->input('description');
@@ -54,17 +56,18 @@ class SellerProductController extends Controller
         $product->picture_url = $file['url'];
         $product->guarantee = Carbon::now()->addDays(7);
         $product->price = $request->input('price');
-        $product->amount = $request->input('amount');
+        $product->amount = count($prods);
         $product->status = 1;
         $product->save();
 
+        foreach ($prods as $prod) {
+            $productDetail = new ProductDetail();
+            $productDetail->product_id = $product->id;
+            $productDetail->detail = $prod;
+            $productDetail->status = 0;
+            $productDetail->save();
+        }
 
-        // $productDetail = new ProductDetail();
-        // $productDetail->product_id = $product->id;
-        // $productDetail->detail = $request->input('detail');
-        // $productDetail->status = 1;
-        // $productDetail->price = $request->input('price');
-        // $productDetail->save();
         return redirect()->back()->with('success', 'Thêm thành công');
     }
 
