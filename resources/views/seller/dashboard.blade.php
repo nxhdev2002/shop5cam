@@ -103,7 +103,7 @@
                                 <th class="px-4 py-3">Lượng người mua</th>
                             </tr>
                         </thead>
-
+                        @foreach($bestsellerProduct as $BestSeller)
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
                             <tr class="text-gray-700 dark:text-gray-400">
@@ -128,6 +128,7 @@
                                 </td>
                             </tr>
                         </tbody>
+                        @endforeach
                     </table>
                 </div>
             </div>
@@ -170,3 +171,5 @@
         </div>
     </main>
 </div>
+
+@include('layouts.footer')

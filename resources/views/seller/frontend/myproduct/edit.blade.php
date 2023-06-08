@@ -70,3 +70,4 @@
         </div>
     </main>
 </div>
+@include('layouts.footer')

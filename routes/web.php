@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Seller\SellerAdsController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
+use App\Http\Controllers\Seller\SellerStatController;
 use App\Http\Controllers\Seller\WithDrawController;
 
 /*
@@ -207,10 +208,10 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     // Route::get('/TestAds', [SellerAds::class, 'Test']);
     Route::get('/ads', [SellerAdsController::class, 'index'])->name('ads.index');
     Route::get('/ads/{id}', [SellerAdsController::class, 'show'])->name('ads.detail');
-    Route::post('/ads/{id}/delete', [SellerAdsController::class, 'delete'])->name('ads.delete');
+    Route::post('/ads/{id}/update', [SellerAdsController::class, 'update'])->name('ads.update');
     Route::get('/ads/{id}/statistic', [SellerAdsController::class, 'statistic'])->name('ads.statistic');
 
-    Route::get('/statistical', [SellerStatController::class, 'statistical']);
+    Route::get('/statistical', [SellerStatController::class, 'statistical'])->name('statistical');
 });
 
 Route::get('/f', function () {

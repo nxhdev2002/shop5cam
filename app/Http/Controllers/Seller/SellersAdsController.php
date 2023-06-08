@@ -20,7 +20,7 @@ class SellersAdsController extends Controller
     public function index(){
         $user = Auth::user();
         $ads = Ads::where('user_id',$user->id)->get();
-        return view('', compact('ads'));
+        return view('seller.frontend.ads.index', compact('ads'));
     }
 
     public function show($id){
@@ -29,7 +29,7 @@ class SellersAdsController extends Controller
             return redirect()->back()->withErrors(['message' => 'Ads không tồn tại']);
         }
 
-        return view('', compact('ad'));
+        return view('seller.frontend.ads.detail', compact('ad'));
     }
 
     public function delete($id){

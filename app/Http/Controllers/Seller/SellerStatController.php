@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SellerStatController extends Controller
 {
-    public function Stat(){
+    public function Statistical(){
         $user = Auth::user();
         //số đơn hàng theo danh mục 
         $categories = Category::all();
@@ -59,5 +62,6 @@ class SellerStatController extends Controller
 
 		);
         return view('seller.frontend.stat', compact('result','revenueRegisteredByMonth'));
+        // compact('result','revenueRegisteredByMonth')
     }
 }
