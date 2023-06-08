@@ -79,7 +79,7 @@
                             Tổng doanh thu
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            {{ $revenue->revenue_seller }}
+                            {{ number_format($revenue->revenue_seller) }} VNĐ
                         </p>
                     </div>
                 </a>

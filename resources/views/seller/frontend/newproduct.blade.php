@@ -196,9 +196,8 @@
         document.getElementById('upload').addEventListener('change', handleFileSelect, false);
     });
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+<script src="/js/xlsx_0.8.0_jszip.js"></script>
+<script src="/js/xlsx_0.8.0_xlsx.js"></script>
 @endpush
 
 @include('layouts.footer')
