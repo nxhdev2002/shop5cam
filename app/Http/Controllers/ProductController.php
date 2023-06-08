@@ -146,7 +146,8 @@ class ProductController extends Controller
         $categories = Category::all();
         $products = Product::where('name', 'like', '%' . $search . '%')
             ->orWhere('description', 'like', '%' . $search . '%')
-            ->paginate(12);
+            ->paginate(12)
+            ->appends(request()->query());
 
         return view('product.index', compact(
             'title',
@@ -212,7 +213,7 @@ class ProductController extends Controller
 
         $title = "Danh sách sản phẩm";
         $categories = Category::all();
-        $products = $query->paginate(12);
+        $products = $query->paginate(12)->appends(request()->query());
 
         return view('product.index', compact(
             'products',
