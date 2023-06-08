@@ -47,7 +47,8 @@
                 </div>
             </a>
             <!-- Card -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <a href="{{route('admin.user.upgrade_request')}}"
+                class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                 <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
@@ -63,7 +64,7 @@
                         {{$sellerReq}}
                     </p>
                 </div>
-            </div>
+            </a>
             <!-- Card -->
             <a href="{{route('admin.deposit.index')}}"
                 class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
