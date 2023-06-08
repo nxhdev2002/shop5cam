@@ -12,10 +12,18 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function User()
+    public function User(Request $request)
     {
         $user = User::paginate(5);
-        return view('admin.frontend.users.user', compact('user'));
+
+        if (strlen($request->status) > 0) {
+            if (strlen($request->name) > 0) {
+                $user = User::where('is_banned', !$request->status)->where('name', 'like', '%' . $request->name . '%')->paginate(5)->appends(request()->query());
+            } else {
+                $user = User::where('is_banned', !$request->status)->paginate(5)->appends(request()->query());
+            }
+        }
+        return view('admin.frontend.users.user', compact('user', 'request'));
     }
 
     public function showAdmin()
