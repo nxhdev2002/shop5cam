@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Deposit;
 use App\Models\Transaction;
 use App\Models\UpgradeRequest;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -44,17 +46,32 @@ class AdminController extends Controller
         ));
     }
 
-    public function activities()
+    public function activities(Request $request)
     {
         $acts = ActivityLog::orderBy('created_at', 'desc')->paginate(10);
+
+        if (strlen($request->start) > 0 && strlen($request->end) > 0) {
+            $acts = ActivityLog::orderBy('created_at', 'desc')
+                ->whereDate('created_at', '>=', Carbon::createFromFormat('m/d/Y', $request->start))
+                ->whereDate('created_at', '<=', Carbon::createFromFormat('m/d/Y', $request->end))
+                ->paginate(10)
+                ->appends(request()->query());
+        }
         return view('admin.frontend.adactivities', compact(
             'acts'
         ));
     }
 
-    public function transactions()
+    public function transactions(Request $request)
     {
         $trans = Transaction::orderBy('created_at', 'desc')->paginate(10);
+        if (strlen($request->start) > 0 && strlen($request->end) > 0) {
+            $trans = Transaction::orderBy('created_at', 'desc')
+                ->whereDate('created_at', '>=', Carbon::createFromFormat('m/d/Y', $request->start))
+                ->whereDate('created_at', '<=', Carbon::createFromFormat('m/d/Y', $request->end))
+                ->paginate(10)
+                ->appends(request()->query());
+        }
         return view('admin.frontend.transactions', compact(
             'trans'
         ));

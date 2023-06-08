@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\WithdrawController as AdminWithdrawController;
 use App\Http\Controllers\Seller\SellerAdsController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
@@ -156,6 +157,13 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
     Route::get('/deposit/{id}/edit', [DepositController::class, 'editDeposit']);
     Route::put('/deposit/{id}/accept', [DepositController::class, 'updateAcceptDeposit']);
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
+
+
+    /// WITHDRAWS
+    Route::get('/withdraw', [AdminWithdrawController::class, 'index'])->name('withdraw.index');
+    Route::get('/deposit/{id}/edit', [AdminWithdrawController::class, 'editWithdraw']);
+    Route::put('/deposit/{id}/accept', [AdminWithdrawController::class, 'updateAcceptWithdraw']);
+    Route::put('/deposit/{id}/deny', [AdminWithdrawController::class, 'updateDenyWithdraw']);
 
 
     /// USERS
