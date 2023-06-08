@@ -42,12 +42,54 @@
                         </select>
                     </label>
 
-                    <label class="block mt-4 text-sm ">
-                        <span class="text-gray-700 dark:text-gray-400">Số lượng</span>
-                        <input type="number" name="amount"
-                            class="block w-full mt-1 text-sm rounded-lg shadow-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Số lượng" />
-                    </label>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+                    <script>
+                        var ExcelToJSON = function () {
+
+                            this.parseExcel = function (file) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    var data = e.target.result;
+                                    var workbook = XLSX.read(data, {
+                                        type: 'binary'
+                                    });
+                                    workbook.SheetNames.forEach(function (sheetName) {
+                                        // Here is your object
+                                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                                        var json_object = JSON.stringify(XL_row_object);
+                                        console.log(JSON.parse(json_object));
+                                        jQuery('#xlx_json').val(json_object);
+                                    })
+                                };
+
+                                reader.onerror = function (ex) {
+                                    console.log(ex);
+                                };
+
+                                reader.readAsBinaryString(file);
+                            };
+                        };
+
+                        function handleFileSelect(evt) {
+
+                            var files = evt.target.files; // FileList object
+                            var xl2json = new ExcelToJSON();
+                            xl2json.parseExcel(files[0]);
+                        }
+                    </script>
+
+                    <form enctype="multipart/form-data">
+                        <input id="upload" type=file name="files[]">
+                    </form>
+
+
+
+                    <script>
+                        document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+                    </script>
 
                     <div class="justify-end mt-4 text-sm">
                         <div>
@@ -146,6 +188,7 @@
             return val + headingText; // Thêm văn bản vào giá trị hiện tại của <textarea>
         });
     }
+
 </script>
 @endpush
 
