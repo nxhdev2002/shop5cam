@@ -75,7 +75,8 @@ class SellerProductController extends Controller
     {
         $user = Auth::user();
         $history = Product::join('orders', 'products.id', '=', 'orders.product_id')
-            ->select('products.*', 'orders.*')
+            ->join('users', 'users.id', '=', 'orders.customer_id')
+            ->select('products.*', 'orders.*', 'users.name as user_name', 'orders.price')
             ->where('seller_id', $user->id)
             ->get();
         return view('seller.frontend.history', compact('history'));

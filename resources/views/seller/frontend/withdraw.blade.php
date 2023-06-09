@@ -2,82 +2,63 @@
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')
     <main class="w-3/4 h-full overflow-y-auto">
-        <div class="container px-6 mx-auto grid">
-            <div class="justify-center">
-                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                    Tài khoản của tôi
-                </h2>
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold">Rút Tiền</h1>
+                <p class="text-lg">Số dư: {{number_format($balance)}} VNĐ</p>
             </div>
-            <div class="grid gap-8 md:grid-cols-2 xl:gird-rows-2">
-                <div class="flex items-center p-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
-                    <div
-                        class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <div class="w-1/3">
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Số dư tài khoản
-                        </p>
-                        <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            $15
-                        </p>
-                    </div>
+
+            <form action="{{route('seller.withdraw.update')}}" method="POST">
+                @csrf
+                <div class="flex items-center mb-4">
+                    <input type="number" name="payment" placeholder="Số tài khoản"
+                        class="mr-2 px-4 py-2 border rounded">
+                    <input type="number" name="amount" placeholder="Số tiền cần rút"
+                        class="mr-2 px-4 py-2 border rounded">
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Rút Tiền</button>
                 </div>
-                <div class="mt-4">
-                    <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                        Lịch sử rút tiền
-                    </p>
-                    <ul class="bg-white divide-y divide-gray-200 dark:bg-gray-800">
-                        <li class="px-4 py-3">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M10 2a8 8 0 100 16 8 8 0 000-16zM5 10a1 1 0 011-1h8a1 1 0 110 2H6a1                        1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H6z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                        Rút tiền
-                                    </div>
-                                </div>
-                                <div class="text-sm text-gray-500 dark:text-gray-300">Ngày</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-300">
-                                    -$5
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+            </form>
 
+            <div class="mt-8 mb-8">
+                <h2 class="text-lg font-bold mb-4">Lịch Sử Giao Dịch</h2>
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Ngày
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Nội dung
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Trạng thái
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Status
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($withDraw as $withdraw)
+                            <tr class="bg-white dark:bg-gray-800">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$withdraw->created_at}}
+                                </th>
 
-                <div>
-                    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        Rút tiền
-                    </h2>
+                                <td class="px-6 py-4">
+                                    {{$withdraw->note}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{$withdraw->status ? "Thành công" : "Thất bại"}}
+                                </td>
+                                <td class="px-6 py-4">
 
-                    <form action="" method="POST">
-                        @csrf
-                        <div class="mb-4 ">
-                            <label class="block text-sm font-medium text-gray-700">Số tiền muốn rút</label>
-                            <input type="number" name="amount" class="form-input mt-1 block w-full rounded-lg shadow-sm"
-                                required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700">Thông tin liên hệ</label>
-                            <textarea name="contact_info" class="form-textarea mt-1 block w-full rounded-lg shadow-sm"
-                                rows="3" required></textarea>
-                        </div>
-                        <div class="justify-center">
-                            <button type="submit" class="bg-blue-500 text-white rounded-md px-4 py-2">Rút
-                                Tiền</button>
-                        </div>
-                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

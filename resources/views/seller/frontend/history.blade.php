@@ -24,10 +24,6 @@
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Người mua
                             </th>
-                            <!-- <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Bảo hành
-                            </th> -->
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Giá
@@ -61,11 +57,8 @@
                                 <div class="text-sm text-gray-900">{{$his->description}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$his->$user->name}}</div>
+                                <div class="text-sm text-gray-900">{{$his->user_name}}</div>
                             </td>
-                            <!-- <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$his->name}}</div>
-                            </td> -->
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{$his->price}}</div>
                             </td>
@@ -73,7 +66,7 @@
                                 <div class="text-sm text-gray-900">{{$his->amount}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$his->name}}</div>
+                                <div class="text-sm text-gray-900">{{number_format($his->price)}} VNĐ</div>
                             </td>
                         </tr>
                         @endforeach

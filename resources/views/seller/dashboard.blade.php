@@ -97,38 +97,35 @@
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-4 py-3">Tên sản phẩm</th>
-                                <th class="px-4 py-3">Danh mục</th>
+                                <!-- <th class="px-4 py-3">Danh mục</th> -->
                                 <th class="px-4 py-3">Trạng thái</th>
                                 <th class="px-4 py-3">Số lượng</th>
                                 <th class="px-4 py-3">Lượng người mua</th>
                             </tr>
                         </thead>
-                        @foreach($bestsellerProduct as $BestSeller)
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
 
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                            @foreach($bestsellerProduct as $BestSeller)
                             <tr class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3">
-
+                                    {{$BestSeller->product_name}}
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
-
+                                    {{$BestSeller->status ? "Mở bán" : "Ngừng bán"}}
                                 </td>
 
                                 <td class="px-4 py-3 text-xs">
-
+                                    {{$BestSeller->quantity}}
                                 </td>
 
                                 <td class="px-4 py-3 text-sm">
-
-                                </td>
-
-                                <td class="px-4 py-3 text-sm">
-
+                                    {{$BestSeller->total_orders}}
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
-                        @endforeach
+
                     </table>
                 </div>
             </div>
@@ -140,6 +137,7 @@
                 <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap">
                         <thead>
+
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-4 py-3">Tên sản phẩm</th>
@@ -150,20 +148,22 @@
                         </thead>
 
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                            @foreach($lastestOrders as $order)
                             <tr class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3">
-
+                                    {{$order->product_name}}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-
+                                    {{$order->user_name}}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-
+                                    {{$order->quantity}}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-
+                                    {{number_format($order->price)}} VNĐ
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

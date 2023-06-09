@@ -35,14 +35,17 @@ class SellerController extends Controller
 	//list spham bán chạy
 	$bestsellerProduct = DB::table('orders')
 			->join('products', 'products.id', '=', 'orders.product_id')
-			->select(DB::raw('COUNT(*) as total_orders'))
+			->select(DB::raw('COUNT(*) as total_orders'), 'products.name as product_name', 'orders.status', 'orders.quantity')
+			->groupBy('seller_id', 'products.name', 'orders.status', 'orders.quantity')
 			->where('seller_id', '=', $user->id)
 			->orderBy('total_orders','desc')
 			->get();
 	//đơn hàng gần đây
 	$lastestOrders = DB::table('orders')
 			->join('products', 'products.id', '=', 'orders.product_id')
+			->join('users', 'users.id', '=', 'orders.customer_id')
 			->where('seller_id', '=', $user->id)
+			->select( 'products.name AS product_name', 'users.name AS user_name', 'orders.price', 'orders.quantity')
 			->orderBy('orders.created_at','desc')
 			->get();
     return view('seller.dashboard', compact('totalProducts','totalAds','totalOrders','accountBalance','revenue','bestsellerProduct','lastestOrders'));
