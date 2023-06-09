@@ -208,10 +208,10 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::get('/products/create', [SellerProductController::class, 'createProduct']);
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/products/history', [SellerProductController::class, 'history'])->name('product.history');
-    Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
     Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
 
-    Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
+    Route::get('/withdraw', [WithDrawController::class, 'index'])->name('withdraw');
+    Route::post('/withdraw/update', [WithDrawController::class, 'withdraw'])->name('withdraw.update');
 
     // Route::get('/TestAds', [SellerAds::class, 'Test']);
     Route::get('/ads', [SellerAdsController::class, 'index'])->name('ads.index');
