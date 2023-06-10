@@ -16,7 +16,7 @@
                         href="{{route('products.showByName', ['id' => $product->id, 'name' => \App\Helpers\Utils::create_slug($product->name)])}}">
                         <div class="flex flex-col items-center py-3 px-9 sm:max-xl:border-b-2 md:border-l-2">
                             <div class="px-3 py-2">
-                                <img src="{{$product->picture_url}}" alt="">
+                                <img src="{{$product->picture_url}}" style="width: 200px; height: 190px;">
                             </div>
                             <p>{{$product->name}}</p>
                         </div>

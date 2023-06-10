@@ -43,6 +43,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($myProduct as $myProd)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -51,7 +52,7 @@
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            Tên sản phẩm
+                                            {{$myProd->name}}
                                         </div>
                                     </div>
                                 </div>
@@ -63,13 +64,13 @@
                                 <div class="text-sm text-gray-900">Bao hanh</div>
                             </td> -->
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Giá</div>
+                                <div class="text-sm text-gray-900">{{$myProd->price}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Trạng thái</div>
+                                <div class="text-sm text-gray-900">{{$product->status ? "Mở bán" : "Ngừng bán"}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Số lượng</div>
+                                <div class="text-sm text-gray-900">{{$myProd->amount}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="#">
@@ -81,9 +82,11 @@
                                 </a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
 </div>
+@include('layouts.footer')

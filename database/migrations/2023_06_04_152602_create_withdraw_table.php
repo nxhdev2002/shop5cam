@@ -16,9 +16,7 @@ class CreateWithdrawTable extends Migration
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id');
-            $table->foreignId('gateway_id')->constrained('gateways', 'id');
             $table->decimal('amount', 18, 8);
-            $table->decimal('fee', 18, 8);
             $table->tinyInteger('status');
             $table->string('note')->nullable();
             $table->timestamps();

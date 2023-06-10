@@ -25,10 +25,12 @@ use App\Http\Controllers\Admin\GatewayController;
 use App\Http\Controllers\Admin\GiftCodeController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\WithdrawController as AdminWithdrawController;
+use App\Http\Controllers\Seller\SellerAdsController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\Seller\SellerProductController;
+use App\Http\Controllers\Seller\SellerStatController;
 use App\Http\Controllers\Seller\WithDrawController;
-use App\Http\Controllers\Seller\SellerAdsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,6 +162,13 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
     Route::put('/deposit/{id}/deny', [DepositController::class, 'updateDenyDeposit']);
 
 
+    /// WITHDRAWS
+    Route::get('/withdraw', [AdminWithdrawController::class, 'index'])->name('withdraw.index');
+    Route::get('/deposit/{id}/edit', [AdminWithdrawController::class, 'editWithdraw']);
+    Route::put('/deposit/{id}/accept', [AdminWithdrawController::class, 'updateAcceptWithdraw']);
+    Route::put('/deposit/{id}/deny', [AdminWithdrawController::class, 'updateDenyWithdraw']);
+
+
     /// USERS
     Route::get('/users', [AdminUserController::class, 'User'])->name('user.index');
     Route::get('/users/admins', [AdminUserController::class, 'showAdmin'])->name('user.admin');
@@ -196,17 +205,23 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 
 // route seller
 Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')->group(function () {
-    Route::get('/dashboard', [SellerController::class, 'Dashboard']);
+    Route::get('/dashboard', [SellerController::class, 'Dashboard'])->name('index');
 
     Route::get('/products/create', [SellerProductController::class, 'createProduct']);
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
-    Route::get('/products/history', [SellerProductController::class, 'history']);
-    Route::get('/products/inventory', [SellerProductController::class, 'inventory']);
+    Route::get('/products/history', [SellerProductController::class, 'history'])->name('product.history');
     Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
 
-    Route::get('/withdraw', [WithDrawController::class, 'withdraw']);
-    Route::get('/ads', [SellerAdsController::class, 'ads']);
-    Route::get('/statistical', [SellerstatisticalController::class, 'statistical']);
+    Route::get('/withdraw', [WithDrawController::class, 'index'])->name('withdraw');
+    Route::post('/withdraw/update', [WithDrawController::class, 'withdraw'])->name('withdraw.update');
+
+    // Route::get('/TestAds', [SellerAds::class, 'Test']);
+    Route::get('/ads', [SellerAdsController::class, 'index'])->name('ads.index');
+    Route::get('/ads/{id}', [SellerAdsController::class, 'show'])->name('ads.detail');
+    Route::post('/ads/{id}/update', [SellerAdsController::class, 'update'])->name('ads.update');
+    Route::get('/ads/{id}/statistic', [SellerAdsController::class, 'statistic'])->name('ads.statistic');
+
+    Route::get('/statistical', [SellerStatController::class, 'statistical'])->name('statistical');
 });
 
 Route::get('/f', function () {

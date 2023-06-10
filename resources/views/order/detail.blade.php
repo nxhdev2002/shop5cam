@@ -5,7 +5,7 @@
         <div class="bg-slate-400">
             <p class="p-3">Đơn hàng được thanh toán vào <b>{{$order->created_at}}</b> và sẽ được thanh toán cho người
                 bán vào
-            <b>{{$order->paydate}}</b>
+                <b>{{$order->paydate}}</b>
             </p>
             <p class="p-3">Để tránh rủi ro hệ thống, vào thời điểm thanh toán cho người bán đơn hàng cũng sẽ xoá khỏi hệ
                 thống. Bạn có thể kiểm tra lại email để xem chi tiết đơn hàng sau khi hệ thống thực hiện xoá giao dịch.
@@ -82,7 +82,7 @@
 
 @if ($success)
 @push('scripts')
-<script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+<script lang="javascript" src="/js/xlsx.full.min.js"></script>
 <script>
     function downloadExcel() {
         const wb = XLSX.utils.book_new();

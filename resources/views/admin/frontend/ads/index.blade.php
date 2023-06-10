@@ -75,7 +75,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <p class="mt-3 text-xs"></p>
             </div>
         </div>

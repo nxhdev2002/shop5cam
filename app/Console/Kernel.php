@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('order:deleteNpay')->everyMinute()->storeOutput('order_delete');
+        $schedule->command('user:minusAds')->everyDay();
+        $schedule->command('user:minusSeller')->everyMonth();
     }
 
     /**

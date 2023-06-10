@@ -34,8 +34,7 @@ class UserController extends Controller
 
     public function showSeller()
     {
-        $user = User::where('rights', '=', '3')->paginate(5);
-        return view('admin.frontend.users.admin', compact('user'));
+        # code...
     }
 
     public function upgradeRequests()

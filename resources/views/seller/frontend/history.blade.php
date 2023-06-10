@@ -26,10 +26,6 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Bảo hành
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Giá
                             </th>
                             <th scope="col"
@@ -43,41 +39,41 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($history as $his)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
-                                        <img class="h-10 w-10 rounded-full" src="" alt="">
+                                        <img class="h-10 w-10 rounded-full" src="{{$his->picture_url}}" alt="">
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            Tên sản phẩm
+                                            {{$his->name}}
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Chi tiet</div>
+                                <div class="text-sm text-gray-900">{{$his->description}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Người mua</div>
+                                <div class="text-sm text-gray-900">{{$his->user_name}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Bảo hành</div>
+                                <div class="text-sm text-gray-900">{{$his->price}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Giá</div>
+                                <div class="text-sm text-gray-900">{{$his->amount}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Số lượng</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Tổng tiền</div>
+                                <div class="text-sm text-gray-900">{{number_format($his->price)}} VNĐ</div>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
 </div>
+@include('layouts.footer')
