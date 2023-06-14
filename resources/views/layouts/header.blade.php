@@ -137,7 +137,7 @@
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cài
                                             đặt</a>
                                     </li>
-                                    <li @if (auth()->user()->rights < 3) <a href="#"
+                                    <li> @if (auth()->user()->rights < 3) <a href="{{route('user.upgrade')}}"
                                             class="block px-4 py-2 font-semibold text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             Trở thành người bán</a>
                                             @else
