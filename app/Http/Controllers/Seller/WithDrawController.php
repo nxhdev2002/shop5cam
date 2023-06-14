@@ -18,31 +18,29 @@ class WithDrawController extends Controller
         return view('seller.frontend.withdraw',compact('balance','withDraw'));
     }
     public function withdraw(Request $request)
-{
-    $request->validate([
-        'amount' => 'required|numeric|min:0',
-    'payment'=>'required|numeric|min:0',
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        'payment'=>'required|numeric|min:0',
 
-    ]);
-    $user = Auth::user();
-    $amount = $request->input('amount');
-    if ($user->balance < $amount) {
-        return redirect()->route('seller.withdraw')->with('success', 'Số tiền vượt quá số dư');
+        ]);
+        $user = Auth::user();
+        $amount = $request->input('amount');
+        if ($user->balance < $amount) {
+            return redirect()->route('seller.withdraw')->withErrors(['message' => 'Số dư không đủ']);
+        }
+        // Tạo đối tượng WithDraw và lưu thông tin rút tiền
+        $withdraw = new WithDraw();
+        $withdraw->user_id = $user->id;
+        $withdraw->amount = $amount;
+        $withdraw->note = "Rút " . number_format($amount) . " VNĐ.";
+        $withdraw->status = 1;
+        $withdraw->save();
+        
+        // Trừ số tiền từ tài khoản
+        $user->balance -= $amount;
+        $user->payment = $request->input('payment');
+        $user->save();
+        return redirect()->route('seller.withdraw')->with('success', 'Rút tiền thành công');
     }
-    // Tạo đối tượng WithDraw và lưu thông tin rút tiền
-    $withdraw = new WithDraw();
-    $withdraw->user_id = $user->id;
-    $withdraw->amount = $amount;
-    $withdraw->note = "Rút " . number_format($amount) . " VNĐ.";
-    $withdraw->status = 1;
-    $withdraw->save();
-    
-    // Trừ số tiền từ tài khoản
-    $user->balance -= $amount;
-    $user->payment = $request->input('payment');
-    $user->save();
-
-    
-    return redirect()->route('seller.withdraw')->with('success', 'Rút tiền thành công');
-}
 }

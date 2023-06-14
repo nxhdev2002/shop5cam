@@ -42,14 +42,23 @@
                         </select>
                     </label>
 
-                    <form enctype="multipart/form-data">
-                        <input id="upload" type="file">
-                    </form>
-
                     <p class="hidden" id="totalData"></p>
 
-                    <input type="hidden" name="detail" id="product_details">
-
+                    <div class="justify-end mt-4 text-sm">
+                        <div>
+                            <span class="text-gray-700 dark:text-gray-400">
+                                Chi tiết sản phẩm
+                            </span>
+                        </div>
+                        <div>
+                            <form enctype="multipart/form-data">
+                                <input id="upload" type="file"
+                                    accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                            </form>
+                            <input type="hidden" name="detail" id="product_details"
+                                class="w-1/4 mt-1 text-sm rounded-lg shadow-sm focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray" />
+                        </div>
+                    </div>
                     <div class="justify-end mt-4 text-sm">
                         <div>
                             <span class="text-gray-700 dark:text-gray-400">

@@ -205,18 +205,22 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')->group(function () {
     Route::get('/dashboard', [SellerController::class, 'Dashboard'])->name('index');
 
-    Route::get('/products/create', [SellerProductController::class, 'createProduct']);
+    Route::get('/products/myProduct/edit/{id}', [SellerProductController::class, 'editProduct'])->name('myProduct.edit');
+    Route::get('/products/create', [SellerProductController::class, 'createProduct'])->name('createProduct');
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
-    Route::get('/products/history', [SellerProductController::class, 'history'])->name('product.history');
-    Route::get('/products/myproduct', [SellerProductController::class, 'myProduct']);
+    Route::get('/products/history', [SellerProductController::class, 'history'])->name('products.history');
+    Route::get('/products/myProduct', [SellerProductController::class, 'myProduct'])->name('products.myProduct');
+    
+    Route::post('/products/myProduct/update', [SellerProductController::class, 'updateProduct'])->name('myProduct.update');
 
     Route::get('/withdraw', [WithDrawController::class, 'index'])->name('withdraw');
     Route::post('/withdraw/update', [WithDrawController::class, 'withdraw'])->name('withdraw.update');
 
-    // Route::get('/TestAds', [SellerAds::class, 'Test']);
+    
     Route::get('/ads', [SellerAdsController::class, 'index'])->name('ads.index');
     Route::get('/ads/{id}', [SellerAdsController::class, 'show'])->name('ads.detail');
-    Route::post('/ads/{id}/update', [SellerAdsController::class, 'update'])->name('ads.update');
+    Route::post('/ads/{id}/update', [SellerAdsController::class, 'update']);
+    Route::post('/ads/delete', [SellerAdsController::class, 'delete'])->name('ads.delete');
     Route::get('/ads/{id}/statistic', [SellerAdsController::class, 'statistic'])->name('ads.statistic');
 
     Route::get('/statistical', [SellerStatController::class, 'statistical'])->name('statistical');
