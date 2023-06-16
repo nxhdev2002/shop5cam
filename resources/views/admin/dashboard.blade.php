@@ -1,3 +1,109 @@
+@push('script')
+<script>
+    $(document).ready(function () {
+        setUserChart()
+        setOrderPercentChart()
+
+        // new Chart('moen', {
+        //     type: 'line',
+        //     options: orderPercentOptions,
+        //     data: orderPercentData
+        // });
+    });
+
+    function setUserChart() {
+        var userData = {
+            labels: ["1-3", "4-6", "7-9", "10-12"],
+            datasets: [{
+                label: "User registered (month)",
+                backgroundColor: "rgba(255,99,132,0.2)",
+                borderColor: "rgba(255,99,132,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                hoverBorderColor: "rgba(255,99,132,1)",
+                data: [
+                    ("{{$userRegisteredByMonth[0]}}"),
+                    ("{{$userRegisteredByMonth[1]}}"),
+                    ("{{$userRegisteredByMonth[2]}}"),
+                    ("{{$userRegisteredByMonth[3]}}")
+                ],
+            }]
+        };
+
+        var userOptions = {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: true,
+                        color: "rgba(255,99,132,0.2)"
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart('user', {
+            type: 'bar',
+            options: userOptions,
+            data: userData
+        });
+    }
+
+    function setOrderPercentChart() {
+        let data = JSON.parse(atob('{{$percentCategory}}'))
+        let res = {
+            categories: [],
+            percents: []
+        }
+        data.forEach(e => {
+            res.categories.push(e.category)
+            res.percents.push(e.percent)
+        })
+        var orderPercentData = {
+            labels: res.categories,
+            datasets: [{
+                label: "Percent",
+                backgroundColor: "rgba(255,99,132,0.2)",
+                borderColor: "rgba(255,99,132,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                hoverBorderColor: "rgba(255,99,132,1)",
+                data: res.percents,
+            }]
+        };
+
+        var orderPercentOptions = {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: true,
+                        color: "rgba(255,99,132,0.2)"
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+        new Chart('orderPercent', {
+            type: 'doughnut',
+            options: orderPercentOptions,
+            data: orderPercentData
+        });
+
+    }
+</script>
+@endpush
 @include('admin.layouts.header')
 @include('admin.layouts.sidebar')
 <main class="p-4 sm:ml-64">
@@ -92,64 +198,11 @@
                 <canvas id="user"></canvas>
             </div>
             <div class="chart-container">
-                <canvas id="money"></canvas>
+                <canvas id="orderPercent"></canvas>
             </div>
             <div class="chart-container">
                 <canvas id="ads"></canvas>
             </div>
-            <script>
-                var data = {
-                    labels: ["1-3", "4-6", "7-9", "10-12"],
-                    datasets: [{
-                        label: "User registered (month)",
-                        backgroundColor: "rgba(255,99,132,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        borderWidth: 2,
-                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                        hoverBorderColor: "rgba(255,99,132,1)",
-                        data: [
-                            ("{{$userRegisteredByMonth[0]}}"),
-                            ("{{$userRegisteredByMonth[1]}}"),
-                            ("{{$userRegisteredByMonth[2]}}"),
-                            ("{{$userRegisteredByMonth[3]}}")
-                        ],
-                    }]
-                };
-
-                var options = {
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            stacked: true,
-                            grid: {
-                                display: true,
-                                color: "rgba(255,99,132,0.2)"
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                };
-
-                new Chart('user', {
-                    type: 'bar',
-                    options: options,
-                    data: data
-                });
-                new Chart('money', {
-                    type: 'doughnut',
-                    options: options,
-                    data: data
-                });
-                new Chart('ads', {
-                    type: 'line',
-                    options: options,
-                    data: data
-                });
-            </script>
         </div>
 
         <div class="flex justify-between">
