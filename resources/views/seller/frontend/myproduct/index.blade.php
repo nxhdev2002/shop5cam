@@ -2,7 +2,7 @@
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')
     <main class="w-3/4 h-full overflow-y-auto">
-        <div class="container px-6 mx-auto grid">
+        <div class="container grid px-6 mx-auto">
             <div class="flex flex-row justify-between">
                 <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                     Các sản phẩm đang có trong cửa hàng
@@ -13,31 +13,31 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Sản phẩm
                             </th>
                             <!-- <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Chi tiết sản phẩm
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Bảo hành
                             </th> -->
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Giá
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Trạng thái
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Số lượng
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                                 Action
                             </th>
                         </tr>
@@ -47,8 +47,8 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img class="h-10 w-10 rounded-full" src="" alt="">
+                                    <div class="flex-shrink-0 w-10 h-10">
+                                        <img class="w-10 h-10 rounded-full" src="" alt="">
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
@@ -67,7 +67,7 @@
                                 <div class="text-sm text-gray-900">{{$myProd->price}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$product->status ? "Mở bán" : "Ngừng bán"}}</div>
+                                <div class="text-sm text-gray-900">{{$myProduct->status ? "Mở bán" : "Ngừng bán"}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{$myProd->amount}}</div>

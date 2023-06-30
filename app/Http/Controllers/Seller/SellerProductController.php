@@ -85,7 +85,25 @@ class SellerProductController extends Controller
     public function myProduct()
     {
         $user = Auth::user();
-        $myProduct = Product::where('seller_id', $user->id);
+        $myProduct = Product::where('seller_id', $user->id)->get();
         return view('seller.frontend.myproduct.index', compact('myProduct'));
+    }
+
+    public function editProduct($id)
+    {
+        $product = Product::find($id);
+        return view('seller.frontend.myproduct.edit', compact('product'));
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->status = $request->input('status');
+        // $product->guarantee = $request->input('guarantee');
+        $product->update();
+        return redirect()->route('')->with('success', 'Sản phẩm được cập nhật thành công');
     }
 }

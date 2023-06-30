@@ -7,7 +7,7 @@
         let amount = $('#amount').val();
 
         $.ajax({
-            url: "/admin/deposit/" + id + "/accept",
+            url: "/admin/withdraw/" + id + "/accept",
             type: "PUT",
             data: {
                 name: name,
@@ -34,7 +34,7 @@
         let amount = $('#amount').val();
 
         $.ajax({
-            url: "/admin/deposit/" + id + "/deny",
+            url: "/admin/withdraw/" + id + "/deny",
             type: "PUT",
             data: {
                 name: name,
@@ -71,33 +71,29 @@
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3">ID</th>
                             <th class="px-4 py-3">Name</th>
-                            <th class="px-4 py-3">Request</th>
                             <th class="px-4 py-3">Amount</th>
-                            <th class="px-4 py-3">Gateway</th>
+                            <th class="px-4 py-3">Note</th>
                             <th class="px-4 py-3">Date</th>
                             <th class="px-4 py-3">Actions</th>
                         </tr>
                     </thead>
-                    @foreach($deposit as $Deposit)
+                    @foreach($withdraws as $withdraw)
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                         <tr class="text-gray-700 dark:text-gray-400">
                             <td class="px-4 py-3">
-                                {{$Deposit->id}}
+                                {{$withdraw->id}}
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{$Deposit->user->name}}
+                                {{$withdraw->user->name}}
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                Nạp tiền
+                                {{number_format($withdraw->amount)}} VNĐ
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{number_format($Deposit->amount)}} VNĐ
+                                {{$withdraw->gateway->name}}
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{$Deposit->gateway->name}}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{$Deposit->created_at}}
+                                {{$withdraw->created_at}}
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
@@ -133,7 +129,7 @@
         </tbody>
         @endforeach
         </table>
-        <p class="mt-3 text-xs">{{ $deposit->links()}}</p>
+        <p class="mt-3 text-xs">{{ $withdraws->links()}}</p>
     </div>
     </div>
 

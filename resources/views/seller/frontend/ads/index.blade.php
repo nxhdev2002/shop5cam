@@ -23,10 +23,7 @@
                                         Danh mục
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Giá
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Balance
+                                        Số tiền còn lại
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Trạng thái
@@ -41,16 +38,13 @@
                                 <tr class="bg-white dark:bg-gray-800">
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{$ad->$products->name}}
+                                        {{$ad->products->name}}
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{$ad->$categories->name}}
+                                        {{$ad->products->category->name}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$ad->$products->name}}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{$ad->name}}
+                                        {{number_format($ad->price)}} VNĐ
                                     </td>
                                     <td class="px-6 py-4">
                                         {{$ad->status ? "Running" : "Stopped"}}
@@ -58,13 +52,6 @@
                                     <!-- Thêm sản phẩm chạy quảng cáo -->
                                     <td class="px-6 py-4 ">
                                         <div class="flex flex-row">
-                                            <a href="#">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                            </a>
                                             <a href="{{route('seller.ads.detail', $ad->id)}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                     fill="currentColor" class="w-6 h-6">

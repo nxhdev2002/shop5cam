@@ -8,19 +8,20 @@ use App\Models\Deposit;
 use App\Models\Gateway;
 use App\Models\GatewayCurrency;
 use App\Models\Transaction;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
 
 class WithdrawController extends Controller
 {
     public function index()
     {
-        $withdraw = Deposit::where('status', 0)->paginate(5);
-        return view('admin.frontend.withdraw', compact('withdraw'));
+        $withdraws = Withdraw::where('status', 0)->paginate(5);
+        return view('admin.frontend.withdraw', compact('withdraws'));
     }
     public function editWithdraw($id)
     {
-        $deposit = Deposit::find($id);
-        return view('admin.frontend.deposit', ['deposit' => $deposit]);
+        $withdraw = Withdraw::find($id);
+        return view('admin.frontend.deposit', ['withdraw' => $withdraw]);
     }
     public function updateAcceptWithdraw($id)
     {
