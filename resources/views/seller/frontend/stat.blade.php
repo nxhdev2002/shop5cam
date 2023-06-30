@@ -8,17 +8,8 @@
   <main class="w-3/4 h-full pb-16 overflow-y-auto">
     <div class="container px-6 mx-auto grid">
       <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-        Charts
+        Thống kê
       </h2>
-      <p class="mb-8 text-gray-600 dark:text-gray-400">
-        Charts are provided by
-        <a class="text-purple-600 dark:text-purple-400 hover:underline" href="https://www.chartjs.org/">
-          Chart.js
-        </a>
-        . Note that the default legends are disabled and you should
-        provide a description for your charts in HTML. See source code for
-        examples.
-      </p>
       <div class="grid gap-6 mb-8 md:grid-cols-2">
         <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
           <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
@@ -36,8 +27,7 @@
             "4": "#4BC0C0",
             "5": "#9966FF"
           };
-        </script>
-        <script>
+
           const pieConfig = {
             type: 'doughnut',
             data: {
@@ -65,11 +55,8 @@
           <canvas id="revenueChart"></canvas>
         </div>
         <script>
-          var products = ["1-3", "4-6", "7-9", "10-12"];
-          var revenueData = [5000, 3000, 7000, 2000];
-
           var data = {
-            labels: products,
+            labels: ["1-3", "4-6", "7-9", "10-12"],
             datasets: [{
               label: "Doanh thu",
               backgroundColor: "rgba(255,99,132,0.2)",
@@ -77,7 +64,11 @@
               borderWidth: 2,
               hoverBackgroundColor: "rgba(255,99,132,0.4)",
               hoverBorderColor: "rgba(255,99,132,1)",
-              data: revenueData,
+              data: [
+                ("{{$revenueRegisteredByMonth[0]->revenue_seller}}"),
+                ("{{$revenueRegisteredByMonth[1]->revenue_seller}}"),
+                ("{{$revenueRegisteredByMonth[2]->revenue_seller}}"),
+                ("{{$revenueRegisteredByMonth[3]->revenue_seller}}")],
             }]
           };
 

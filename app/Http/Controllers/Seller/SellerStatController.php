@@ -61,6 +61,8 @@ class SellerStatController extends Controller
     		->first(),
 
 		);
+        // var_dump($revenueRegisteredByMonth);
+        // die();
         return view('seller.frontend.stat', compact('result','revenueRegisteredByMonth'));
         // compact('result','revenueRegisteredByMonth')
     }

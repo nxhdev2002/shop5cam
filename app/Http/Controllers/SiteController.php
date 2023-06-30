@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,13 @@ class SiteController extends Controller
             array_push($productsOfHighLight, $products);
         }
 
+        $statics_products = Product::count();
+        $statics_categories = Category::count();
+        $statics_sellers = User::where('rights','3')->count();
+        $statics_users = User::where('rights', '<', 9)->count();
+        $previousMonth = Carbon::now()->subMonth();
+        $statics_orders_lastMonth = Order::whereMonth('created_at', $previousMonth->month)->whereYear('created_at', $previousMonth->year)->count();
+
         return view('index', compact(
             'title',
             'categories',
@@ -60,7 +68,12 @@ class SiteController extends Controller
             'high_products',
             'latest_orders',
             'highlightCate',
-            'productsOfHighLight'
+            'productsOfHighLight',
+            'statics_products',
+            'statics_categories',
+            'statics_sellers',
+            'statics_users',
+            'statics_orders_lastMonth'
         ));
         //list pro theo tên danh mục  
     }

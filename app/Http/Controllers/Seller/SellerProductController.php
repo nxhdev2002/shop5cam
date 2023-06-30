@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ads;
 use App\Models\ProductDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -104,6 +105,32 @@ class SellerProductController extends Controller
         $product->status = $request->input('status');
         // $product->guarantee = $request->input('guarantee');
         $product->update();
-        return redirect()->route('')->with('success', 'Sản phẩm được cập nhật thành công');
+        return redirect()->route('seller.products.myProduct')->with('success', 'Sản phẩm được cập nhật thành công');
+    }
+
+    public function updateAds($id){
+        $product = Product::find($id);
+        if ($product-> is_ads ==1){
+            return redirect()->back()->withErrors(['message' => 'Đã tồn tại ads']);
+        }else
+        {$product-> is_ads = 1;
+        $product -> save();
+        $ads = Ads::where('product_id',$product->id)->first();
+        $user = Auth::user();
+        $webconfig= WebConfig::first();
+        if (!$ads) {
+            $add_ads = new Ads;
+            $add_ads-> name = $product ->name;
+            $add_ads->user_id =$user->id;
+            $add_ads->product_id =$product->id;
+            $add_ads->status =1;
+            $add_ads->price=$webconfig->ads_fee;
+            $add_ads-> expired_at =now()->addMonths(intval($add_ads->price / $webconfig->ads_fee));
+            $add_ads -> save();
+        } else {$ads->status = 1;
+                $ads->save();}
+        $user->payment-=$webconfig->ads_fee;
+        return redirect()->back()->with('success', 'Đã thêm sản phẩm chạy quảng cáo');
+    }
     }
 }
