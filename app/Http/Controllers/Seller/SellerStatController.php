@@ -35,29 +35,29 @@ class SellerStatController extends Controller
     		->join('products', 'products.id', '=', 'orders.product_id')
     		->select(DB::raw('SUM(orders.price) as revenue_seller'))
     		->where('seller_id', '=', $user->id)
-            ->whereMonth('created_at', '>=', 1)->whereMonth('created_at', '<=', 3)
-            ->whereYear('created_at',Carbon::now()->year)
+            ->whereMonth('orders.created_at', '>=', 1)->whereMonth('orders.created_at', '<=', 3)
+            ->whereYear('orders.created_at',Carbon::now()->year)
     		->first(),
             DB::table('orders')
     		->join('products', 'products.id', '=', 'orders.product_id')
     		->select(DB::raw('SUM(orders.price) as revenue_seller'))
     		->where('seller_id', '=', $user->id)
-			->whereMonth('created_at', '>=', 4)->whereMonth('created_at', '<=', 6)
-            ->whereYear('created_at',Carbon::now()->year)
+			->whereMonth('orders.created_at', '>=', 4)->whereMonth('orders.created_at', '<=', 6)
+            ->whereYear('orders.created_at',Carbon::now()->year)
     		->first(),
             DB::table('orders')
     		->join('products', 'products.id', '=', 'orders.product_id')
     		->select(DB::raw('SUM(orders.price) as revenue_seller'))
     		->where('seller_id', '=', $user->id)
-			->whereMonth('created_at', '>=', 7)->whereMonth('created_at', '<=', 9)
-            ->whereYear('created_at',Carbon::now()->year)
+			->whereMonth('orders.created_at', '>=', 7)->whereMonth('orders.created_at', '<=', 9)
+            ->whereYear('orders.created_at',Carbon::now()->year)
     		->first(),
             DB::table('orders')
     		->join('products', 'products.id', '=', 'orders.product_id')
     		->select(DB::raw('SUM(orders.price) as revenue_seller'))
     		->where('seller_id', '=', $user->id)
-			->whereMonth('created_at', '>=', 10)->whereMonth('created_at', '<=', 12)
-            ->whereYear('created_at',Carbon::now()->year)
+			->whereMonth('orders.created_at', '>=', 10)->whereMonth('orders.created_at', '<=', 12)
+            ->whereYear('orders.created_at',Carbon::now()->year)
     		->first(),
 
 		);

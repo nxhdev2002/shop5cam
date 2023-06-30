@@ -4,7 +4,7 @@
     <div class="container mx-auto">
         <div class="flex justify-between mt-3">
             <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                Gateway
+                Ads
             </h2>
         </div>
         <div class="w-full overflow-hidden rounded-lg shadow-xs">

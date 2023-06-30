@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Ads;
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Deposit;
+use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\UpgradeRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -24,6 +27,27 @@ class AdminController extends Controller
             User::whereMonth('created_at', '>=', 7)->whereMonth('created_at', '<=', 9)->count(),
             User::whereMonth('created_at', '>=', 10)->whereMonth('created_at', '<=', 12)->count(),
         );
+
+        // Lấy tổng số đơn hàng
+        $totalOrders = Order::count();
+
+        // Lấy số lượng đơn hàng theo từng category
+        $categoryOrders = Category::leftJoin('products', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('orders', 'products.id', '=', 'orders.product_id')
+            ->select('categories.id', 'categories.name', DB::raw('COUNT(orders.id) as order_count'))
+            ->groupBy('categories.id', 'categories.name')
+            ->get();
+
+        $percentCategory = array();
+        // Tính phần trăm đặt hàng theo từng category
+        foreach ($categoryOrders as $categoryOrder) {
+            $percentage = ($totalOrders == 0 ? 0 : ($categoryOrder->order_count / $totalOrders) * 100);
+            $temp['category'] = $categoryOrder->name;
+            $temp['percent'] = $percentage;
+            array_push($percentCategory, $temp);
+        }
+        $percentCategory = base64_encode(json_encode($percentCategory));
+
         // $user = Auth::user();
         // $accountBalance = User::where('id', $user->id)->value('balance');
         $depositRequests = Deposit::where('status', 0)->count();
@@ -42,7 +66,8 @@ class AdminController extends Controller
             'sellerReq',
             'newUsers',
             'adsRunning',
-            'userRegisteredByMonth'
+            'userRegisteredByMonth',
+            'percentCategory'
         ));
     }
 

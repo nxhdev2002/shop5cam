@@ -134,7 +134,7 @@
                 <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                     Đơn hàng gần đây
                 </h2>
-                <div class="w-full overflow-x-auto">
+                <div class="w-full overflow-x-auto mb-4">
                     <table class="w-full whitespace-no-wrap">
                         <thead>
 
