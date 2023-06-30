@@ -8,7 +8,8 @@
                     <caption
                         class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                         Upgrade
-                        <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Nâng cấp lên người bán
+                        <p class="mt-1  text-2xl font-normal text-gray-700 dark:text-gray-300">Nâng cấp lên người
+                            bán
                             (Seller), bạn sẽ có cơ hội kiếm tiền trên nền tảng {{env("SITE_NAME")}}. Chỉ với phí đăng ký
                             {{number_format($generalSettings->upgrade_fee)}} VNĐ / 1 tháng.</p>
                     </caption>
