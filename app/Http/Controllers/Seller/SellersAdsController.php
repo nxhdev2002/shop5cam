@@ -36,12 +36,13 @@ class SellersAdsController extends Controller
         $ad = Ads::find($id);
         if (!$ad) {
             return redirect()->back()->withErrors(['message' => 'Ads không tồn tại']);
-        }
-
+        }else{
+        $ad -> status = 0;
+        $ad->save();
         $product = $ad->products;
         $product->is_ads = 0;
         $product->save();
-        return redirect()->route('seller.ads.index')->with('success', 'Xoá thành công.');
+        return redirect()->route('seller.ads.index')->with('success', 'Xoá thành công.');}
     }
 
     public function statistic($id)

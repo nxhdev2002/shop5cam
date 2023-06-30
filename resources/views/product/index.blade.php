@@ -41,8 +41,7 @@
                         </svg>
                     </div>
                     <form action="{{route('products.search')}}" id="searchForm">
-                        <input type="text" placeholder="Search by listing, location, bedroom number..." name="search"
-                            required
+                        <input type="text" placeholder="Search by name, description..." name="search" required
                             class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0">
 
                     </form>

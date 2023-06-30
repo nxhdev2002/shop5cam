@@ -39,17 +39,19 @@ class MinusAds extends Command
      */
     public function handle()
     {
+        $webconfig= WebConfig::first();
         $users = DB::table('ads')
-            ->select('users.*')
+            ->select('users.')
             ->join('users', 'ads.user_id', '=', 'users.id')
+            ->where('ads.status','=','1')
             ->distinct()
             ->get();
         foreach ($users as $user) {
             $totalPriceAds = $user->ads()->sum('price');
             if ($totalPriceAds <= $user->balance) {
-                $user->ads()->price -= 5;
+                $user->ads()->price -= $webconfig->ads_fee;
                 $countAds = $user->ads()->count();
-                $user->balance -= 5 * $countAds;
+                $user->balance -= $webconfig->ads_fee * $countAds;
                 $user->save();
             } else {
                 $user->ads()->status = 0;

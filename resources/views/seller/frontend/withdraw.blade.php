@@ -34,8 +34,6 @@
                                 <th scope="col" class="px-6 py-3">
                                     Trạng thái
                                 </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Status
                             </tr>
                         </thead>
                         <tbody>
@@ -51,9 +49,6 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{$withdraw->status ? "Thành công" : "Thất bại"}}
-                                </td>
-                                <td class="px-6 py-4">
-
                                 </td>
                             </tr>
                             @endforeach
