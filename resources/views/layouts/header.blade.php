@@ -155,6 +155,7 @@
                                             <span class="font-semibold text-black">Member</span>
                                             @break
                                             @case(3)
+
                                             <span class="font-semibold text-green-500">Seller</span>
                                             @break
                                             @case(5)

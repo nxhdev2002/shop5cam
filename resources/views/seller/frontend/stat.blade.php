@@ -1,3 +1,7 @@
+<head>
+  <title>Thống kê</title>
+</head>
+
 @include('layouts.header')
 <div class="flex gap-8">
   @include('seller.frontend.sidebar')
