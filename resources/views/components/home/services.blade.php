@@ -51,12 +51,12 @@
                             <dd class="text-gray-500 dark:text-gray-400">Sellers</dd>
                         </div>
                         <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">{{$statics_orders_lastMonth}}</dt>
-                            <dd class="text-gray-500 dark:text-gray-400">Orders LastMonth</dd>
+                            <dt class="mb-2 text-3xl font-extrabold">{{$statics_total_orders}}</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Orders</dd>
                         </div>
                         <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">5</dt>
-                            <dd class="text-gray-500 dark:text-gray-400">Star</dd>
+                            <dt class="mb-2 text-3xl font-extrabold">{{$statics_ads}}</dt>
+                            <dd class="text-gray-500 dark:text-gray-400">Ads</dd>
                         </div>
                     </dl>
                 </div>

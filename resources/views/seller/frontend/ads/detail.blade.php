@@ -4,11 +4,11 @@
     @push('script')
     <script>
         $(document).ready(function () {
-            getStatistic("")
+            getStatistic("{{$ad->id}}")
         });
 
         const getStatistic = (adId) => {
-            $.get("/admin/ads/" + adId + "/statistic", (data) => {
+            $.get("/seller/ads/" + adId + "/statistic", (data) => {
                 $('.skeleton').addClass('hidden')
                 setViewChart(data.data.stat)
                 setOrderChart(data.data.order)
@@ -189,30 +189,30 @@
         }
     </script>
     @endpush
-    <main class="w-3/4 h-full overflow-y-auto">
+    <main class="w-3/4 h-full pb-16 overflow-y-auto">
         <div class="flex">
             <div class="flex p-3 basis-full md:basis-1/3">
                 <div
                     class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="#">
-                        <img class="rounded-t-lg" src="" alt="" />
+                        <img class="rounded-t-lg" src="{{$ad->products->picture_url}}" alt="" />
                     </a>
                     <div class="p-5">
                         <a href="#">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-
-
+                                {{$ad->products->name}}
+                                @if ($ad->status)
                                 <span
                                     class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">Running</span>
 
-
+                                @else
                                 <span
                                     class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Stopped</span>
-
+                                @endif
                             </h5>
                         </a>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"></p>
-                        <a href=""
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$ad->products->description}}</p>
+                        <a href="{{route('products.show', $ad->products->id)}}"
                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Xem sản phẩm
                             <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
@@ -223,7 +223,7 @@
                             </svg>
                         </a>
                         <hr class="my-2">
-                        <form action="" method="POST">
+                        <form action="{{route('seller.ads.delete', $ad->id)}}" method="POST">
                             @csrf
                             <button type="submit"
                                 class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Xoá
@@ -387,7 +387,7 @@
                             Số tiền đã chi
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-
+                            {{number_format($ad->price)}} VNĐ
                         </p>
                     </div>
                 </div>
@@ -406,7 +406,7 @@
                             Hết hạn vào
                         </p>
                         <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-
+                            {{$ad->expired_at}}
                         </p>
                     </div>
                 </div>
