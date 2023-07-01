@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 class SellerStatController extends Controller
 {
     public function Statistical(){
+        $title = "Thống kê";
         $user = Auth::user();
         //số đơn hàng theo danh mục 
         $categories = Category::all();
@@ -63,7 +64,7 @@ class SellerStatController extends Controller
 		);
         // var_dump($revenueRegisteredByMonth);
         // die();
-        return view('seller.frontend.stat', compact('result','revenueRegisteredByMonth'));
+        return view('seller.frontend.stat', compact('result','revenueRegisteredByMonth','title'));
         // compact('result','revenueRegisteredByMonth')
     }
 }

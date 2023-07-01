@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class SellerController extends Controller
 {
     public function Dashboard() {
+
+	$title = "Quầy bán";
 	$user = Auth::user();
 	//số lg spham tồn kho
 	$totalProducts = DB::table('products')
@@ -48,6 +50,8 @@ class SellerController extends Controller
 			->select( 'products.name AS product_name', 'users.name AS user_name', 'orders.price', 'orders.quantity')
 			->orderBy('orders.created_at','desc')
 			->get();
-    return view('seller.dashboard', compact('totalProducts','totalAds','totalOrders','accountBalance','revenue','bestsellerProduct','lastestOrders'));
+    return view('seller.dashboard', compact('totalProducts','totalAds','totalOrders','accountBalance','revenue','bestsellerProduct','lastestOrders'),compact(
+		'title'
+	));
  }
 }

@@ -11,11 +11,12 @@ use App\Models\WithDraw;
 class WithDrawController extends Controller
 {
     public function index(){
+        $title = "Rút tiền";
         $user = Auth::user();
         $users = User::where('id', $user->id)->first();
         $balance = $users->balance;
         $withDraw= WithDraw::where('user_id',$user->id)->get();
-        return view('seller.frontend.withdraw',compact('balance','withDraw'));
+        return view('seller.frontend.withdraw',compact('balance','withDraw','title'));
     }
     public function withdraw(Request $request)
     {

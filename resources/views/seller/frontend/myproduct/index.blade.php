@@ -1,7 +1,3 @@
-<head>
-    <title>Sản phẩm của tôi</title>
-</head>
-
 @include('layouts.header')
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')

@@ -11,18 +11,20 @@ use Carbon\Carbon;
 class SellerAdsController extends Controller
 {
     public function index(){
+        $title = "Quảng cáo";
         $user = Auth::user();
         $ads = Ads::where('user_id',$user->id)->get();
-        return view('seller.frontend.ads.index', compact('ads'));
+        return view('seller.frontend.ads.index', compact('ads','title'));
     }
 
     public function show($id){
+        $title = "Chi tiết quảng cáo";
         $ad = Ads::find($id);
         if (!$ad) {
             return redirect()->back()->withErrors(['message' => 'Ads không tồn tại']);
         }
 
-        return view('seller.frontend.ads.detail', compact('ad'));
+        return view('seller.frontend.ads.detail', compact('ad','title'));
     }
 
     public function update($id){

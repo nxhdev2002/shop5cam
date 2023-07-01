@@ -23,8 +23,9 @@ class SellerProductController extends Controller
 {
     public function createProduct()
     {
+        $title = "Tạo sản phẩm mới";
         $categories = Category::where('status', 1)->get();
-        return view('seller.frontend.newproduct', compact('categories'));
+        return view('seller.frontend.newproduct', compact('categories','title'));
     }
     public function storeProduct(Request $request)
     {
@@ -75,25 +76,28 @@ class SellerProductController extends Controller
     public function history()
     {
         $user = Auth::user();
+        $title = "Lịch sử bán hàng";
         $history = Product::join('orders', 'products.id', '=', 'orders.product_id')
             ->join('users', 'users.id', '=', 'orders.customer_id')
             ->select('products.*', 'orders.*', 'users.name as user_name', 'orders.price')
             ->where('seller_id', $user->id)
             ->get();
-        return view('seller.frontend.history', compact('history'));
+        return view('seller.frontend.history', compact('history','title'));
     }
 
     public function myProduct()
     {
         $user = Auth::user();
+        $title = "Sản phẩm của tôi";
         $myProduct = Product::where('seller_id', $user->id)->get();
-        return view('seller.frontend.myproduct.index', compact('myProduct'));
+        return view('seller.frontend.myproduct.index', compact('myProduct','title'));
     }
 
     public function editProduct($id)
     {
+        $title = "Chỉnh sửa sản phẩm";
         $product = Product::find($id);
-        return view('seller.frontend.myproduct.edit', compact('product'));
+        return view('seller.frontend.myproduct.edit', compact('product','title'));
     }
 
     public function updateProduct(Request $request, $id)
