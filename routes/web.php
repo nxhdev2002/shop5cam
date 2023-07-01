@@ -212,6 +212,7 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::post('/products/store', [SellerProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/products/history', [SellerProductController::class, 'history'])->name('products.history');
     Route::get('/products/my-product', [SellerProductController::class, 'myProduct'])->name('products.myProduct');
+    Route::get('/products/my-product/delete/{id}', [SellerProductController::class, 'deleteProduct'])->name('products.delete');
     Route::get('/products/my-product/update-ads/{id}', [SellerProductController::class, 'updateAds'])->name('products.updateAds');
     
     Route::post('/products/my-product/update/{id}', [SellerProductController::class, 'updateProduct'])->name('myProduct.update');
@@ -226,10 +227,6 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::get('/ads/{id}/statistic', [SellerAdsController::class, 'statistic'])->name('ads.statistic');
 
     Route::get('/statistical', [SellerStatController::class, 'statistical'])->name('statistical');
-});
-
-Route::get('/f', function () {
-    return view('test');
 });
 
 require __DIR__ . '/auth.php';

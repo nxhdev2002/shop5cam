@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ads;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
@@ -57,8 +58,8 @@ class SiteController extends Controller
         $statics_categories = Category::count();
         $statics_sellers = User::where('rights','3')->count();
         $statics_users = User::where('rights', '<', 9)->count();
-        $previousMonth = Carbon::now()->subMonth();
-        $statics_orders_lastMonth = Order::whereMonth('created_at', $previousMonth->month)->whereYear('created_at', $previousMonth->year)->count();
+        $statics_total_orders = Order::count();
+        $statics_ads = Ads::count();
 
         return view('index', compact(
             'title',
@@ -73,7 +74,8 @@ class SiteController extends Controller
             'statics_categories',
             'statics_sellers',
             'statics_users',
-            'statics_orders_lastMonth'
+            'statics_total_orders',
+            'statics_ads'
         ));
         //list pro theo tên danh mục  
     }

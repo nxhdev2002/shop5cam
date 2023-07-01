@@ -89,10 +89,9 @@ class SellerProductController extends Controller
     {
         $user = Auth::user();
         $title = "Sản phẩm của tôi";
-        $myProduct = Product::where('seller_id', $user->id)->get();
+        $myProduct = Product::where('seller_id', $user->id)->where('status', 1)->get();
         return view('seller.frontend.myproduct.index', compact('myProduct','title'));
     }
-
     public function editProduct($id)
     {
         $title = "Chỉnh sửa sản phẩm";
@@ -111,6 +110,19 @@ class SellerProductController extends Controller
         $product->update();
         return redirect()->route('seller.products.myProduct')->with('success', 'Sản phẩm được cập nhật thành công');
     }
+
+    public function deleteProduct($id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return redirect()->back()->withErrors(['message' => 'Sản phẩm không tồn tại']);
+        }
+
+        $product->status = 0;
+        $product->save();
+        return redirect()->route('seller.products.myProduct')->with('success', 'Xoá thành công.');
+    }
+    
 
     public function updateAds($id){
         $product = Product::find($id);
