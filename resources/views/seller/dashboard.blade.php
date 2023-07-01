@@ -13,7 +13,8 @@
 
             <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
                 <!-- Card -->
-                <a href="#" class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <a href="{{route('seller.index')}}"
+                    class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div
                         class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -32,7 +33,8 @@
                     </div>
                 </a>
                 <!-- Card -->
-                <a href="#" class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <a href="{{route('seller.ads.index')}}"
+                    class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div
                         class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -51,7 +53,8 @@
                     </div>
                 </a>
                 <!-- Card -->
-                <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <a href="{{route('seller.products.history')}}"
+                    class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-6 h-6">
@@ -67,9 +70,10 @@
                             {{ $totalOrders->total_orders }}
                         </p>
                     </div>
-                </div>
+                </a>
                 <!-- Card -->
-                <a href="#" class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                <a href="{{route('seller.statistical')}}"
+                    class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <div
                         class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
