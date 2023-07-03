@@ -1,7 +1,7 @@
 @include('layouts.header')
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')
-    <main class="w-3/4 h-full overflow-y-auto">
+    <main class="w-3/4 h-full">
         <div class="container mx-auto">
             <div class="flex justify-between mt-3">
                 <h2 class="my-2 text-2xl font-semibold text-gray-700 dark:text-gray-200">
@@ -74,3 +74,4 @@
         </div>
     </main>
 </div>
+@include('layouts.footer')

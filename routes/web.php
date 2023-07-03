@@ -213,6 +213,8 @@ Route::name('seller.')->prefix('seller')->middleware('auth', 'BannedMiddleware')
     Route::get('/products/history', [SellerProductController::class, 'history'])->name('products.history');
     Route::get('/products/my-product', [SellerProductController::class, 'myProduct'])->name('products.myProduct');
     Route::get('/products/my-product/delete/{id}', [SellerProductController::class, 'deleteProduct'])->name('products.delete');
+    Route::get('/products/my-product/product-detail/{id}', [SellerProductController::class, 'ProductDetail'])->name('products.ProductDetail');
+    Route::post('/products/my-product/product-detail/update', [SellerProductController::class, 'UpdateProductDetail'])->name('products.updateDetail');
     Route::get('/products/my-product/update-ads/{id}', [SellerProductController::class, 'updateAds'])->name('products.updateAds');
     
     Route::post('/products/my-product/update/{id}', [SellerProductController::class, 'updateProduct'])->name('myProduct.update');

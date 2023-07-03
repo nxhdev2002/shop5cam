@@ -89,16 +89,52 @@ class SellerProductController extends Controller
     {
         $user = Auth::user();
         $title = "Sản phẩm của tôi";
-        $myProduct = Product::where('seller_id', $user->id)->where('status', 1)->get();
+        $myProduct = Product::where('seller_id', $user->id)->where('is_removed', 0)->get();
         return view('seller.frontend.myproduct.index', compact('myProduct','title'));
     }
     public function editProduct($id)
     {
         $title = "Chỉnh sửa sản phẩm";
         $product = Product::find($id);
-        return view('seller.frontend.myproduct.edit', compact('product','title'));
+        $product_details = ProductDetail::where('product_id', $id)->where('status', 0)->get();
+        return view('seller.frontend.myproduct.edit', compact('product','title', 'product_details'));
     }
 
+    public function ProductDetail($id)
+    {
+        $title = "Chi tiết sản phẩm";
+        $product = Product::find($id);
+        $product_details = ProductDetail::where('product_id', $id)->where('status', 0)->paginate(10);
+        return view('seller.frontend.myproduct.product_detail', compact('product','title', 'product_details'));
+    }
+
+    public function updateProductDetail(Request $request)
+    {
+        try {
+            $product_detail_id = $request['id'];
+        
+            $data = array();
+            $product_detail = ProductDetail::where('id', $product_detail_id)->where('status', 0)->first();
+            $product_detail->detail = $request['detail'];
+            $product_detail->save();
+            $data['success'] = true;
+            $data['message'] = "Cập nhật thành công";
+            return response()->json($data);
+             
+            // $dataList = $request->all();
+
+       
+            // foreach ($dataList as $fieldName => $value) {
+            //     ProductDetail::where('id', $fieldName)->update(['detail' => $value]);
+            // }
+        }
+        catch(\Exception $ex) {
+            $data['success'] = false;
+            $data['message'] = "Cập nhật thất bại. Lỗi:".$ex->getMessage();
+            return response()->json($data);
+        }
+        
+    }
     public function updateProduct(Request $request, $id)
     {
         $product = Product::find($id);
@@ -107,7 +143,7 @@ class SellerProductController extends Controller
         $product->price = $request->input('price');
         $product->status = $request->input('status');
         // $product->guarantee = $request->input('guarantee');
-        $product->update();
+        $product->save();
         return redirect()->route('seller.products.myProduct')->with('success', 'Sản phẩm được cập nhật thành công');
     }
 
@@ -118,7 +154,7 @@ class SellerProductController extends Controller
             return redirect()->back()->withErrors(['message' => 'Sản phẩm không tồn tại']);
         }
 
-        $product->status = 0;
+        $product->is_removed = 1;
         $product->save();
         return redirect()->route('seller.products.myProduct')->with('success', 'Xoá thành công.');
     }
