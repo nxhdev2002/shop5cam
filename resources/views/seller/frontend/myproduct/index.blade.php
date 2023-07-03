@@ -1,14 +1,14 @@
 @include('layouts.header')
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')
-    <main class="w-3/4 h-full overflow-y-auto">
-        <div class="container grid px-6 mx-auto">
+    <main class="w-3/4 h-full ">
+        <div class="container px-6 mx-auto grid">
             <div class="flex flex-row justify-between">
                 <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                     Các sản phẩm đang có trong cửa hàng
                 </h2>
             </div>
-            <div class="container mx-auto">
+            <div class="container mx-auto overflow-hidden mb-8">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -43,9 +43,11 @@
                                         <img class="w-10 h-10 rounded-full" src="{{$product->picture_url}}" alt="">
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{$product->name}}
-                                        </div>
+                                        <a href="{{route('seller.products.ProductDetail', $product->id)}}">
+                                            <div class="text-sm font-medium text-gray-900">
+                                                {{$product->name}}
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             </td>
@@ -74,13 +76,13 @@
                                                 d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </a>
-                                    <a href="{{route('seller.products.delete', $product->id)}}">
+                                    <a href="{{route('seller.products.delete', $product->id)}}"
+                                        onclick="return confirm('Bạn có muốn xóa sản phẩm này không?')">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-400">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M6 18L18 6M6 6l12 12" />
                                         </svg>
-
                                     </a>
                                 </div>
                             </td>
