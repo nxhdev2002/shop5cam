@@ -34,7 +34,7 @@ class GiftCodeController extends Controller
             'balance' => 'bail|required|min:0',
             'amount' => 'bail|required|min:1|integer'
         ]);
-        if (GiftCode::where('code', $request['code'])) {
+        if (GiftCode::where('code', $request['code'])->first()) {
             return redirect()->back()->withErrors(['message' => 'Giftcode đã tồn tại rồi.']);
         }
         $giftcode = new GiftCode();
