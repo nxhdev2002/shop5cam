@@ -27,10 +27,9 @@ class WithdrawController extends Controller
         $withdraw = Withdraw::find($id);
         $withdraw->status = 1;
         $withdraw->update();
-        $gateway = GatewayCurrency::find($withdraw->gateway->id);
-        $fee = $gateway->fixed_fee + ($withdraw->amount * $gateway->percent_fee / 100);
 
-        $amount = $withdraw->amount - $fee;
+
+        $amount = $withdraw->amount;
 
         $user = $withdraw->user;
         $user->balance -= $amount;
@@ -41,7 +40,7 @@ class WithdrawController extends Controller
         $transaction->user_id = $user->id;
         $transaction->balance =  $user->balance;
         $transaction->note = "Duyệt yêu cầu rút " . number_format($withdraw->amount) . " VNĐ ";
-        $transaction->type = "+";
+        $transaction->type = "-";
         $transaction->status = 1;
         $transaction->save();
 
@@ -50,8 +49,9 @@ class WithdrawController extends Controller
         $log->detail = "Yêu cầu rút #" . $withdraw->id . " đã được accepted bởi " . auth()->user()->name;
         $log->save();
 
-        return redirect()->back()->with('success', 'Yêu cầu nạp tiền được cập nhật thành công');
+        return redirect()->back()->with('success', 'Yêu cầu rút tiền được cập nhật thành công');
     }
+
     public function updateDenyWithdraw(Request $request, $id)
     {
         $withdraw = Withdraw::find($id);
@@ -65,7 +65,7 @@ class WithdrawController extends Controller
         $transaction->user_id = $user->id;
         $transaction->balance = $user->balance;
         $transaction->note = "Từ chối yêu cầu nạp " . number_format($withdraw->amount) . " VNĐ ";
-        $transaction->type = "+";
+        $transaction->type = "-";
         $transaction->status = 2;
         $transaction->save();
 

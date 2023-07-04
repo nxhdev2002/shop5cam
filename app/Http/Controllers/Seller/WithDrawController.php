@@ -44,7 +44,7 @@ class WithDrawController extends Controller
         $transaction->user_id = auth()->user()->id;
         $transaction->balance = auth()->user()->balance;
         $transaction->note = "Yêu cầu rút " . number_format($amount) . " VNĐ.";
-        $transaction->type = "+";
+        $transaction->type = "-";
         $transaction->status = 0;
         $transaction->save();
 
