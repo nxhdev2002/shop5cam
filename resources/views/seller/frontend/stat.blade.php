@@ -51,7 +51,7 @@
         <div class="chart-container">
           <canvas id="revenueChart"></canvas>
           <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300 text-center">
-            Thông kê sản phẩm theo danh mục
+            Thông kê doanh thu theo quý
           </h4>
         </div>
         <!-- <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">

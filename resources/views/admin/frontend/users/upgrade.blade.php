@@ -19,6 +19,7 @@
                 Swal.fire(error.message)
             }
         });
+        window.location.reload();
     }
 
     function reject(id) {
@@ -40,6 +41,7 @@
                 Swal.fire(error.message)
             }
         });
+        window.location.reload();
     }
 </script>
 @endpush

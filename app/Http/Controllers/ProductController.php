@@ -144,7 +144,7 @@ class ProductController extends Controller
         $search = $request->input('search');
         $title = "Danh sách sản phẩm";
         $categories = Category::all();
-        $products = Product::where('name', 'like', '%' . $search . '%')
+        $products = Product::where('is_removed', 0)->where('name', 'like', '%' . $search . '%')
             ->orWhere('description', 'like', '%' . $search . '%')
             ->paginate(12)
             ->appends(request()->query());
@@ -164,7 +164,7 @@ class ProductController extends Controller
         $price2 = $request->input('price2');
 
         // Tạo query builder cho bảng 'products'
-        $query = Product::query();
+        $query = Product::query()->where('is_removed', 0);
 
         // Áp dụng các điều kiện lọc nếu có
         if (strlen($category) > 0) {
