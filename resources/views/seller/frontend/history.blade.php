@@ -60,7 +60,7 @@
                                 <div class="text-sm text-gray-900">{{$his->user_name}}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{$his->price}}</div>
+                                <div class="text-sm text-gray-900">{{number_format($his->price)}} VNĐ</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{$his->amount}}</div>

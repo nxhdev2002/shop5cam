@@ -1,194 +1,194 @@
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        getStatistic("{{$ad->id}}")
+    });
+
+    const getStatistic = (adId) => {
+        $.get("/seller/ads/" + adId + "/statistic", (data) => {
+            $('.skeleton').addClass('hidden')
+            setViewChart(data.data.stat)
+            setOrderChart(data.data.order)
+            setShareChart(data.data.stat)
+            setCommentChart(data.data.stat)
+        })
+    }
+
+    const setOrderChart = (data) => {
+        $('#order_count').removeClass('hidden')
+        var dateArr = Object.keys(data);
+        var dataArr = Object.values(data);
+        var data = {
+            labels: dateArr,
+            datasets: [{
+                label: "Tổng order (ngày)",
+                data: dataArr,
+            }]
+        };
+
+        var options = {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: true,
+                        color: "rgba(255,99,132,0.2)"
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart('order', {
+            type: 'bar',
+            options: options,
+            data: data
+        });
+
+        $('#order-chart-container').height('300px');
+    }
+
+    const setViewChart = (data) => {
+        $('#view_count').removeClass('hidden')
+        let dateArr = []
+        let dataArr = []
+        data.forEach(element => {
+            let date = new Date(element.created_at)
+            dateArr.push(date.getDate() + '/' + (date.getMonth() + 1))
+            dataArr.push(element.view_count)
+        });
+        var data = {
+            labels: dateArr,
+            datasets: [{
+                label: "Tổng view (ngày)",
+                data: dataArr,
+            }]
+        };
+
+        var options = {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: true,
+                        color: "rgba(255,99,132,0.2)"
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart('view', {
+            type: 'bar',
+            options: options,
+            data: data
+        });
+
+        $('#view-chart-container').height('300px');
+    }
+
+    const setShareChart = (data) => {
+        $('#share_count').removeClass('hidden')
+        let dateArr = []
+        let dataArr = []
+        data.forEach(element => {
+            let date = new Date(element.created_at)
+            dateArr.push(date.getDate() + '/' + (date.getMonth() + 1))
+            dataArr.push(element.share_count)
+        });
+        var data = {
+            labels: dateArr,
+            datasets: [{
+                label: "Tổng share (ngày)",
+                data: dataArr,
+            }]
+        };
+
+        var options = {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: true,
+                        color: "rgba(255,99,132,0.2)"
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart('share', {
+            type: 'bar',
+            options: options,
+            data: data
+        });
+
+        $('#share-chart-container').height('300px');
+    }
+
+    const setCommentChart = (data) => {
+        $('#comment_count').removeClass('hidden')
+        let dateArr = []
+        let dataArr = []
+        data.forEach(element => {
+            let date = new Date(element.created_at)
+            dateArr.push(date.getDate() + '/' + (date.getMonth() + 1))
+            dataArr.push(element.comment_count)
+        });
+        var data = {
+            labels: dateArr,
+            datasets: [{
+                label: "Tổng comment (ngày)",
+                data: dataArr,
+            }]
+        };
+
+        var options = {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: true,
+                        color: "rgba(255,99,132,0.2)"
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        new Chart('comment', {
+            type: 'bar',
+            options: options,
+            data: data
+        });
+
+        $('#comment-chart-container').height('300px');
+    }
+</script>
+@endpush
 @include('layouts.header')
 <div class="flex gap-8">
     @include('seller.frontend.sidebar')
-    @push('script')
-    <script>
-        $(document).ready(function () {
-            getStatistic("{{$ad->id}}")
-        });
-
-        const getStatistic = (adId) => {
-            $.get("/seller/ads/" + adId + "/statistic", (data) => {
-                $('.skeleton').addClass('hidden')
-                setViewChart(data.data.stat)
-                setOrderChart(data.data.order)
-                setShareChart(data.data.stat)
-                setCommentChart(data.data.stat)
-            })
-        }
-
-        const setOrderChart = (data) => {
-            $('#order_count').removeClass('hidden')
-            var dateArr = Object.keys(data);
-            var dataArr = Object.values(data);
-            var data = {
-                labels: dateArr,
-                datasets: [{
-                    label: "Tổng order (ngày)",
-                    data: dataArr,
-                }]
-            };
-
-            var options = {
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        stacked: true,
-                        grid: {
-                            display: true,
-                            color: "rgba(255,99,132,0.2)"
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            };
-
-            new Chart('order', {
-                type: 'bar',
-                options: options,
-                data: data
-            });
-
-            $('#order-chart-container').height('300px');
-        }
-
-        const setViewChart = (data) => {
-            $('#view_count').removeClass('hidden')
-            let dateArr = []
-            let dataArr = []
-            data.forEach(element => {
-                let date = new Date(element.created_at)
-                dateArr.push(date.getDate() + '/' + (date.getMonth() + 1))
-                dataArr.push(element.view_count)
-            });
-            var data = {
-                labels: dateArr,
-                datasets: [{
-                    label: "Tổng view (ngày)",
-                    data: dataArr,
-                }]
-            };
-
-            var options = {
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        stacked: true,
-                        grid: {
-                            display: true,
-                            color: "rgba(255,99,132,0.2)"
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            };
-
-            new Chart('view', {
-                type: 'bar',
-                options: options,
-                data: data
-            });
-
-            $('#view-chart-container').height('300px');
-        }
-
-        const setShareChart = (data) => {
-            $('#share_count').removeClass('hidden')
-            let dateArr = []
-            let dataArr = []
-            data.forEach(element => {
-                let date = new Date(element.created_at)
-                dateArr.push(date.getDate() + '/' + (date.getMonth() + 1))
-                dataArr.push(element.share_count)
-            });
-            var data = {
-                labels: dateArr,
-                datasets: [{
-                    label: "Tổng share (ngày)",
-                    data: dataArr,
-                }]
-            };
-
-            var options = {
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        stacked: true,
-                        grid: {
-                            display: true,
-                            color: "rgba(255,99,132,0.2)"
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            };
-
-            new Chart('share', {
-                type: 'bar',
-                options: options,
-                data: data
-            });
-
-            $('#share-chart-container').height('300px');
-        }
-
-        const setCommentChart = (data) => {
-            $('#comment_count').removeClass('hidden')
-            let dateArr = []
-            let dataArr = []
-            data.forEach(element => {
-                let date = new Date(element.created_at)
-                dateArr.push(date.getDate() + '/' + (date.getMonth() + 1))
-                dataArr.push(element.comment_count)
-            });
-            var data = {
-                labels: dateArr,
-                datasets: [{
-                    label: "Tổng comment (ngày)",
-                    data: dataArr,
-                }]
-            };
-
-            var options = {
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        stacked: true,
-                        grid: {
-                            display: true,
-                            color: "rgba(255,99,132,0.2)"
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            };
-
-            new Chart('comment', {
-                type: 'bar',
-                options: options,
-                data: data
-            });
-
-            $('#comment-chart-container').height('300px');
-        }
-    </script>
-    @endpush
     <main class="w-3/4 h-full pb-16 overflow-y-auto">
         <div class="flex">
             <div class="flex p-3 basis-full md:basis-1/3">

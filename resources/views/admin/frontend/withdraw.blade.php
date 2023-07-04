@@ -1,9 +1,9 @@
 @push('script')
 <script>
-    function acceptDeposit() {
-        let id = $('#deposit_id').val()
+    function acceptWithdraw() {
+        let id = $('#withdraw_id').val()
         let name = $('#name').val();
-        let request = $('#request').val();
+        let note = $('#note').val();
         let amount = $('#amount').val();
 
         $.ajax({
@@ -11,7 +11,7 @@
             type: "PUT",
             data: {
                 name: name,
-                request: request,
+                note: note,
                 amount: amount,
                 _token: '{{csrf_token()}}'
             },
@@ -27,10 +27,10 @@
         window.location.reload();
     }
 
-    function denyDeposit() {
-        let id = $('#deposit_id').val()
+    function denyWithdraw() {
+        let id = $('#withdraw_id').val()
         let name = $('#name').val();
-        let request = $('#request').val();
+        let note = $('#note').val();
         let amount = $('#amount').val();
 
         $.ajax({
@@ -38,7 +38,7 @@
             type: "PUT",
             data: {
                 name: name,
-                request: request,
+                note: note,
                 amount: amount,
                 _token: '{{csrf_token()}}'
             },
@@ -90,16 +90,16 @@
                                 {{number_format($withdraw->amount)}} VNĐ
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{$withdraw->gateway->name}}
+                                {{$withdraw->note}}
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 {{$withdraw->created_at}}
                             </td>
                             <td class="px-4 py-3">
                                 <div class="flex items-center space-x-4 text-sm">
-                                    <input type="hidden" id="deposit_id" value="{{$Deposit->id}}">
+                                    <input type="hidden" id="withdraw_id" value="{{$withdraw->id}}">
                                     <div class="flex justify-center m-5">
-                                        <button onclick="acceptDeposit()"
+                                        <button onclick="acceptWithdraw()"
                                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-green-600 rounded-lg dark:text-red-400 focus:outline-none focus:shadow-outline-gray"
                                             type="button">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -111,7 +111,7 @@
                                     </div>
 
                                     <div class="flex justify-center m-5">
-                                        <button onclick="denyDeposit()"
+                                        <button onclick="denyWithdraw()"
                                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-red-600 rounded-lg dark:text-red-400 focus:outline-none focus:shadow-outline-gray"
                                             type="button">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

@@ -114,7 +114,7 @@ class SellerProductController extends Controller
             $product_detail_id = $request['id'];
 
             $data = array();
-            $product_detail = ProductDetail::where('id', $product_detail_id)->where('status', 0)->first();
+            $product_detail = ProductDetail::where('id', $product_detail_id)->where('status', 0)->get();
             $product_detail->detail = $request['detail'];
             $product_detail->save();
             $data['success'] = true;

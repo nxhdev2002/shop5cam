@@ -6,8 +6,8 @@
       <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
         Thống kê
       </h2>
-      <div class="grid gap-6 mb-8 md:grid-cols-2">
-        <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+      <div class="grid gap-6 mb-4 md:grid-cols-2 ">
+        <!-- <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
           <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
             Thông kê sản phẩm theo danh mục
           </h4>
@@ -46,10 +46,17 @@
           }
           const pieCtx = document.getElementById('pie')
           window.myPie = new Chart(pieCtx, pieConfig)
-        </script>
+        </script> -->
+
         <div class="chart-container">
           <canvas id="revenueChart"></canvas>
+          <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300 text-center">
+            Thông kê sản phẩm theo danh mục
+          </h4>
         </div>
+        <!-- <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
+            Thông kê sản phẩm theo danh mục
+          </h4> -->
         <script>
           var data = {
             labels: ["1-3", "4-6", "7-9", "10-12"],
@@ -95,5 +102,9 @@
       </div>
   </main>
 </div>
-
+<style>
+  .chart-container {
+    height: 350px
+  }
+</style>
 @include('layouts.footer')

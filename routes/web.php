@@ -164,9 +164,9 @@ Route::name('admin.')->prefix('admin')->middleware('auth', 'checkLogin', 'Banned
 
     /// WITHDRAWS
     Route::get('/withdraw', [AdminWithdrawController::class, 'index'])->name('withdraw.index');
-    Route::get('/deposit/{id}/edit', [AdminWithdrawController::class, 'editWithdraw']);
-    Route::put('/deposit/{id}/accept', [AdminWithdrawController::class, 'updateAcceptWithdraw']);
-    Route::put('/deposit/{id}/deny', [AdminWithdrawController::class, 'updateDenyWithdraw']);
+    Route::get('/withdraw/{id}/edit', [AdminWithdrawController::class, 'editWithdraw']);
+    Route::put('/withdraw/{id}/accept', [AdminWithdrawController::class, 'updateAcceptWithdraw']);
+    Route::put('/withdraw/{id}/deny', [AdminWithdrawController::class, 'updateDenyWithdraw']);
 
 
     /// USERS

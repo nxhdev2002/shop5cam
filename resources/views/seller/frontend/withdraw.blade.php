@@ -48,7 +48,24 @@
                                     {{$withdraw->note}}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{$withdraw->status ? "Thành công" : "Thất bại"}}
+                                    @if ($withdraw->status == 0)
+                                    <span
+                                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                        Chờ duyệt
+                                    </span>
+                                    @endif
+                                    @if ($withdraw->status == 1)
+                                    <span
+                                        class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Thành công
+                                    </span>
+                                    @endif
+                                    @if ($withdraw->status == 2)
+                                    <span
+                                        class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+                                        Bị từ chối
+                                    </span>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
