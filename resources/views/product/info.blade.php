@@ -105,7 +105,7 @@
         </div>
         <hr class="my-5">
         <div>
-            <p>{!! $product->content !!}</p>
+            <center>{!! $product->content !!}</center>
         </div>
     </div>
 

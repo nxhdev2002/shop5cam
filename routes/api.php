@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Cart;
+use App\Models\Product;
+use App\Models\ProductDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,32 @@ Route::post('/cart/add-to-cart', function (Request $request) {
     // );
 
     // echo json_encode($data);
+});
+
+
+Route::post('/seller/product/store', function (Request $request) {
+
+    $prods = json_decode(base64_decode($request->detail));
+
+    $product = new Product();
+    $product->description = $request->description;
+    $product->name = $request->name;
+    $product->content = $request->content;
+    $product->seller_id = 1;
+    $product->category_id = 4;
+    $product->picture_url = $request->picture_url;
+    $product->price = $request->price;
+    $product->amount = count($prods);
+    $product->status = 1;
+    $product->save();
+
+    foreach ($prods as $prod) {
+        $productDetail = new ProductDetail();
+        $productDetail->product_id = $product->id;
+        $productDetail->detail = $prod;
+        $productDetail->status = 0;
+        $productDetail->save();
+    }
 });
 
 Route::get('/user', function (Request $request) {

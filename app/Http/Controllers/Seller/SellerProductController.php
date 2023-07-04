@@ -25,7 +25,7 @@ class SellerProductController extends Controller
     {
         $title = "Tạo sản phẩm mới";
         $categories = Category::where('status', 1)->get();
-        return view('seller.frontend.newproduct', compact('categories','title'));
+        return view('seller.frontend.newproduct', compact('categories', 'title'));
     }
     public function storeProduct(Request $request)
     {
@@ -33,7 +33,7 @@ class SellerProductController extends Controller
             'name' => 'bail|required|min:0|max:50',
             'description' => 'bail|min:0|required',
             'category_id' => 'bail|required|numeric|gte:0',
-            'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'thumb' => 'bail|required|image|mimes:jpg,png,jpeg,gif,svg,webp|max:2048',
             'guarantee' => 'bail|min:0|nullable',
             'price' => 'bail|required|numeric|gte:0',
             'detail' => 'required'
@@ -82,7 +82,7 @@ class SellerProductController extends Controller
             ->select('products.*', 'orders.*', 'users.name as user_name', 'orders.price')
             ->where('seller_id', $user->id)
             ->get();
-        return view('seller.frontend.history', compact('history','title'));
+        return view('seller.frontend.history', compact('history', 'title'));
     }
 
     public function myProduct()
@@ -90,14 +90,14 @@ class SellerProductController extends Controller
         $user = Auth::user();
         $title = "Sản phẩm của tôi";
         $myProduct = Product::where('seller_id', $user->id)->where('is_removed', 0)->get();
-        return view('seller.frontend.myproduct.index', compact('myProduct','title'));
+        return view('seller.frontend.myproduct.index', compact('myProduct', 'title'));
     }
     public function editProduct($id)
     {
         $title = "Chỉnh sửa sản phẩm";
         $product = Product::find($id);
         $product_details = ProductDetail::where('product_id', $id)->where('status', 0)->get();
-        return view('seller.frontend.myproduct.edit', compact('product','title', 'product_details'));
+        return view('seller.frontend.myproduct.edit', compact('product', 'title', 'product_details'));
     }
 
     public function ProductDetail($id)
@@ -105,14 +105,14 @@ class SellerProductController extends Controller
         $title = "Chi tiết sản phẩm";
         $product = Product::find($id);
         $product_details = ProductDetail::where('product_id', $id)->where('status', 0)->paginate(10);
-        return view('seller.frontend.myproduct.product_detail', compact('product','title', 'product_details'));
+        return view('seller.frontend.myproduct.product_detail', compact('product', 'title', 'product_details'));
     }
 
     public function updateProductDetail(Request $request)
     {
         try {
             $product_detail_id = $request['id'];
-        
+
             $data = array();
             $product_detail = ProductDetail::where('id', $product_detail_id)->where('status', 0)->first();
             $product_detail->detail = $request['detail'];
@@ -120,20 +120,18 @@ class SellerProductController extends Controller
             $data['success'] = true;
             $data['message'] = "Cập nhật thành công";
             return response()->json($data);
-             
+
             // $dataList = $request->all();
 
-       
+
             // foreach ($dataList as $fieldName => $value) {
             //     ProductDetail::where('id', $fieldName)->update(['detail' => $value]);
             // }
-        }
-        catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $data['success'] = false;
-            $data['message'] = "Cập nhật thất bại. Lỗi:".$ex->getMessage();
+            $data['message'] = "Cập nhật thất bại. Lỗi:" . $ex->getMessage();
             return response()->json($data);
         }
-        
     }
     public function updateProduct(Request $request, $id)
     {
@@ -158,31 +156,34 @@ class SellerProductController extends Controller
         $product->save();
         return redirect()->route('seller.products.myProduct')->with('success', 'Xoá thành công.');
     }
-    
 
-    public function updateAds($id){
+
+    public function updateAds($id)
+    {
         $product = Product::find($id);
-        if ($product-> is_ads ==1){
+        if ($product->is_ads == 1) {
             return redirect()->back()->withErrors(['message' => 'Đã tồn tại ads']);
-        }else
-        {$product-> is_ads = 1;
-        $product -> save();
-        $ads = Ads::where('product_id',$product->id)->first();
-        $user = Auth::user();
-        $webconfig= WebConfig::first();
-        if (!$ads) {
-            $add_ads = new Ads;
-            $add_ads-> name = $product ->name;
-            $add_ads->user_id =$user->id;
-            $add_ads->product_id =$product->id;
-            $add_ads->status =1;
-            $add_ads->price=$webconfig->ads_fee;
-            $add_ads-> expired_at =now()->addMonths(intval($add_ads->price / $webconfig->ads_fee));
-            $add_ads -> save();
-        } else {$ads->status = 1;
-                $ads->save();}
-        $user->payment-=$webconfig->ads_fee;
-        return redirect()->back()->with('success', 'Đã thêm sản phẩm chạy quảng cáo');
-    }
+        } else {
+            $product->is_ads = 1;
+            $product->save();
+            $ads = Ads::where('product_id', $product->id)->first();
+            $user = Auth::user();
+            $webconfig = WebConfig::first();
+            if (!$ads) {
+                $add_ads = new Ads;
+                $add_ads->name = $product->name;
+                $add_ads->user_id = $user->id;
+                $add_ads->product_id = $product->id;
+                $add_ads->status = 1;
+                $add_ads->price = $webconfig->ads_fee;
+                $add_ads->expired_at = now()->addMonths(intval($add_ads->price / $webconfig->ads_fee));
+                $add_ads->save();
+            } else {
+                $ads->status = 1;
+                $ads->save();
+            }
+            $user->payment -= $webconfig->ads_fee;
+            return redirect()->back()->with('success', 'Đã thêm sản phẩm chạy quảng cáo');
+        }
     }
 }
