@@ -193,11 +193,13 @@
     }
 
     function process_data(data) {
+        productDetail = []
         $('#totalData').removeClass('hidden')
         $('#totalData').text(`Đọc thành công ${data.length} sản phẩm`)
         data.forEach(element => {
             productDetail.push(Object.values(element).join('|'))
         })
+        console.log(productDetail)
         $('#product_details').val(btoa(JSON.stringify(productDetail)))
     }
 
